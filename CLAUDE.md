@@ -7,6 +7,7 @@ Scelte, formato dei dati e regole di pulizia: `docs/progetto.md`.
 
 - Test: `.venv/bin/python -m pytest`
 - Aggiornare i dati (scarica dal MIMIT e salva `data/<estrazione>.json`): `.venv/bin/python -m pipeline`
+- Importare un trimestre dall'archivio storico: `.venv/bin/python -m pipeline.archivio FILE.tar.gz`
 - Costruire il sito in `dist/`: `.venv/bin/python -m sito.build`
 
 ## Regole di lavoro

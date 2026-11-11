@@ -11,3 +11,6 @@ dist/
 tmp/
 
 .DS_Store
+
+# archivi trimestrali del MIMIT scaricati per l importazione
+*.tar.gz

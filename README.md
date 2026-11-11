@@ -23,6 +23,18 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 python3 -m http.server -d dist      # anteprima su http://localhost:8000
 ```
 
+## Storico dall'archivio del MIMIT
+
+I mesi passati vengono dall'[archivio trimestrale](https://www.mimit.gov.it/it/open-data/elenco-dataset/carburanti-archivio-prezzi).
+Quando esce un trimestre nuovo (il quarto del 2026 dovrebbe arrivare a inizio gennaio 2027):
+
+```sh
+curl -LO https://opendatacarburanti.mise.gov.it/categorized/prezzo_alle_8/2026/2026_4_tr.tar.gz
+.venv/bin/python -m pipeline.archivio 2026_4_tr.tar.gz   # i giorni già presenti non vengono toccati
+```
+
+Il file `.tar.gz` (circa 50 MB) non va nel repository: servono solo i file del giorno che produce in `data/`.
+
 ## Pubblicazione
 
 L'Action `.github/workflows/aggiorna.yml` gira ogni giorno alle 9:30 UTC, a mano dal pulsante

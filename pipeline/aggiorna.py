@@ -35,14 +35,17 @@ def aggiorna(cartella_dati: Path, scarica_testo=scarica, adesso: datetime | None
 
     adesso = adesso or datetime.now(timezone.utc)
     contenuto = {"estrazione": pulito["estrazione"], "generato": adesso.isoformat(timespec="seconds"), **pulito}
+    salva_giorno(destinazione, contenuto)
+    return destinazione
 
-    # Scrittura "atomica": prima un file temporaneo, poi lo si rinomina.
-    # Se il processo si interrompe a metà, in data/ non resta un file troncato.
-    cartella_dati.mkdir(parents=True, exist_ok=True)
+
+def salva_giorno(destinazione: Path, contenuto: dict) -> None:
+    """Scrittura "atomica": prima un file temporaneo, poi lo si rinomina.
+    Se il processo si interrompe a metà, in data/ non resta un file troncato."""
+    destinazione.parent.mkdir(parents=True, exist_ok=True)
     temporaneo = destinazione.with_suffix(".json.tmp")
     temporaneo.write_text(json.dumps(contenuto, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     os.replace(temporaneo, destinazione)
-    return destinazione
 
 
 def main() -> int:
