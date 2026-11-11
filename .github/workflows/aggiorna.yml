@@ -1,0 +1,74 @@
+# Ogni mattina: scarica i dati del MIMIT, li pulisce, salva il file del giorno in data/,
+# ricostruisce il sito e lo pubblica su GitHub Pages.
+# Se un passo fallisce, i passi dopo non vengono eseguiti: niente commit, niente pubblicazione.
+
+name: Aggiorna prezzi e sito
+
+on:
+  schedule:
+    - cron: "30 9 * * *" # ogni giorno alle 9:30 UTC (10:30 ora solare, 11:30 ora legale)
+  workflow_dispatch: # pulsante "Run workflow" per avviarla a mano
+  push:
+    branches: [main] # dopo una modifica al codice: solo test, costruzione e pubblicazione
+
+permissions:
+  contents: write # per salvare il file del giorno nel repository
+  pages: write # per pubblicare su GitHub Pages
+  id-token: write # richiesto da GitHub Pages per verificare da dove arriva il sito
+
+concurrency:
+  group: aggiorna-sito # mai due esecuzioni insieme
+  cancel-in-progress: false
+
+jobs:
+  costruisci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il repository
+        uses: actions/checkout@v7
+
+      - name: Prepara Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: pip
+
+      - name: Installa le dipendenze
+        run: pip install -r requirements.txt
+
+      - name: Test
+        run: python -m pytest -q
+
+      - name: Scarica e pulisci i dati del MIMIT
+        if: github.event_name != 'push'
+        run: python -m pipeline
+
+      - name: Costruisci il sito
+        run: python -m sito.build
+
+      - name: Salva il file del giorno nel repository
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          nuovo=$(git diff --cached --name-only -- data/ | head -n 1)
+          git commit -m "Dati: estrazione del $(basename "$nuovo" .json)"
+          git pull --rebase
+          git push
+
+      - name: Prepara il sito per GitHub Pages
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  pubblica:
+    needs: costruisci
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pubblicazione.outputs.page_url }}
+    steps:
+      - name: Pubblica su GitHub Pages
+        id: pubblicazione
+        uses: actions/deploy-pages@v5
