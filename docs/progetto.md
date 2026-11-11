@@ -94,7 +94,8 @@ con **tutti** i carburanti (la classifica usa solo Benzina e Gasolio, ma un dato
 }
 ```
 
-`comunicato` è l'ora italiana così come la scrive il MIMIT.
+`comunicato` è l'ora italiana così come la scrive il MIMIT. Il file è indentato per essere leggibile:
+circa 100 KB al giorno, che git comprime molto bene perché da un giorno all'altro cambia poco.
 
 ## 4. Quando l'aggiornamento si ferma
 
@@ -109,6 +110,9 @@ La pipeline si ferma con un messaggio chiaro e **non salva niente** se:
 
 Nella GitHub Action il commit e la pubblicazione sono gli ultimi passi: se un passo prima fallisce,
 non vengono eseguiti.
+
+Orario: l'11/11/2026 il MIMIT ha pubblicato i file alle 07:45–07:51 UTC (intestazione `Last-Modified`).
+L'Action parte più tardi per avere margine e si può anche avviare a mano.
 
 ## 5. Il sito
 
@@ -128,7 +132,7 @@ Statico, generato da Python con Jinja2 in `dist/`, pubblicato su GitHub Pages.
 
 ```
 .github/workflows/aggiorna.yml   automazione giornaliera
-pipeline/                        scarica, leggi (formato), pulisci, __main__ (esegue tutto)
+pipeline/                        scarica, leggi (formato), pulisci, aggiorna (esegue tutto: python -m pipeline)
 sito/                            build.py, templates/, static/
 data/                            un JSON per giorno di estrazione
 tests/                           pytest + CSV finti in tests/fixtures/
