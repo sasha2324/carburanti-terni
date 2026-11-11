@@ -1,4 +1,4 @@
-# Progetto: prezzi carburanti in provincia di Terni
+# Progetto: prezzi carburanti a Terni
 
 Questo file raccoglie le scelte fatte e il perché. Se una scelta cambia, si aggiorna qui.
 
@@ -41,15 +41,17 @@ Sporcizia vista nei file veri:
 - prezzi assurdi a livello nazionale (0,10 €, 8,888 €)
 - un carattere di tabulazione dentro un nome
 
-Fotografia di Terni al 10/11/2026: 132 impianti in 30 comuni, 464 prezzi, 14 impianti senza prezzi,
-9 prezzi più vecchi di 7 giorni.
+Fotografia al 10/11/2026: in provincia 132 impianti in 30 comuni; nel **comune di Terni** 48 impianti
+(42 con almeno un prezzo recente) e 167 prezzi, nessuno più vecchio di 7 giorni.
 
 ## 2. Pulizia
 
 Ogni regola si applica rispetto alla **data di estrazione**, non alla data di oggi: rifacendo la pulizia
 sugli stessi file si ottiene sempre lo stesso risultato.
 
-1. **Unione** dei due file tramite `idImpianto`; si tengono solo gli impianti con `Provincia == "TR"`.
+1. **Unione** dei due file tramite `idImpianto`; si tengono solo gli impianti con `Comune == "TERNI"` e
+   `Provincia == "TR"`. Il comune comprende anche le frazioni (Piediluco, Marmore, Collestatte…).
+   Fino all'11/11/2026 si teneva tutta la provincia: la scelta è cambiata perché interessa solo la città.
 2. **Righe con troppi campi** nell'anagrafica: i primi 4 campi si leggono da sinistra e gli ultimi 4
    (comune, provincia, lat, lon) da destra; in mezzo l'ultimo pezzo è l'indirizzo e il resto,
    riunito con `|`, è il nome (nei casi veri il `|` di troppo sta nel nome, es. `STOIL SIMPLE | gestori…`).
@@ -59,18 +61,18 @@ sugli stessi file si ottiene sempre lo stesso risultato.
    perché il GPL vero costa ~0,55 €/l e il metano arriva vicino a 5 €/kg: serve solo per gli errori
    grossolani.
 5. **Fuori scala, livello 2 (relativo)**: per ogni gruppo (carburante, self/servito) con almeno 5 prezzi
-   a Terni si calcola la mediana; si scarta un prezzo che se ne allontana di più del 25%.
+   nel comune si calcola la mediana; si scarta un prezzo che se ne allontana di più del 25%.
    Serve per gli errori di battitura (1,199 al posto di 2,199). Al 10/11/2026 lo scarto massimo
    di un prezzo vero è +16%.
-6. **Coordinate**: se sono vuote, zero o fuori da un riquadro attorno alla provincia
-   (lat 42,30–43,00, lon 11,85–12,95) diventano `null`. L'impianto resta in classifica ma non va sulla mappa.
+6. **Coordinate**: se sono vuote, zero o fuori da un riquadro attorno al comune
+   (lat 42,45–42,68, lon 12,45–12,85) diventano `null`. L'impianto resta in classifica ma non va sulla mappa.
 7. **Duplicati** (stesso impianto, carburante e modalità): si tiene il prezzo comunicato più di recente.
 
 Tutto ciò che viene scartato finisce nel JSON con il motivo, così si può controllare.
 
 ## 3. Il file del giorno
 
-`data/AAAA-MM-GG.json`, con la data di estrazione nel nome. Contiene solo Terni, già pulito,
+`data/AAAA-MM-GG.json`, con la data di estrazione nel nome. Contiene solo il comune di Terni, già pulito,
 con **tutti** i carburanti (la classifica usa solo Benzina e Gasolio, ma un dato non salvato oggi è perso).
 
 ```json
@@ -95,7 +97,7 @@ con **tutti** i carburanti (la classifica usa solo Benzina e Gasolio, ma un dato
 ```
 
 `comunicato` è l'ora italiana così come la scrive il MIMIT. Il file è indentato per essere leggibile:
-circa 100 KB al giorno, che git comprime molto bene perché da un giorno all'altro cambia poco.
+circa 35 KB al giorno, che git comprime molto bene perché da un giorno all'altro cambia poco.
 
 ## 4. Quando l'aggiornamento si ferma
 
@@ -105,7 +107,7 @@ La pipeline si ferma con un messaggio chiaro e **non salva niente** se:
 - la prima riga non è `Estrazione del AAAA-MM-GG`, o i due file hanno date diverse
 - l'intestazione non è esattamente quella attesa (per esempio è cambiato il separatore)
 - più dell'1% delle righe di un file non è leggibile (campi mancanti, prezzo o data non validi)
-- a Terni risultano meno di 80 impianti
+- nel comune di Terni risultano meno di 30 impianti (l'11/11/2026 erano 48)
 - il file di quella data di estrazione esiste già (il MIMIT non ha ancora pubblicato i dati nuovi)
 
 Nella GitHub Action il commit e la pubblicazione sono gli ultimi passi: se un passo prima fallisce,

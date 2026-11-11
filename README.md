@@ -1,6 +1,6 @@
-# Prezzi carburanti — provincia di Terni
+# Prezzi carburanti a Terni
 
-Sito statico con i prezzi dei carburanti dei distributori della provincia di Terni,
+Sito statico con i prezzi dei carburanti dei distributori del comune di Terni,
 costruito ogni mattina dagli open data del Ministero delle Imprese e del Made in Italy (MIMIT).
 
 - Classifica dei distributori più economici (benzina e gasolio, self e servito)

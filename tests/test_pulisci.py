@@ -12,7 +12,7 @@ ESTRAZIONE = date(2026, 11, 10)
 IERI_SERA = datetime(2026, 11, 9, 20, 0, 0)
 
 
-def impianto(id, provincia="TR", lat=42.56, lon=12.64):
+def impianto(id, provincia="TR", comune="TERNI", lat=42.56, lon=12.64):
     return Impianto(
         id=id,
         gestore="G",
@@ -20,7 +20,7 @@ def impianto(id, provincia="TR", lat=42.56, lon=12.64):
         tipo="Stradale",
         nome=f"Impianto {id}",
         indirizzo="VIA ROMA 1",
-        comune="TERNI",
+        comune=comune,
         provincia=provincia,
         lat=lat,
         lon=lon,
@@ -56,14 +56,14 @@ def motivi(risultato):
 # --- filtro e unione ----------------------------------------------------------
 
 
-def test_tiene_solo_gli_impianti_della_provincia_di_terni():
-    risultato = esegui([impianto(1), impianto(2, provincia="PG")], [])
+def test_tiene_solo_gli_impianti_del_comune_di_terni():
+    risultato = esegui([impianto(1), impianto(2, comune="NARNI"), impianto(3, comune="TERNI", provincia="PG")], [])
     assert [i["id"] for i in risultato["impianti"]] == [1]
 
 
 def test_collega_i_prezzi_all_impianto_giusto_tramite_identificativo():
     risultato = esegui(
-        [impianto(1), impianto(2), impianto(3, provincia="PG")],
+        [impianto(1), impianto(2), impianto(3, comune="NARNI")],
         [prezzo(1, 1.901), prezzo(2, 1.902), prezzo(3, 1.903)],
     )
     assert valori_di(risultato, 1) == [1.901]
@@ -159,14 +159,16 @@ def test_con_due_prezzi_uguali_per_carburante_e_modalita_tiene_il_piu_recente():
 # --- coordinate ---------------------------------------------------------------
 
 
-@pytest.mark.parametrize("lat, lon", [(44.917, 8.7), (0.0, 0.0), (None, None), (42.56, None)])
+@pytest.mark.parametrize(
+    "lat, lon", [(44.917, 8.7), (42.718, 12.111), (0.0, 0.0), (None, None), (42.56, None)]  # (42.718, 12.111) è Orvieto
+)
 def test_coordinate_non_plausibili_diventano_null_ma_l_impianto_resta(lat, lon):
     risultato = esegui([impianto(1, lat=lat, lon=lon)], [prezzo(1)])
     assert (risultato["impianti"][0]["lat"], risultato["impianti"][0]["lon"]) == (None, None)
     assert valori_di(risultato, 1) == [1.989]
 
 
-def test_coordinate_dentro_la_provincia_restano():
+def test_coordinate_dentro_il_comune_restano():
     risultato = esegui([impianto(1, lat=42.56, lon=12.64)], [])
     assert (risultato["impianti"][0]["lat"], risultato["impianti"][0]["lon"]) == (42.56, 12.64)
 
@@ -177,6 +179,18 @@ def test_coordinate_dentro_la_provincia_restano():
 def test_date_di_estrazione_diverse_fermano_tutto():
     with pytest.raises(DatiNonPlausibili, match="date di estrazione"):
         esegui([impianto(1)], [], data_prezzi=date(2026, 11, 9))
+
+
+def test_la_soglia_predefinita_e_di_30_impianti():
+    def con(quanti):
+        return pulisci(
+            Letto(data=ESTRAZIONE, righe=[impianto(i) for i in range(1, quanti + 1)], illeggibili=0),
+            Letto(data=ESTRAZIONE, righe=[], illeggibili=0),
+        )
+
+    assert len(con(30)["impianti"]) == 30
+    with pytest.raises(DatiNonPlausibili, match="29 impianti"):
+        con(29)
 
 
 def test_troppo_pochi_impianti_a_terni_fermano_tutto():

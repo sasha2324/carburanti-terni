@@ -1,4 +1,4 @@
-"""Pulizia dei dati: filtro provincia, unione tramite idImpianto, scarti.
+"""Pulizia dei dati: filtro sul comune di Terni, unione tramite idImpianto, scarti.
 
 Le regole si misurano rispetto alla data di estrazione, mai rispetto a "adesso":
 rifacendo la pulizia sugli stessi file si ottiene sempre lo stesso risultato.
@@ -15,16 +15,18 @@ PREZZO_MINIMO, PREZZO_MASSIMO = 0.30, 5.00  # euro al litro (al kg per il metano
 SCARTO_MASSIMO_DALLA_MEDIANA = 0.25
 MINIMO_PER_LA_MEDIANA = 5
 
-# Riquadro attorno alla provincia di Terni, con un po' di margine.
-LAT_MIN, LAT_MAX = 42.30, 43.00
-LON_MIN, LON_MAX = 11.85, 12.95
+# Riquadro attorno al comune di Terni (frazioni comprese), con un po' di margine.
+LAT_MIN, LAT_MAX = 42.45, 42.68
+LON_MIN, LON_MAX = 12.45, 12.85
 
 
 class DatiNonPlausibili(Exception):
     """I dati sono leggibili ma non hanno senso: meglio fermarsi che pubblicarli."""
 
 
-def pulisci(anagrafica: Letto, prezzi: Letto, provincia: str = "TR", minimo_impianti: int = 80) -> dict:
+def pulisci(
+    anagrafica: Letto, prezzi: Letto, comune: str = "TERNI", provincia: str = "TR", minimo_impianti: int = 30
+) -> dict:
     """Restituisce il contenuto del file del giorno (vedi docs/progetto.md, sezione 3)."""
     if anagrafica.data != prezzi.data:
         raise DatiNonPlausibili(
@@ -33,10 +35,10 @@ def pulisci(anagrafica: Letto, prezzi: Letto, provincia: str = "TR", minimo_impi
         )
     estrazione = anagrafica.data
 
-    impianti = {i.id: i for i in anagrafica.righe if i.provincia == provincia}
+    impianti = {i.id: i for i in anagrafica.righe if i.comune == comune and i.provincia == provincia}
     if len(impianti) < minimo_impianti:
         raise DatiNonPlausibili(
-            f"solo {len(impianti)} impianti in provincia {provincia}, ne servono almeno {minimo_impianti}"
+            f"solo {len(impianti)} impianti nel comune di {comune} ({provincia}), ne servono almeno {minimo_impianti}"
         )
 
     scartati = []
@@ -44,7 +46,7 @@ def pulisci(anagrafica: Letto, prezzi: Letto, provincia: str = "TR", minimo_impi
     def scarta(p: Prezzo, motivo: str):
         scartati.append({**_prezzo_json(p), "id": p.id_impianto, "motivo": motivo})
 
-    # 1. Unione: solo i prezzi degli impianti della provincia. Se un impianto ha due prezzi
+    # 1. Unione: solo i prezzi degli impianti del comune. Se un impianto ha due prezzi
     #    per lo stesso carburante e modalità, vale quello comunicato più di recente.
     ultimi: dict[tuple, Prezzo] = {}
     for p in prezzi.righe:
@@ -123,7 +125,7 @@ def _prezzo_json(p: Prezzo) -> dict:
 
 
 def _coordinate(impianto: Impianto) -> tuple[float | None, float | None]:
-    """Le coordinate non sono verificate dal MIMIT: si tengono solo se cadono attorno alla provincia."""
+    """Le coordinate non sono verificate dal MIMIT: si tengono solo se cadono attorno al comune."""
     lat, lon = impianto.lat, impianto.lon
     if lat is None or lon is None:
         return None, None

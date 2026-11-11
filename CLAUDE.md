@@ -1,6 +1,6 @@
 # Carburanti Terni
 
-Sito statico con i prezzi dei carburanti della provincia di Terni (open data MIMIT).
+Sito statico con i prezzi dei carburanti del comune di Terni, frazioni comprese (open data MIMIT).
 Scelte, formato dei dati e regole di pulizia: `docs/progetto.md`.
 
 ## Comandi
