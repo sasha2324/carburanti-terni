@@ -1,0 +1,1712 @@
+{
+ "estrazione": "2026-09-26",
+ "generato": "2026-11-11T10:35:08+00:00",
+ "fonte": "archivio MIMIT, anagrafica del 2026-11-10",
+ "impianti": [
+  {
+   "id": 4531,
+   "nome": "FLAMINIA CARBURANTI SNC",
+   "gestore": "FLAMINIA CARBURANTI DI MARTA A. E UNGARI S. S.N.C.",
+   "bandiera": "Pompe Bianche",
+   "tipo": "Stradale",
+   "indirizzo": "NARNI 160/E 05100",
+   "comune": "TERNI",
+   "lat": 42.54653098446684,
+   "lon": 12.615591536114124,
+   "prezzi": []
+  },
+  {
+   "id": 6615,
+   "nome": "TERNI V.XX SETTEMBRE 29",
+   "gestore": "SERVIZI & GESTIONI ITALIA S.R.L.",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "V.XX SETTEMBRE 29 05100",
+   "comune": "TERNI",
+   "lat": 42.55531820353325,
+   "lon": 12.6410961564834,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-26T01:39:30"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-26T01:39:30"
+    }
+   ]
+  },
+  {
+   "id": 6617,
+   "nome": "TERNI VIA G. DI VITTORIO 111",
+   "gestore": "SERVIZI & GESTIONI ITALIA S.R.L.",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "VIA G. DI VITTORIO 111 05100",
+   "comune": "TERNI",
+   "lat": 42.552484406519035,
+   "lon": 12.64098844477462,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.149,
+     "comunicato": "2026-09-25T07:34:00"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.329,
+     "comunicato": "2026-09-25T07:34:00"
+    }
+   ]
+  },
+  {
+   "id": 6927,
+   "nome": "TERNI VIA NARNI KM 95,750",
+   "gestore": "SERVIZI & GESTIONI ITALIA S.R.L.",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "VIA NARNI KM 95,750 05100",
+   "comune": "TERNI",
+   "lat": 42.54788897155803,
+   "lon": 12.619839067459111,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-26T01:39:31"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-26T01:39:31"
+    }
+   ]
+  },
+  {
+   "id": 7857,
+   "nome": "eni",
+   "gestore": "GUELFI GIANNI",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "VIA LUNGONERA SAVOIA 557 05100",
+   "comune": "TERNI",
+   "lat": 42.555749608352436,
+   "lon": 12.644326239824295,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-24T19:02:12"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.329,
+     "comunicato": "2026-09-25T07:30:10"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": true,
+     "prezzo": 2.469,
+     "comunicato": "2026-09-26T07:39:22"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": false,
+     "prezzo": 2.679,
+     "comunicato": "2026-09-26T07:39:22"
+    },
+    {
+     "carburante": "Blue Super",
+     "self": true,
+     "prezzo": 2.074,
+     "comunicato": "2026-09-25T14:38:08"
+    },
+    {
+     "carburante": "Blue Super",
+     "self": false,
+     "prezzo": 2.284,
+     "comunicato": "2026-09-25T14:38:08"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.369,
+     "comunicato": "2026-09-26T07:39:22"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.579,
+     "comunicato": "2026-09-26T07:39:22"
+    }
+   ]
+  },
+  {
+   "id": 9106,
+   "nome": "STAZ.DI SERVIZIO IP-GRUPPO API",
+   "gestore": "PROIETTI MARIO",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "VIA DEL CENTENARIO SNC, 05100 - -",
+   "comune": "TERNI",
+   "lat": 42.584611664639425,
+   "lon": 12.605674266815186,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.169,
+     "comunicato": "2026-09-25T21:45:08"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.369,
+     "comunicato": "2026-09-25T21:45:08"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T21:45:08"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.519,
+     "comunicato": "2026-09-25T21:45:08"
+    }
+   ]
+  },
+  {
+   "id": 10091,
+   "nome": "Terni",
+   "gestore": "\"IP SERVICES S.R.L.\"",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "Via Carducci 05100",
+   "comune": "TERNI",
+   "lat": 42.56028738686933,
+   "lon": 12.64089971780777,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.159,
+     "comunicato": "2026-09-25T17:14:29"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T09:18:54"
+    }
+   ]
+  },
+  {
+   "id": 13099,
+   "nome": "TOMASSINI AVIO STAZ. SERVIZIO TAMOIL",
+   "gestore": "TOMASSINI AVIO",
+   "bandiera": "Tamoil",
+   "tipo": "Stradale",
+   "indirizzo": "TRIESTE SNC 05100",
+   "comune": "TERNI",
+   "lat": 42.55164350399676,
+   "lon": 12.65420436693421,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.179,
+     "comunicato": "2026-09-22T11:01:42"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.179,
+     "comunicato": "2026-09-22T11:01:42"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-22T11:01:42"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-22T11:01:42"
+    }
+   ]
+  },
+  {
+   "id": 13561,
+   "nome": "STAZIONE Q8 ALMADORI ROMOLO",
+   "gestore": "ALMADORI ROMOLO",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "via tito oro nobili 05100",
+   "comune": "TERNI",
+   "lat": 42.569897070352674,
+   "lon": 12.649459317326546,
+   "prezzi": []
+  },
+  {
+   "id": 15151,
+   "nome": "PASSERI MASSIMILIANO",
+   "gestore": "PASSERI MASSIMILIANO",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "VIA ROMAGNA 93 05100",
+   "comune": "TERNI",
+   "lat": 42.5685058370701,
+   "lon": 12.662065029144287,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.114,
+     "comunicato": "2026-09-24T12:42:40"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.324,
+     "comunicato": "2026-09-24T15:02:52"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": true,
+     "prezzo": 2.404,
+     "comunicato": "2026-09-24T12:42:40"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": false,
+     "prezzo": 2.614,
+     "comunicato": "2026-09-24T15:02:52"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.304,
+     "comunicato": "2026-09-24T12:42:40"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.514,
+     "comunicato": "2026-09-24T15:02:52"
+    }
+   ]
+  },
+  {
+   "id": 16662,
+   "nome": "Stazione IP MCR Snc",
+   "gestore": "M.C.R. DI MARSINI MARIA CARMINA & C. S.N.C. IN SIGLA M.C.R. S.N.C .",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "3 FLAMINIA KM. 96 + 400 05100",
+   "comune": "TERNI",
+   "lat": 42.55086549940671,
+   "lon": 12.626669069853278,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.159,
+     "comunicato": "2026-09-25T16:42:24"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.427,
+     "comunicato": "2026-09-25T16:42:24"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.769,
+     "comunicato": "2026-09-25T16:42:24"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T16:42:24"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.587,
+     "comunicato": "2026-09-25T16:42:24"
+    }
+   ]
+  },
+  {
+   "id": 17932,
+   "nome": "alderico bussetti",
+   "gestore": "BUSSETTI ALDERICO S.N.C.",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "TRE VENEZIE 267 05100",
+   "comune": "TERNI",
+   "lat": 42.57819207188135,
+   "lon": 12.67745353281498,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.114,
+     "comunicato": "2026-09-25T16:34:04"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.324,
+     "comunicato": "2026-09-25T16:34:04"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": true,
+     "prezzo": 2.404,
+     "comunicato": "2026-09-25T16:40:08"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": false,
+     "prezzo": 2.675,
+     "comunicato": "2026-09-26T07:46:08"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.365,
+     "comunicato": "2026-09-26T07:46:08"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.575,
+     "comunicato": "2026-09-26T07:46:08"
+    },
+    {
+     "carburante": "HVOlution",
+     "self": true,
+     "prezzo": 2.365,
+     "comunicato": "2026-09-26T07:46:08"
+    }
+   ]
+  },
+  {
+   "id": 19581,
+   "nome": "B.b.carburanti snc",
+   "gestore": "BB CARBURANTI S.N.C. DI BRUNOTTI ALESSANDRO E BRUNOTTI LEONARDO",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "via narni 223 05100",
+   "comune": "TERNI",
+   "lat": 42.543480192653035,
+   "lon": 12.591666635385046,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.189,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.459,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.749,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.399,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.669,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "HVO",
+     "self": true,
+     "prezzo": 2.399,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "HVO",
+     "self": false,
+     "prezzo": 2.669,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "Hi-Q Diesel",
+     "self": true,
+     "prezzo": 2.539,
+     "comunicato": "2026-09-26T05:26:06"
+    },
+    {
+     "carburante": "Hi-Q Diesel",
+     "self": false,
+     "prezzo": 2.699,
+     "comunicato": "2026-09-26T05:26:06"
+    }
+   ]
+  },
+  {
+   "id": 20829,
+   "nome": "TERNI SS.79 LOC.COLLEROLLETTA",
+   "gestore": "SERVIZI & GESTIONI ITALIA S.R.L.",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "SS.79 LOC.COLLEROLLETTA 05100",
+   "comune": "TERNI",
+   "lat": 42.58265365747226,
+   "lon": 12.616386908598315,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.149,
+     "comunicato": "2026-09-25T07:33:59"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.749,
+     "comunicato": "2026-09-25T07:33:59"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.329,
+     "comunicato": "2026-09-25T07:33:59"
+    }
+   ]
+  },
+  {
+   "id": 23287,
+   "nome": "Terni Viale Campofregoso",
+   "gestore": "\"IP SERVICES S.R.L.\"",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "Viale Campofregoso 38 05100",
+   "comune": "TERNI",
+   "lat": 42.562436828875256,
+   "lon": 12.65360802412033,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.159,
+     "comunicato": "2026-09-25T17:12:32"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T09:15:58"
+    }
+   ]
+  },
+  {
+   "id": 24432,
+   "nome": "TERNI - BORZACCHINI",
+   "gestore": "\"IP SERVICES S.R.L.\"",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "VIALE BORZACCHINI 05100",
+   "comune": "TERNI",
+   "lat": 42.56750395079138,
+   "lon": 12.633073177909864,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.159,
+     "comunicato": "2026-09-25T17:04:48"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T09:05:49"
+    }
+   ]
+  },
+  {
+   "id": 28116,
+   "nome": "SABBIONE SERVIZI",
+   "gestore": "SABBIONE SERVIZI S.N.C. DI VALLERIGNANI FABIO E MARIANI MASSIMILIANO",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "STRADA DELLE CAMPORE 05100",
+   "comune": "TERNI",
+   "lat": 42.55225042546483,
+   "lon": 12.600004076957703,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.199,
+     "comunicato": "2026-09-25T09:36:16"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.449,
+     "comunicato": "2026-09-25T09:36:16"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.809,
+     "comunicato": "2026-09-25T09:36:16"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.339,
+     "comunicato": "2026-09-25T09:36:16"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.589,
+     "comunicato": "2026-09-25T09:36:16"
+    }
+   ]
+  },
+  {
+   "id": 28609,
+   "nome": "STAZIONE DI SERVIZIO ENI CARAPACCHI & C. SNC",
+   "gestore": "CARAPACCHI & C. S.N.C. DI CARAPACCHI GIAMPIERO",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "VIALE TRENTO S.N.C. 05100",
+   "comune": "TERNI",
+   "lat": 42.548325224282685,
+   "lon": 12.64941299014356,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.114,
+     "comunicato": "2026-09-25T13:10:04"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.324,
+     "comunicato": "2026-09-25T13:10:04"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": true,
+     "prezzo": 2.464,
+     "comunicato": "2026-09-26T07:59:37"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": false,
+     "prezzo": 2.674,
+     "comunicato": "2026-09-26T07:59:37"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.364,
+     "comunicato": "2026-09-26T07:59:37"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.574,
+     "comunicato": "2026-09-26T07:59:37"
+    }
+   ]
+  },
+  {
+   "id": 34008,
+   "nome": "TR 01 MARMORE-COLLESTATTE",
+   "gestore": "BENUCCI PETROLI TERNI S.R.L.",
+   "bandiera": "Pompe Bianche",
+   "tipo": "Stradale",
+   "indirizzo": "Statale 209 Valnerina, Km. 6,430, dir. terni 05100",
+   "comune": "TERNI",
+   "lat": 42.55513892123604,
+   "lon": 12.71609293968254,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.079,
+     "comunicato": "2026-09-25T16:42:44"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.189,
+     "comunicato": "2026-09-25T16:42:44"
+    }
+   ]
+  },
+  {
+   "id": 34032,
+   "nome": "ENERPETROLI - PV TERNI VIA ROMAGNA",
+   "gestore": "ENERPETROLI S.R.L.",
+   "bandiera": "Enerpetroli",
+   "tipo": "Stradale",
+   "indirizzo": "VIA ROMAGNA 93/A 05100",
+   "comune": "TERNI",
+   "lat": 42.568700212562526,
+   "lon": 12.662997096776962,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.139,
+     "comunicato": "2026-09-25T17:20:04"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.289,
+     "comunicato": "2026-09-25T17:20:04"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-25T17:20:03"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.509,
+     "comunicato": "2026-09-25T17:20:03"
+    },
+    {
+     "carburante": "Metano",
+     "self": false,
+     "prezzo": 1.999,
+     "comunicato": "2026-09-25T13:39:24"
+    }
+   ]
+  },
+  {
+   "id": 36912,
+   "nome": "PIANETA FOOD SRL",
+   "gestore": "PIANETA FOOD S.R.L.",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "STRADA DI MARATTA BASSA 4+637 05100",
+   "comune": "TERNI",
+   "lat": 42.56373989208297,
+   "lon": 12.5779227912426,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.149,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.259,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.329,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "Hi-Q Diesel",
+     "self": true,
+     "prezzo": 2.039,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "Hi-Q Diesel",
+     "self": false,
+     "prezzo": 2.239,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "HiQ Perform+",
+     "self": true,
+     "prezzo": 2.379,
+     "comunicato": "2026-09-25T21:59:27"
+    },
+    {
+     "carburante": "HiQ Perform+",
+     "self": false,
+     "prezzo": 2.479,
+     "comunicato": "2026-09-25T21:59:27"
+    }
+   ]
+  },
+  {
+   "id": 37329,
+   "nome": "IP - BM Snc Rivo",
+   "gestore": "B M S.N.C. - DI BARTOLINI MARCO & C.",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "Via del Centenario 6 05100",
+   "comune": "TERNI",
+   "lat": 42.57780289553942,
+   "lon": 12.623975649476051,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.139,
+     "comunicato": "2026-09-25T06:48:56"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.389,
+     "comunicato": "2026-09-25T06:48:56"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.755,
+     "comunicato": "2026-09-25T06:48:56"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T06:48:56"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.569,
+     "comunicato": "2026-09-25T06:48:56"
+    }
+   ]
+  },
+  {
+   "id": 37330,
+   "nome": "IP - BM Snc Sud",
+   "gestore": "B M S.N.C. - DI BARTOLINI MARCO & C.",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "Statale 675 Umbro-Laziale, Km. 8+246, dir. Terni 05100",
+   "comune": "TERNI",
+   "lat": 42.56950631131384,
+   "lon": 12.609905451536179,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.139,
+     "comunicato": "2026-09-23T10:48:00"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.389,
+     "comunicato": "2026-09-23T10:48:00"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.759,
+     "comunicato": "2026-09-23T10:48:00"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-23T10:48:00"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.569,
+     "comunicato": "2026-09-23T10:48:00"
+    },
+    {
+     "carburante": "Metano",
+     "self": false,
+     "prezzo": 1.899,
+     "comunicato": "2026-09-23T10:48:00"
+    }
+   ]
+  },
+  {
+   "id": 37447,
+   "nome": "IP - GPL Borzacchini",
+   "gestore": "IP - GPL Borzacchini",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "VIALE BORZACCHINI 7 05100",
+   "comune": "TERNI",
+   "lat": 42.56686211042474,
+   "lon": 12.63337203023002,
+   "prezzi": [
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.759,
+     "comunicato": "2026-09-26T07:32:24"
+    }
+   ]
+  },
+  {
+   "id": 41637,
+   "nome": "Stazione Tomassini Avio RETITALIA",
+   "gestore": "TOMASSINI AVIO",
+   "bandiera": "Retitalia",
+   "tipo": "Stradale",
+   "indirizzo": "Via San Valentino 129 05100",
+   "comune": "TERNI",
+   "lat": 42.54500965117963,
+   "lon": 12.642321336859595,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.149,
+     "comunicato": "2026-09-25T11:48:31"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.329,
+     "comunicato": "2026-09-25T11:48:31"
+    }
+   ]
+  },
+  {
+   "id": 42470,
+   "nome": "TotalErg",
+   "gestore": "TotalErg",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "3 bis Tiberina, Km. 0+850, Orte 05100",
+   "comune": "TERNI",
+   "lat": 42.57609571102394,
+   "lon": 12.57389210164547,
+   "prezzi": []
+  },
+  {
+   "id": 42698,
+   "nome": "IP - BM Snc Borzacchini",
+   "gestore": "B M S.N.C. - DI BARTOLINI MARCO & C.",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "VIALE BORZACCHINI 9 05100",
+   "comune": "TERNI",
+   "lat": 42.567167412649006,
+   "lon": 12.63282329631545,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.139,
+     "comunicato": "2026-09-26T07:59:21"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.339,
+     "comunicato": "2026-09-26T07:59:21"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-26T07:59:21"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.519,
+     "comunicato": "2026-09-26T07:59:21"
+    }
+   ]
+  },
+  {
+   "id": 42699,
+   "nome": "IP - BM Snc Nord",
+   "gestore": "B M S.N.C. - DI BARTOLINI MARCO & C.",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "675 Umbro-Laziale, Km. 8+247, Orte - 05100",
+   "comune": "TERNI",
+   "lat": 42.57046000558295,
+   "lon": 12.609049871974776,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.139,
+     "comunicato": "2026-09-23T10:46:23"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.389,
+     "comunicato": "2026-09-23T10:46:23"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.759,
+     "comunicato": "2026-09-23T10:46:23"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-23T10:46:23"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.569,
+     "comunicato": "2026-09-23T10:46:23"
+    },
+    {
+     "carburante": "Metano",
+     "self": false,
+     "prezzo": 1.899,
+     "comunicato": "2026-09-23T10:46:23"
+    }
+   ]
+  },
+  {
+   "id": 43931,
+   "nome": "FELTRI SAURO",
+   "gestore": "FELTRI SAURO",
+   "bandiera": "Q8",
+   "tipo": "Stradale",
+   "indirizzo": "79 Ternana, Km. 4,037, nord 05100",
+   "comune": "TERNI",
+   "lat": 42.591350292937854,
+   "lon": 12.573144435882568,
+   "prezzi": []
+  },
+  {
+   "id": 45140,
+   "nome": "METANO TERNI SNC - s.carone",
+   "gestore": "METANO TERNI S.N.C. DI ROMANELLI BRUNO & C.",
+   "bandiera": "Pompe Bianche",
+   "tipo": "Stradale",
+   "indirizzo": "Strada Di Carone 2 05100",
+   "comune": "TERNI",
+   "lat": 42.54368445390768,
+   "lon": 12.601718289434189,
+   "prezzi": [
+    {
+     "carburante": "Metano",
+     "self": false,
+     "prezzo": 1.899,
+     "comunicato": "2026-09-25T07:19:25"
+    }
+   ]
+  },
+  {
+   "id": 45183,
+   "nome": "METANO TERNI SNC - s. bolzello",
+   "gestore": "METANO TERNI S.N.C. DI ROMANELLI BRUNO & C.",
+   "bandiera": "Pompe Bianche",
+   "tipo": "Stradale",
+   "indirizzo": "STRADA DI BOLZELLO 3 05100",
+   "comune": "TERNI",
+   "lat": 42.58202379450926,
+   "lon": 12.681485620578314,
+   "prezzi": [
+    {
+     "carburante": "Metano",
+     "self": false,
+     "prezzo": 1.899,
+     "comunicato": "2026-09-25T07:19:31"
+    }
+   ]
+  },
+  {
+   "id": 47278,
+   "nome": "STAZIONE IP LA SUPERGOMMA",
+   "gestore": "LA SUPERGOMMA S.R.L.",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "Viale Prati 20 05100",
+   "comune": "TERNI",
+   "lat": 42.55606380884086,
+   "lon": 12.63783287633911,
+   "prezzi": []
+  },
+  {
+   "id": 48245,
+   "nome": "TERNI CARBURANTI",
+   "gestore": "SILCA S.R.L.",
+   "bandiera": "Terni Carburanti",
+   "tipo": "Stradale",
+   "indirizzo": "VIA PIAZZALE BIANCHINI RICCARDI SNC 05100, TERNI (TR) 1/D 05100",
+   "comune": "TERNI",
+   "lat": 42.55828050928718,
+   "lon": 12.65657004962668,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.117,
+     "comunicato": "2026-09-25T12:35:12"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.297,
+     "comunicato": "2026-09-25T12:35:12"
+    },
+    {
+     "carburante": "HVO",
+     "self": true,
+     "prezzo": 2.279,
+     "comunicato": "2026-09-25T12:35:12"
+    }
+   ]
+  },
+  {
+   "id": 48369,
+   "nome": "Eni",
+   "gestore": "DESANTIS ENRICO",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "Viale mario Umberto borzacchini 10 05100",
+   "comune": "TERNI",
+   "lat": 42.56782429537877,
+   "lon": 12.63240320122339,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.114,
+     "comunicato": "2026-09-24T08:40:15"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.324,
+     "comunicato": "2026-09-24T08:44:08"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": true,
+     "prezzo": 2.465,
+     "comunicato": "2026-09-26T07:26:10"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": false,
+     "prezzo": 2.675,
+     "comunicato": "2026-09-26T07:26:10"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.365,
+     "comunicato": "2026-09-26T07:26:10"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.575,
+     "comunicato": "2026-09-26T07:26:10"
+    },
+    {
+     "carburante": "HVOlution",
+     "self": true,
+     "prezzo": 2.365,
+     "comunicato": "2026-09-26T07:26:10"
+    }
+   ]
+  },
+  {
+   "id": 51422,
+   "nome": "IS TERNI",
+   "gestore": "SIMONETTI MARIO S.R.L.",
+   "bandiera": "Simonetti Petroli",
+   "tipo": "Stradale",
+   "indirizzo": "Via Walter Lessini 18 05100",
+   "comune": "TERNI",
+   "lat": 42.5672890010421,
+   "lon": 12.622196674346924,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-24T21:51:23"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.239,
+     "comunicato": "2026-09-24T21:51:23"
+    },
+    {
+     "carburante": "GNL",
+     "self": false,
+     "prezzo": 1.799,
+     "comunicato": "2026-09-24T21:51:23"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.749,
+     "comunicato": "2026-09-24T21:51:23"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-22T21:56:45"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.419,
+     "comunicato": "2026-09-22T21:56:45"
+    },
+    {
+     "carburante": "HVO",
+     "self": true,
+     "prezzo": 2.279,
+     "comunicato": "2026-09-22T21:56:45"
+    },
+    {
+     "carburante": "HVO",
+     "self": false,
+     "prezzo": 2.279,
+     "comunicato": "2026-09-22T21:56:45"
+    },
+    {
+     "carburante": "L-GNC",
+     "self": false,
+     "prezzo": 1.899,
+     "comunicato": "2026-09-25T00:04:05"
+    }
+   ]
+  },
+  {
+   "id": 51534,
+   "nome": "ESSO BALLESI PAPIGNO",
+   "gestore": "BALLESI ANDREA",
+   "bandiera": "Esso",
+   "tipo": "Stradale",
+   "indirizzo": "VIA CASALI PACELLI 24/26 05100",
+   "comune": "TERNI",
+   "lat": 42.553129498838054,
+   "lon": 12.68006339669227,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-23T17:53:27"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-23T17:53:27"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-23T17:53:27"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-23T17:53:27"
+    },
+    {
+     "carburante": "Metano",
+     "self": false,
+     "prezzo": 1.899,
+     "comunicato": "2026-09-23T17:53:27"
+    }
+   ]
+  },
+  {
+   "id": 51635,
+   "nome": "ENI STATION 34900",
+   "gestore": "QUATTRO.ZERO S.N.C. DI TACCI MASSIMILIANO & C.",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "VIA WALTER LESSINI 7 05100",
+   "comune": "TERNI",
+   "lat": 42.56727102575589,
+   "lon": 12.62816770429736,
+   "prezzi": []
+  },
+  {
+   "id": 54076,
+   "nome": "Silca srl - TAMOIL Piediluco2",
+   "gestore": "SILCA S.R.L.",
+   "bandiera": "Tamoil",
+   "tipo": "Stradale",
+   "indirizzo": "STR. DELL'OSTERIA 11 05100",
+   "comune": "TERNI",
+   "lat": 42.54336426541799,
+   "lon": 12.757049812428692,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.179,
+     "comunicato": "2026-09-21T11:28:48"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.339,
+     "comunicato": "2026-09-21T11:28:48"
+    }
+   ]
+  },
+  {
+   "id": 55264,
+   "nome": "Silca srl - TAMOIL Piediluco1",
+   "gestore": "SILCA S.R.L.",
+   "bandiera": "Tamoil",
+   "tipo": "Stradale",
+   "indirizzo": "LOC. I QUADRI SNC 05100",
+   "comune": "TERNI",
+   "lat": 42.53601,
+   "lon": 12.76709,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.179,
+     "comunicato": "2026-09-21T15:09:46"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.339,
+     "comunicato": "2026-09-21T15:09:46"
+    }
+   ]
+  },
+  {
+   "id": 56675,
+   "nome": "IP TERNI",
+   "gestore": "AURA BLU SERVICE SRL",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "DELLE TERRE ARNOLFE 19 05100",
+   "comune": "TERNI",
+   "lat": 42.59017769769575,
+   "lon": 12.603593038940426,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.199,
+     "comunicato": "2026-09-25T16:24:21"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.379,
+     "comunicato": "2026-09-25T16:24:21"
+    }
+   ]
+  },
+  {
+   "id": 58101,
+   "nome": "Silca srl - IP Terni Viale Prati",
+   "gestore": "SILCA S.R.L.",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "PRATI - PONTE ALLENDE SNC 05100",
+   "comune": "TERNI",
+   "lat": 42.55600066900305,
+   "lon": 12.637848209520545,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.199,
+     "comunicato": "2026-09-21T15:36:36"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.359,
+     "comunicato": "2026-09-21T15:36:36"
+    }
+   ]
+  },
+  {
+   "id": 58698,
+   "nome": "ENI 34900 Self 24h",
+   "gestore": "DESANTIS ENRICO",
+   "bandiera": "Agip Eni",
+   "tipo": "Stradale",
+   "indirizzo": "WALTER LESSINI 7 05100",
+   "comune": "TERNI",
+   "lat": 42.56682939378112,
+   "lon": 12.625783168964375,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.114,
+     "comunicato": "2026-09-25T21:59:22"
+    },
+    {
+     "carburante": "Blue Diesel",
+     "self": true,
+     "prezzo": 2.45,
+     "comunicato": "2026-09-26T07:26:07"
+    },
+    {
+     "carburante": "Blue Super",
+     "self": true,
+     "prezzo": 2.264,
+     "comunicato": "2026-09-25T21:59:22"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.35,
+     "comunicato": "2026-09-26T07:26:07"
+    }
+   ]
+  },
+  {
+   "id": 59431,
+   "nome": "ESSO TERNI VIA FRATELLI ROSSELLI",
+   "gestore": "ENERGIA PETROLI 2000 S.R.L.",
+   "bandiera": "Esso",
+   "tipo": "Stradale",
+   "indirizzo": "FRATELLI ROSSELLI 15 05100",
+   "comune": "TERNI",
+   "lat": 42.56726010165145,
+   "lon": 12.657958895982361,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-25T14:05:25"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-25T14:05:25"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-25T14:05:25"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-25T14:05:25"
+    }
+   ]
+  },
+  {
+   "id": 59699,
+   "nome": "STAZIONE DI SERVIZIO IS - TERNI POLYMER",
+   "gestore": "SIMONETTI MARIO S.R.L.",
+   "bandiera": "Simonetti Petroli",
+   "tipo": "Stradale",
+   "indirizzo": "Via Flaminia SNC 05100",
+   "comune": "TERNI",
+   "lat": 42.5468583,
+   "lon": 12.6154264,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-24T07:40:57"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-22T21:58:35"
+    }
+   ]
+  },
+  {
+   "id": 61808,
+   "nome": "PV ENERPETROLI TERNI VIA ALFONSINE",
+   "gestore": "ENERPETROLI S.R.L.",
+   "bandiera": "Enerpetroli",
+   "tipo": "Stradale",
+   "indirizzo": "Via Alfonsine snc 05100",
+   "comune": "TERNI",
+   "lat": 42.551591,
+   "lon": 12.630281,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.159,
+     "comunicato": "2026-09-25T17:20:10"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.309,
+     "comunicato": "2026-09-25T17:20:10"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.379,
+     "comunicato": "2026-09-25T17:20:10"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.529,
+     "comunicato": "2026-09-25T17:20:10"
+    },
+    {
+     "carburante": "Supreme Diesel",
+     "self": true,
+     "prezzo": 2.479,
+     "comunicato": "2026-09-25T17:20:10"
+    },
+    {
+     "carburante": "Supreme Diesel",
+     "self": false,
+     "prezzo": 2.629,
+     "comunicato": "2026-09-25T17:20:10"
+    }
+   ]
+  },
+  {
+   "id": 63048,
+   "nome": "Terni",
+   "gestore": "\"IP SERVICES S.R.L.\"",
+   "bandiera": "Api-Ip",
+   "tipo": "Stradale",
+   "indirizzo": "3 BIS TIBERINA E7 KM 0,8 SNC 05100",
+   "comune": "TERNI",
+   "lat": 42.5760702,
+   "lon": 12.5737014,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.159,
+     "comunicato": "2026-09-25T17:09:58"
+    },
+    {
+     "carburante": "GPL",
+     "self": false,
+     "prezzo": 0.759,
+     "comunicato": "2026-09-25T09:12:47"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.319,
+     "comunicato": "2026-09-25T09:12:47"
+    }
+   ]
+  },
+  {
+   "id": 63305,
+   "nome": "ESSO VIA WALTER LESSINI",
+   "gestore": "ENERGIA PETROLI 2000 S.R.L.",
+   "bandiera": "Esso",
+   "tipo": "Stradale",
+   "indirizzo": "WALTER LESSINI 6 05100",
+   "comune": "TERNI",
+   "lat": 42.5673113,
+   "lon": 12.6257026,
+   "prezzi": [
+    {
+     "carburante": "Benzina",
+     "self": true,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-25T14:05:32"
+    },
+    {
+     "carburante": "Benzina",
+     "self": false,
+     "prezzo": 2.119,
+     "comunicato": "2026-09-25T14:05:32"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": true,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-25T14:05:32"
+    },
+    {
+     "carburante": "Gasolio",
+     "self": false,
+     "prezzo": 2.299,
+     "comunicato": "2026-09-25T14:05:32"
+    }
+   ]
+  },
+  {
+   "id": 63912,
+   "nome": "SILCA VIA BATTISTI - VIALE BORZACCHINI",
+   "gestore": "SILCA S.R.L.",
+   "bandiera": "Tamoil",
+   "tipo": "Stradale",
+   "indirizzo": "Viale Mario Umberto Borzacchini 05100",
+   "comune": "TERNI",
+   "lat": 42.56802640393213,
+   "lon": 12.631917921812454,
+   "prezzi": []
+  }
+ ],
+ "scartati": [
+  {
+   "carburante": "Benzina",
+   "self": true,
+   "prezzo": 2.059,
+   "comunicato": "2026-08-30T13:26:07",
+   "id": 13561,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Benzina",
+   "self": false,
+   "prezzo": 2.269,
+   "comunicato": "2026-08-30T13:26:07",
+   "id": 13561,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Gasolio",
+   "self": true,
+   "prezzo": 2.159,
+   "comunicato": "2026-08-30T13:26:07",
+   "id": 13561,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Gasolio",
+   "self": false,
+   "prezzo": 2.369,
+   "comunicato": "2026-08-30T13:26:07",
+   "id": 13561,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Hi-Q Diesel",
+   "self": true,
+   "prezzo": 2.339,
+   "comunicato": "2026-08-30T13:26:07",
+   "id": 13561,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Hi-Q Diesel",
+   "self": false,
+   "prezzo": 2.499,
+   "comunicato": "2026-08-30T13:26:07",
+   "id": 13561,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Benzina",
+   "self": true,
+   "prezzo": 2.069,
+   "comunicato": "2026-08-31T07:46:54",
+   "id": 43931,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Benzina",
+   "self": false,
+   "prezzo": 2.349,
+   "comunicato": "2026-08-31T07:46:54",
+   "id": 43931,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Gasolio",
+   "self": true,
+   "prezzo": 2.149,
+   "comunicato": "2026-08-31T07:46:54",
+   "id": 43931,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Gasolio",
+   "self": false,
+   "prezzo": 2.429,
+   "comunicato": "2026-08-31T07:46:54",
+   "id": 43931,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Hi-Q Diesel",
+   "self": true,
+   "prezzo": 2.299,
+   "comunicato": "2026-08-31T07:46:54",
+   "id": 43931,
+   "motivo": "vecchio"
+  },
+  {
+   "carburante": "Hi-Q Diesel",
+   "self": false,
+   "prezzo": 2.499,
+   "comunicato": "2026-08-31T07:46:54",
+   "id": 43931,
+   "motivo": "vecchio"
+  }
+ ]
+}
