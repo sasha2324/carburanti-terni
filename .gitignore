@@ -1,0 +1,13 @@
+# ambiente Python locale
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# sito generato: lo ricostruisce la GitHub Action
+dist/
+
+# file temporanei del download
+tmp/
+
+.DS_Store
