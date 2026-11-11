@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% from "_prezzo.html" import prezzo %}
+
+{% block titolo %}{{ impianto | nome }}, {{ impianto.comune | comune }}{% endblock %}
+{% block descrizione %}Prezzi di oggi e andamento nel tempo per {{ impianto | nome }} ({{ impianto.bandiera }}), {{ impianto.indirizzo }}, {{ impianto.comune | comune }}.{% endblock %}
+
+{% block contenuto %}
+<section class="fascia fascia-bassa">
+  <div class="contenitore">
+    <p class="briciole"><a href="{{ radice }}index.html">Classifica</a></p>
+    <h1>{{ impianto | nome }}</h1>
+    <p class="fascia-testo">{{ impianto.bandiera }}, {{ impianto.indirizzo }}, {{ impianto.comune | comune }}</p>
+    {% if impianto.lat is not none %}
+    <p class="fascia-azioni">
+      <a class="pulsante-chiaro" href="https://www.openstreetmap.org/directions?to={{ impianto.lat }}%2C{{ impianto.lon }}">Indicazioni stradali</a>
+      <a class="link-chiaro" href="https://www.openstreetmap.org/?mlat={{ impianto.lat }}&amp;mlon={{ impianto.lon }}#map=17/{{ impianto.lat }}/{{ impianto.lon }}">Vedi sulla mappa</a>
+    </p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="contenitore sezione" aria-labelledby="titolo-oggi">
+  <h2 id="titolo-oggi">Prezzi alle 8 di {{ oggi.estrazione | data_lunga }}</h2>
+  {% if impianto.prezzi %}
+  <table class="tabella">
+    <thead>
+      <tr><th scope="col">Carburante</th><th scope="col">Servizio</th><th scope="col" class="numero">Prezzo</th><th scope="col">Aggiornato il</th></tr>
+    </thead>
+    <tbody>
+      {% for p in impianto.prezzi %}
+      <tr>
+        <td>{{ p.carburante }}</td>
+        <td>{{ "self" if p.self else "servito" }}</td>
+        <td class="numero">{{ prezzo(p.prezzo) }} <span class="unita">€{{ "/kg" if p.carburante == "Metano" else "/l" }}</span></td>
+        <td class="quando">{{ p.comunicato | data_breve }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p class="vuoto">Questo distributore non ha comunicato prezzi negli ultimi 7 giorni.</p>
+  {% endif %}
+</section>
+
+<section class="contenitore sezione" aria-labelledby="titolo-andamento">
+  <h2 id="titolo-andamento">Andamento dei prezzi</h2>
+  {% if giorni_raccolti < 2 %}
+  <p class="sezione-testo">Lo storico parte dal {{ primo_giorno | data_lunga }}: le linee compaiono dal secondo giorno di raccolta. Per ora vedi il prezzo di oggi come un punto.</p>
+  {% else %}
+  <p class="sezione-testo">Dal {{ primo_giorno | data_lunga }}, un punto al giorno: il prezzo in vigore alle 8.</p>
+  {% endif %}
+  {% if grafici %}
+  <div class="legenda" aria-hidden="true">
+    <span class="legenda-voce"><span class="chiave self"></span>self</span>
+    <span class="legenda-voce"><span class="chiave servito"></span>servito</span>
+  </div>
+  <div class="grafici">
+    {% for g in grafici %}
+    <figure class="grafico-scheda">
+      <figcaption>{{ g.carburante }}, euro al litro</figcaption>
+      <div class="grafico-contenitore">
+        {{ g.svg | safe }}
+        <div class="suggerimento" hidden></div>
+      </div>
+      <details class="dati-tabella">
+        <summary>I numeri in tabella</summary>
+        <table class="tabella tabella-compatta">
+          <thead><tr><th scope="col">Data</th><th scope="col" class="numero">Self</th><th scope="col" class="numero">Servito</th></tr></thead>
+          <tbody>
+            {% for riga in g.tabella %}
+            <tr>
+              <td>{{ riga.data | data_giorno_mese }}</td>
+              <td class="numero">{{ riga.self | prezzo if riga.self is defined else "–" }}</td>
+              <td class="numero">{{ riga.servito | prezzo if riga.servito is defined else "–" }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </details>
+    </figure>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="vuoto">Nessun prezzo di benzina o gasolio raccolto finora per questo distributore.</p>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="{{ radice }}static/js/grafico.js" defer></script>
+{% endblock %}

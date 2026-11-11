@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titolo %}Quale giorno conviene fare il pieno{% endblock %}
+
+{% block contenuto %}
+<section class="fascia fascia-bassa">
+  <div class="contenitore">
+    <h1>Quale giorno della settimana conviene fare il pieno?</h1>
+    <p class="fascia-testo">Lo diciamo solo quando lo storico dei prezzi basta a dirlo con un minimo di sicurezza.</p>
+  </div>
+</section>
+
+<section class="contenitore sezione">
+  {% if not analisi.pronto %}
+  <div class="nota">
+    <h2>Non lo sappiamo ancora</h2>
+    <p>
+      Servono almeno {{ analisi.settimane_minime }} settimane di prezzi, così ogni giorno della settimana viene osservato
+      almeno {{ analisi.settimane_minime }} volte. Finora abbiamo raccolto {{ analisi.giorni_raccolti }}
+      {{ "giorno" if analisi.giorni_raccolti == 1 else "giorni" }}, a partire da {{ primo_giorno | data_lunga }}.
+    </p>
+    {% set totale = analisi.giorni_raccolti + analisi.giorni_mancanti %}
+    <div class="avanzamento">
+      <progress max="{{ totale }}" value="{{ analisi.giorni_raccolti }}">{{ analisi.giorni_raccolti }} su {{ totale }}</progress>
+      <span>{{ analisi.giorni_raccolti }} su {{ totale }} giorni</span>
+    </div>
+    {% if analisi.data_prevista %}
+    <p>Se la raccolta procede ogni giorno, la risposta arriva con i prezzi di {{ analisi.data_prevista | data_lunga }}.</p>
+    {% endif %}
+  </div>
+  {% else %}
+  {% for etichetta, r in analisi.categorie.items() %}
+  {% set scarto = r.centesimi[r.piu_caro] - r.centesimi[r.piu_economico] %}
+  <figure class="grafico-scheda grafico-giorno">
+    <figcaption>{{ etichetta }}</figcaption>
+    {% if scarto < 0.5 %}
+    <p class="sezione-testo">Le differenze tra i giorni sono sotto il mezzo centesimo: per {{ etichetta | lower }} il giorno conta poco.</p>
+    {% else %}
+    <p class="sezione-testo">
+      In media conviene fare il pieno di <strong>{{ nomi_giorni[r.piu_economico] }}</strong>:
+      {{ "%.1f" | format(-r.centesimi[r.piu_economico]) | replace(".", ",") }} centesimi al litro sotto la media della settimana.
+      Il prezzo più alto si trova di {{ nomi_giorni[r.piu_caro] }}.
+    </p>
+    {% endif %}
+    {{ r.svg | safe }}
+    <details class="dati-tabella">
+      <summary>I numeri in tabella</summary>
+      <table class="tabella tabella-compatta">
+        <thead><tr><th scope="col">Giorno</th><th scope="col" class="numero">Scarto medio (centesimi)</th><th scope="col" class="numero">Osservazioni</th></tr></thead>
+        <tbody>
+          {% for c in r.centesimi %}
+          <tr>
+            <td>{{ nomi_giorni[loop.index0] }}</td>
+            <td class="numero">{{ "%+.2f" | format(c) | replace(".", ",") }}</td>
+            <td class="numero">{{ r.osservazioni[loop.index0] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </details>
+  </figure>
+  {% endfor %}
+  {% endif %}
+</section>
+
+<section class="contenitore sezione">
+  <h2>Come lo calcoliamo</h2>
+  <div class="sezione-testo">
+    <p>
+      Ogni giorno salviamo i prezzi in vigore alle 8. Per ogni distributore confrontiamo il prezzo di ogni giorno
+      con la media di quella stessa settimana in quello stesso distributore, poi facciamo la media di questi scarti
+      per giorno della settimana.
+    </p>
+    <p>
+      Così il risultato non cambia se un distributore economico comunica i prezzi solo in alcuni giorni.
+      Le settimane in cui un distributore ha meno di 5 giorni di prezzi non le contiamo.
+    </p>
+  </div>
+</section>
+{% endblock %}

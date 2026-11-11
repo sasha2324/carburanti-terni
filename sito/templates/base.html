@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titolo %}{% endblock %} – Carburanti Terni</title>
+  <meta name="description" content="{% block descrizione %}Prezzi di benzina e gasolio dei distributori della provincia di Terni, aggiornati ogni mattina dagli open data del Ministero.{% endblock %}">
+  <link rel="preload" href="{{ radice }}static/fonts/jost-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="{{ radice }}static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ radice }}static/style.css">
+  {% block testa %}{% endblock %}
+</head>
+<body>
+  <a class="salta" href="#contenuto">Vai al contenuto</a>
+  <header class="testata">
+    <div class="contenitore testata-riga">
+      <a class="marchio" href="{{ radice }}index.html">Carburanti Terni</a>
+      <nav aria-label="Sezioni del sito">
+        <ul class="menu">
+          <li><a href="{{ radice }}index.html"{% if pagina == "classifica" %} aria-current="page"{% endif %}>Classifica</a></li>
+          <li><a href="{{ radice }}mappa.html"{% if pagina == "mappa" %} aria-current="page"{% endif %}>Mappa</a></li>
+          <li><a href="{{ radice }}giorno-della-settimana.html"{% if pagina == "giorno" %} aria-current="page"{% endif %}>Giorno della settimana</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenuto">
+    {% block contenuto %}{% endblock %}
+  </main>
+
+  <footer class="piede">
+    <div class="contenitore piede-griglia">
+      <p>
+        Dati: <a href="{{ fonte.url }}">Ministero delle Imprese e del Made in Italy, prezzi praticati e anagrafica degli impianti</a>,
+        rilasciati con licenza <a href="{{ fonte.licenza_url }}">IODL 2.0</a>.
+      </p>
+      <p>
+        Prezzi in vigore alle 8 di {{ oggi.estrazione | data_lunga }}, così come li hanno comunicati i gestori.
+        Non mostriamo i prezzi comunicati da più di 7 giorni né quelli fuori scala.
+      </p>
+      {% block piede %}{% endblock %}
+    </div>
+  </footer>
+  {% block script %}{% endblock %}
+</body>
+</html>

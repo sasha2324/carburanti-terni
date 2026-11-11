@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block titolo %}Mappa dei distributori{% endblock %}
+
+{% block testa %}
+<link rel="stylesheet" href="static/vendor/leaflet/leaflet.css">
+{% endblock %}
+
+{% block contenuto %}
+<section class="fascia fascia-bassa">
+  <div class="contenitore">
+    <h1>Mappa dei distributori</h1>
+    <p class="fascia-testo">In verde i 10 più economici per il carburante che scegli. Tocca un punto per vedere il prezzo.</p>
+  </div>
+</section>
+
+<section class="contenitore sezione">
+  <fieldset class="scelta-carburante">
+    <legend>Carburante</legend>
+    {% for etichetta in categorie %}
+    <label><input type="radio" name="categoria" value="{{ etichetta }}"{% if loop.first %} checked{% endif %}> {{ etichetta }}</label>
+    {% endfor %}
+  </fieldset>
+
+  <div id="mappa" class="mappa" role="region" aria-label="Mappa dei distributori della provincia di Terni">
+    <noscript><p class="vuoto">La mappa ha bisogno di JavaScript. La <a href="index.html">classifica</a> mostra gli stessi dati senza.</p></noscript>
+  </div>
+
+  <ul class="legenda legenda-mappa">
+    <li class="legenda-voce"><span class="chiave-punto economico"></span>tra i 10 più economici</li>
+    <li class="legenda-voce"><span class="chiave-punto altro"></span>altri distributori</li>
+    <li class="legenda-voce"><span class="chiave-punto assente"></span>nessun prezzo recente per questo carburante</li>
+  </ul>
+  <p class="sezione-testo">Sulla mappa ci sono {{ punti | length }} distributori. Le coordinate le inseriscono i gestori e il Ministero non sempre le verifica: quelle fuori dalla provincia non le mostriamo.</p>
+
+  <script type="application/json" id="dati-mappa">{{ punti | tojson }}</script>
+</section>
+{% endblock %}
+
+{% block piede %}
+<p>Mappa: © <a href="https://www.openstreetmap.org/copyright">contributori di OpenStreetMap</a>.</p>
+{% endblock %}
+
+{% block script %}
+<script src="static/vendor/leaflet/leaflet.js" defer></script>
+<script src="static/js/mappa.js" defer></script>
+{% endblock %}

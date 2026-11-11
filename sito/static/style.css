@@ -1,0 +1,940 @@
+/* Carburanti Terni — stile dal DESIGN.md (linguaggio visivo NerdWallet, adattato).
+   Colori, spazi e raggi sono "token": si cambiano qui e valgono ovunque. */
+
+@font-face {
+  font-family: "Jost";
+  src: url("fonts/jost-latin-wght-normal.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --primary: #008254;
+  --primary-deep: #006642;
+  --forest: #00482f;
+  --on-primary: #ffffff;
+  --lime-panel: #e8fdac;
+  --canvas: #ffffff;
+  --canvas-soft: #f7f7f7;
+  --mint-50: #effcf8;
+  --mint-100: #e3faf2;
+  --mint-200: #b7ecda;
+  --hairline: #ebebec;
+  --hairline-strong: #d8d9da;
+  --ink: #000000;
+  --body: #3d4045;
+  --muted: #64666a;
+  --faint: #b1b3b5;
+  --link: #005fb9;
+
+  --serie-self: var(--primary);
+  --serie-servito: var(--link);
+
+  --r-xs: 2px;
+  --r-lg: 8px;
+  --r-xxl: 12px;
+  --r-xxxl: 16px;
+
+  --s-xxs: 4px;
+  --s-xs: 8px;
+  --s-sm: 12px;
+  --s-md: 16px;
+  --s-lg: 20px;
+  --s-xl: 24px;
+  --s-xxl: 32px;
+  --s-section: 40px;
+
+  --font: "Jost", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--body);
+  font-family: var(--font);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 var(--s-sm);
+}
+
+h1 {
+  font-size: clamp(28px, 5vw, 40px);
+}
+
+h2 {
+  font-size: clamp(22px, 3.4vw, 28px);
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0 0 var(--s-sm);
+}
+
+a {
+  color: var(--primary);
+  text-underline-offset: 3px;
+}
+
+strong {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+}
+
+.contenitore {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--s-md);
+}
+
+.salta {
+  position: absolute;
+  left: var(--s-md);
+  top: -100px;
+  background: var(--ink);
+  color: var(--on-primary);
+  padding: var(--s-xs) var(--s-md);
+  z-index: 1000;
+}
+
+.salta:focus {
+  top: var(--s-xs);
+}
+
+/* --- testata ------------------------------------------------------------- */
+
+.testata {
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hairline);
+}
+
+.testata-riga {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-xs) var(--s-xl);
+  min-height: 64px;
+  padding-top: var(--s-xs);
+  padding-bottom: var(--s-xs);
+}
+
+.marchio {
+  color: var(--primary);
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-xxs) var(--s-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu a {
+  display: inline-block;
+  padding: var(--s-xs) 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+}
+
+.menu a:hover {
+  color: var(--primary);
+}
+
+.menu a[aria-current="page"] {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* --- fascia verde in cima ----------------------------------------------- */
+
+.fascia {
+  background: linear-gradient(100deg, var(--primary-deep) 0%, var(--primary) 70%, #0b9364 100%);
+  color: var(--on-primary);
+  padding: var(--s-section) 0;
+}
+
+.fascia-bassa {
+  padding: var(--s-xxl) 0;
+}
+
+.fascia h1 {
+  color: var(--on-primary);
+  max-width: 22ch;
+}
+
+.fascia-testo {
+  font-size: 18px;
+  max-width: 60ch;
+}
+
+.briciole {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: var(--s-xs);
+}
+
+.briciole a,
+.link-chiaro {
+  color: var(--on-primary);
+}
+
+.fascia-azioni {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-md) var(--s-xl);
+  margin-top: var(--s-lg);
+}
+
+.pulsante-chiaro {
+  display: inline-block;
+  background: var(--canvas);
+  color: var(--primary);
+  border-radius: var(--r-xs);
+  padding: var(--s-sm) var(--s-md);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.pulsante-chiaro:hover {
+  background: var(--mint-50);
+}
+
+/* --- i cartelli dei prezzi (l'elemento che si ricorda) ------------------- */
+
+.cartelli {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-md);
+  margin-top: var(--s-xl);
+  max-width: 720px;
+}
+
+.cartello {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-xxs);
+  background: var(--forest);
+  border-radius: var(--r-lg);
+  padding: var(--s-lg) var(--s-xl);
+  color: var(--on-primary);
+  text-decoration: none;
+}
+
+.cartello:hover .cartello-dove {
+  text-decoration: underline;
+}
+
+.cartello-carburante {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cartello-cifre {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-xs);
+  color: var(--lime-panel);
+}
+
+.prezzo-cartello {
+  font-size: clamp(56px, 11vw, 76px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.prezzo-cartello .millesimo {
+  font-size: 0.5em;
+  vertical-align: 0.8em;
+  margin-left: 0.04em;
+}
+
+.cartello-unita {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cartello-dove {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+/* --- sezioni ------------------------------------------------------------- */
+
+.sezione {
+  padding-top: var(--s-section);
+  padding-bottom: var(--s-xs);
+}
+
+.sezione-testo {
+  max-width: 68ch;
+}
+
+.vuoto {
+  color: var(--muted);
+}
+
+/* --- schede (tab) della classifica --------------------------------------- */
+
+.schede {
+  display: flex;
+  gap: var(--s-xs) var(--s-xl);
+  overflow-x: auto;
+  border-bottom: 1px solid var(--hairline);
+  margin: var(--s-lg) 0 0;
+  scrollbar-width: none;
+}
+
+.schede[hidden] {
+  display: none;
+}
+
+.schede button {
+  flex: none;
+  appearance: none;
+  background: none;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: var(--s-sm) 0;
+  color: var(--body);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.schede button:hover {
+  color: var(--primary);
+}
+
+.schede button[aria-selected="true"] {
+  color: var(--primary);
+  font-weight: 700;
+  border-bottom-color: var(--primary);
+}
+
+.pannello {
+  padding-top: var(--s-xl);
+}
+
+/* Con le schede attive il titolo del pannello lo dice già la scheda */
+.con-schede .pannello-titolo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.conteggio {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 400;
+  margin-left: var(--s-xs);
+}
+
+/* --- righe della classifica (comparison-row) ----------------------------- */
+
+.classifica {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+.riga {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: baseline;
+  gap: var(--s-md);
+  padding: var(--s-md) 0;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.posizione {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.riga:nth-child(-n + 3) .posizione {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.riga-chi {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.riga-nome {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.riga-nome:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.riga-dove {
+  color: var(--muted);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.riga-prezzo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.prezzo {
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.prezzo .millesimo {
+  font-size: 0.6em;
+  vertical-align: 0.55em;
+}
+
+.riga-quando {
+  color: var(--muted);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.altri {
+  margin-top: 0;
+}
+
+.altri summary {
+  display: inline-block;
+  margin: var(--s-md) 0;
+  padding: var(--s-xs) var(--s-md);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-lg);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.altri summary::-webkit-details-marker {
+  display: none;
+}
+
+.altri[open] summary {
+  display: none;
+}
+
+.altri .classifica {
+  border-top: 0;
+}
+
+/* --- pannello menta ------------------------------------------------------ */
+
+.nota {
+  background: var(--mint-50);
+  border-radius: var(--r-xxxl);
+  padding: var(--s-xl);
+  color: var(--ink);
+}
+
+.nota h2 {
+  font-size: 20px;
+}
+
+.nota ul {
+  margin: 0;
+  padding-left: 1.2em;
+  max-width: 72ch;
+}
+
+.nota li + li {
+  margin-top: var(--s-xs);
+}
+
+.avanzamento {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-sm);
+  margin: var(--s-md) 0;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.avanzamento progress {
+  appearance: none;
+  width: min(100%, 360px);
+  height: 8px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--mint-200);
+  overflow: hidden;
+}
+
+.avanzamento progress::-webkit-progress-bar {
+  background: var(--mint-200);
+}
+
+.avanzamento progress::-webkit-progress-value {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+.avanzamento progress::-moz-progress-bar {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+/* --- tabelle ------------------------------------------------------------- */
+
+.tabella {
+  width: 100%;
+  max-width: 720px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.tabella th {
+  background: var(--canvas-soft);
+  color: var(--body);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  padding: var(--s-sm) var(--s-md);
+}
+
+.tabella td {
+  padding: var(--s-sm) var(--s-md);
+  border-bottom: 1px solid var(--hairline);
+  color: var(--ink);
+}
+
+.tabella .numero {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabella .prezzo {
+  font-size: 20px;
+}
+
+.tabella .unita,
+.tabella .quando {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.tabella-compatta td,
+.tabella-compatta th {
+  padding: var(--s-xs) var(--s-sm);
+  font-size: 14px;
+}
+
+/* --- grafici ------------------------------------------------------------- */
+
+.legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-xs) var(--s-xl);
+  margin: 0 0 var(--s-md);
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.legenda-voce {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-xs);
+}
+
+.chiave {
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--serie-self);
+}
+
+.chiave.servito {
+  background: var(--serie-servito);
+}
+
+.grafici {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--s-xl) var(--s-xxl);
+}
+
+.grafico-scheda {
+  margin: 0;
+}
+
+.grafico-scheda figcaption {
+  color: var(--ink);
+  font-weight: 600;
+  margin-bottom: var(--s-xs);
+}
+
+.grafico-giorno {
+  max-width: 640px;
+  margin-bottom: var(--s-xxl);
+}
+
+.grafico-contenitore {
+  position: relative;
+}
+
+.grafico {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--font);
+}
+
+.grafico .griglia {
+  stroke: var(--hairline);
+  stroke-width: 1;
+}
+
+.grafico .zero {
+  stroke: var(--hairline-strong);
+  stroke-width: 1;
+}
+
+.grafico .asse {
+  fill: var(--muted);
+  font-size: 11px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+.grafico .valore {
+  fill: var(--ink);
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.grafico .linea {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.grafico .linea.self {
+  stroke: var(--serie-self);
+}
+
+.grafico .linea.servito {
+  stroke: var(--serie-servito);
+}
+
+.grafico .punto {
+  stroke: var(--canvas);
+  stroke-width: 2;
+}
+
+.grafico .punto.self {
+  fill: var(--serie-self);
+}
+
+.grafico .punto.servito {
+  fill: var(--serie-servito);
+}
+
+.grafico .barra {
+  fill: var(--mint-200);
+}
+
+.grafico .barra.evidenziata {
+  fill: var(--primary);
+}
+
+.grafico .mirino {
+  stroke: var(--muted);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.suggerimento {
+  position: absolute;
+  top: 0;
+  transform: translateX(12px);
+  min-width: 120px;
+  padding: var(--s-xs) var(--s-sm);
+  background: var(--canvas);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-lg);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.suggerimento.a-sinistra {
+  transform: translateX(calc(-100% - 12px));
+}
+
+.suggerimento p {
+  display: flex;
+  align-items: center;
+  gap: var(--s-xs);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.suggerimento-data {
+  color: var(--muted);
+}
+
+.dati-tabella {
+  margin-top: var(--s-sm);
+  font-size: 14px;
+}
+
+.dati-tabella summary {
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: var(--s-xs) 0;
+}
+
+/* --- mappa --------------------------------------------------------------- */
+
+.scelta-carburante {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-xs);
+  border: 0;
+  margin: 0 0 var(--s-md);
+  padding: 0;
+}
+
+.scelta-carburante legend {
+  width: 100%;
+  margin-bottom: var(--s-xs);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.scelta-carburante label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s-md);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-xs);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.scelta-carburante input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.scelta-carburante label:has(input:checked) {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.scelta-carburante label:has(input:focus-visible) {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+}
+
+.mappa {
+  height: min(70vh, 560px);
+  min-height: 360px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-lg);
+  background: var(--canvas-soft);
+}
+
+.legenda-mappa {
+  margin-top: var(--s-md);
+}
+
+.chiave-punto {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--canvas);
+  box-shadow: 0 0 0 1px var(--hairline-strong);
+}
+
+.chiave-punto.economico {
+  background: var(--primary);
+}
+
+.chiave-punto.altro {
+  background: var(--faint);
+}
+
+.chiave-punto.assente {
+  background: var(--canvas);
+  border-color: var(--faint);
+  box-shadow: none;
+}
+
+.scheda-mappa {
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+.scheda-mappa a {
+  font-weight: 600;
+}
+
+.scheda-mappa p {
+  margin: var(--s-xxs) 0 0;
+}
+
+/* --- piede --------------------------------------------------------------- */
+
+.piede {
+  margin-top: var(--s-section);
+  padding: var(--s-xxl) 0;
+  background: var(--canvas-soft);
+  color: var(--body);
+  font-size: 14px;
+}
+
+.piede-griglia {
+  display: grid;
+  gap: var(--s-xs);
+}
+
+.piede p {
+  margin: 0;
+  max-width: 80ch;
+}
+
+.piede a {
+  color: var(--link);
+}
+
+/* --- telefoni ------------------------------------------------------------ */
+
+@media (max-width: 599px) {
+  .fascia {
+    padding: var(--s-xl) 0;
+  }
+
+  .fascia-testo {
+    font-size: 16px;
+  }
+
+  .cartelli {
+    gap: var(--s-xs);
+    margin-top: var(--s-md);
+  }
+
+  .cartello {
+    padding: var(--s-sm) var(--s-sm) var(--s-md);
+  }
+
+  .prezzo-cartello {
+    font-size: clamp(34px, 10.5vw, 56px);
+  }
+
+  .cartello-unita,
+  .cartello-carburante,
+  .cartello-dove {
+    font-size: 13px;
+  }
+
+  .cartello-cifre {
+    gap: var(--s-xxs);
+  }
+
+  .riga {
+    grid-template-columns: 1.75rem 1fr;
+    gap: var(--s-xxs) var(--s-sm);
+  }
+
+  .riga-prezzo {
+    grid-column: 2;
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--s-sm);
+    text-align: left;
+  }
+
+  .tabella th,
+  .tabella td {
+    padding-left: var(--s-xs);
+    padding-right: var(--s-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}

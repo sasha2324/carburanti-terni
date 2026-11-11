@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% from "_prezzo.html" import prezzo, riga_classifica %}
+
+{% block titolo %}Dove costa meno fare il pieno{% endblock %}
+
+{% block contenuto %}
+<section class="fascia">
+  <div class="contenitore">
+    <h1>Dove costa meno fare il pieno in provincia di Terni</h1>
+    <p class="fascia-testo">Prezzi in vigore alle 8 di {{ oggi.estrazione | data_lunga }}, comunicati dai gestori al Ministero.</p>
+    {% if cartelli %}
+    <div class="cartelli">
+      {% for c in cartelli %}
+      {% set migliore = c.righe[0] %}
+      <a class="cartello" href="distributore/{{ migliore.impianto.id }}.html">
+        <span class="cartello-carburante">{{ c.etichetta }}, il più basso</span>
+        <span class="cartello-cifre">{{ prezzo(migliore.prezzo, "prezzo-cartello") }}<span class="cartello-unita">€/l</span></span>
+        <span class="cartello-dove">{{ migliore.impianto | nome }}, {{ migliore.impianto.comune | comune }}</span>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="contenitore sezione" aria-labelledby="titolo-classifica">
+  <h2 id="titolo-classifica">Tutti i distributori, dal più economico</h2>
+
+  <div class="schede" role="tablist" aria-label="Carburante" hidden>
+    {% for c in classifiche %}
+    <button type="button" role="tab" id="scheda-{{ c.id }}" aria-controls="{{ c.id }}">{{ c.etichetta }}</button>
+    {% endfor %}
+  </div>
+
+  {% for c in classifiche %}
+  <section class="pannello" id="{{ c.id }}" aria-labelledby="titolo-{{ c.id }}">
+    <h3 class="pannello-titolo" id="titolo-{{ c.id }}">{{ c.etichetta }} <span class="conteggio">{{ c.righe | length }} distributori</span></h3>
+    {% if c.righe %}
+    <ol class="classifica">
+      {% for riga in c.righe[:mostrati] %}
+      {{ riga_classifica(riga, loop.index, radice) }}
+      {% endfor %}
+    </ol>
+    {% if c.righe | length > mostrati %}
+    <details class="altri">
+      <summary>Mostra tutti i {{ c.righe | length }} distributori</summary>
+      <ol class="classifica" start="{{ mostrati + 1 }}">
+        {% for riga in c.righe[mostrati:] %}
+        {{ riga_classifica(riga, mostrati + loop.index, radice) }}
+        {% endfor %}
+      </ol>
+    </details>
+    {% endif %}
+    {% else %}
+    <p class="vuoto">Oggi nessun distributore ha comunicato un prezzo recente per {{ c.etichetta | lower }}.</p>
+    {% endif %}
+  </section>
+  {% endfor %}
+</section>
+
+<section class="contenitore sezione">
+  <div class="nota">
+    <h2>Come leggere questi prezzi</h2>
+    <ul>
+      <li>Sono i prezzi in vigore alle 8 del mattino, comunicati dai gestori all'Osservatorio prezzi del Ministero. Il sito si aggiorna ogni giorno con i dati del giorno prima.</li>
+      <li>"Aggiornato il" è il momento in cui il gestore ha comunicato quel prezzo: più è vicino, più il dato è affidabile.</li>
+      <li>Non mostriamo i prezzi comunicati da più di 7 giorni e quelli fuori scala, per esempio un errore di battitura come 1,199 al posto di 2,199.{% if oggi.scartati %} Oggi ne abbiamo esclusi {{ oggi.scartati | length }}.{% endif %}</li>
+    </ul>
+  </div>
+</section>
+{% endblock %}
+
+{% block script %}
+<script src="static/js/schede.js" defer></script>
+{% endblock %}

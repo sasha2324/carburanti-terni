@@ -1,0 +1,20 @@
+{# Un prezzo scritto come sui cartelli: la terza cifra decimale più piccola. #}
+{% macro prezzo(valore, classe="prezzo") %}
+{% set parti = valore | prezzo_parti %}
+<span class="{{ classe }}" aria-label="{{ valore | prezzo }} euro">{{ parti[0] }}<span class="millesimo" aria-hidden="true">{{ parti[1] }}</span></span>
+{%- endmacro %}
+
+{% macro riga_classifica(riga, posizione, radice) %}
+{% set impianto = riga.impianto %}
+<li class="riga">
+  <span class="posizione" aria-hidden="true">{{ posizione }}</span>
+  <div class="riga-chi">
+    <a class="riga-nome" href="{{ radice }}distributore/{{ impianto.id }}.html">{{ impianto | nome }}</a>
+    <span class="riga-dove">{{ impianto.bandiera }}, {{ impianto.indirizzo }}, {{ impianto.comune | comune }}</span>
+  </div>
+  <div class="riga-prezzo">
+    {{ prezzo(riga.prezzo) }}
+    <span class="riga-quando">aggiornato il {{ riga.comunicato | data_breve }}</span>
+  </div>
+</li>
+{%- endmacro %}
