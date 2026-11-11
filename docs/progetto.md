@@ -126,15 +126,38 @@ Statico, generato da Python con Jinja2 in `dist/`, pubblicato su GitHub Pages.
 - **Distributore**: una pagina per impianto con il grafico dei prezzi nel tempo (SVG generato da Python,
   nessuna libreria di grafici)
 - **Giorno della settimana**: l'analisi compare con almeno 8 settimane di storico; prima la pagina dice
-  quanti giorni mancano. Metodo: per ogni distributore e settimana si confronta il prezzo di ogni giorno
-  con la media di quella settimana, poi si fa la media per giorno della settimana
+  quanti giorni mancano. Metodo: per ogni distributore si confronta il prezzo di ogni giorno con la media
+  dei 7 giorni centrati su quel giorno (3 prima, 3 dopo; servono tutti e 7), poi si fa la media per giorno
+  della settimana. All'inizio si usava la settimana da lunedì a domenica, ma con i prezzi in salita
+  (aprile–settembre 2026: da 1,76 a 2,10 € la benzina self) la domenica risultava più cara solo perché
+  viene dopo: la finestra centrata annulla una tendenza costante (c'è un test che lo verifica)
 - **Footer di ogni pagina**: fonte MIMIT, licenza IODL 2.0, attribuzione OpenStreetMap dove serve
+
+## 5 bis. Lo storico dall'archivio del MIMIT
+
+Il MIMIT pubblica un [archivio](https://www.mimit.gov.it/it/open-data/elenco-dataset/carburanti-archivio-prezzi)
+con un `.tar.gz` per trimestre (da marzo 2015), che contiene un CSV dei prezzi per giorno
+(`prezzo_alle_8-AAAAMMGG.csv`, ~4 MB l'uno). Ogni trimestre esce il giorno dopo la fine
+(il terzo del 2026 il 1° ottobre).
+
+- La data nel nome del file e la riga `Estrazione del` coincidono, e corrispondono ai prezzi delle 8
+  di quel giorno (le comunicazioni più recenti nei file sono delle 8:00–8:05): si accostano senza
+  sfasamenti ai file giornalieri.
+- `python -m pipeline.archivio FILE.tar.gz` passa ogni giorno dalla stessa lettura e pulizia della
+  pipeline giornaliera. L'archivio dei prezzi non dice il comune: si usa l'anagrafica attuale, e il
+  JSON lo scrive nel campo `fonte`. Gli impianti chiusi nel frattempo quindi mancano.
+- I giorni già presenti in `data/` non vengono toccati; un giorno illeggibile si salta e si segnala.
+- Fino al 9/02/2026 i file dell'archivio usano il separatore `;` (metadati dell'archivio): il lettore
+  non lo accetta, quindi oggi si importano solo i trimestri successivi.
+- Importati l'11/11/2026: aprile–settembre 2026 (182 giorni; nell'archivio manca il 5 settembre).
+  Restano senza dati 1° ottobre – 9 novembre 2026, finché non esce l'archivio del quarto trimestre.
 
 ## 6. Struttura
 
 ```
 .github/workflows/aggiorna.yml   automazione giornaliera
-pipeline/                        scarica, leggi (formato), pulisci, aggiorna (esegue tutto: python -m pipeline)
+pipeline/                        scarica, leggi (formato), pulisci, aggiorna (python -m pipeline),
+                                 archivio (storico: python -m pipeline.archivio)
 sito/                            build.py, templates/, static/
 data/                            un JSON per giorno di estrazione
 tests/                           pytest + CSV finti in tests/fixtures/

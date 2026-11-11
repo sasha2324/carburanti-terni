@@ -9,12 +9,14 @@ import math
 from datetime import date
 from html import escape
 
-from sito.formato import data_giorno_mese, prezzo_testo
+from sito.formato import MESI_BREVI, data_giorno_mese, prezzo_testo
 
 LARGHEZZA, ALTEZZA = 400, 220
 SINISTRA, DESTRA, ALTO, BASSO = 40, 50, 12, 26
 PASSI = [0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5]
 DISTANZA_MINIMA_ETICHETTE = 14  # sotto questa distanza le etichette finali si toccherebbero
+GIORNI_BUCO = 3  # oltre questo intervallo senza dati la linea si interrompe
+GIORNI_PER_ASSE_MENSILE = 45  # oltre questa durata l'asse x mostra i mesi
 
 
 def grafico_linee(serie: dict[str, list[tuple[str, float]]], titolo: str) -> str | None:
@@ -47,15 +49,32 @@ def grafico_linee(serie: dict[str, list[tuple[str, float]]], titolo: str) -> str
             f'<text class="asse" x="{SINISTRA - 6}" y="{y(tacca):.1f}" text-anchor="end" dominant-baseline="middle">'
             f"{_etichetta_tacca(tacca, tacche)}</text>"
         )
-    for iso in sorted({date_tutte[0], date_tutte[-1]}):  # date sull'asse x: prima e ultima
-        ancora = "middle" if durata == 0 else ("start" if iso == date_tutte[0] else "end")
-        parti.append(f'<text class="asse" x="{x(iso):.1f}" y="{ALTEZZA - 6}" text-anchor="{ancora}">{data_giorno_mese(iso)}</text>')
+    if durata > GIORNI_PER_ASSE_MENSILE:  # periodo lungo: sull'asse x l'inizio di ogni mese
+        giorno = inizio.replace(day=1)
+        while giorno <= date.fromisoformat(date_tutte[-1]):
+            if giorno >= inizio:
+                parti.append(
+                    f'<text class="asse" x="{x(giorno.isoformat()):.1f}" y="{ALTEZZA - 6}" text-anchor="start">'
+                    f"{MESI_BREVI[giorno.month - 1]}</text>"
+                )
+            giorno = date(giorno.year + giorno.month // 12, giorno.month % 12 + 1, 1)
+    else:  # periodo breve: prima e ultima data
+        for iso in sorted({date_tutte[0], date_tutte[-1]}):
+            ancora = "middle" if durata == 0 else ("start" if iso == date_tutte[0] else "end")
+            parti.append(f'<text class="asse" x="{x(iso):.1f}" y="{ALTEZZA - 6}" text-anchor="{ancora}">{data_giorno_mese(iso)}</text>')
 
     finali = []
     for nome, punti in serie.items():
         classe = escape(nome)
         if len(punti) > 1:
-            d = " ".join(f"{'M' if i == 0 else 'L'}{x(g):.1f},{y(p):.1f}" for i, (g, p) in enumerate(punti))
+            # Dove mancano più di GIORNI_BUCO giorni la linea si interrompe ("M" = riparti da qui).
+            comandi, precedente = [], None
+            for g, p in punti:
+                giorno = date.fromisoformat(g)
+                riparti = precedente is None or (giorno - precedente).days > GIORNI_BUCO
+                comandi.append(f"{'M' if riparti else 'L'}{x(g):.1f},{y(p):.1f}")
+                precedente = giorno
+            d = " ".join(comandi)
             parti.append(f'<path class="linea {classe}" d="{d}"/>')
             ultimo = punti[-1]
             parti.append(f'<circle class="punto {classe}" cx="{x(ultimo[0]):.1f}" cy="{y(ultimo[1]):.1f}" r="4"/>')
@@ -90,12 +109,15 @@ def grafico_linee(serie: dict[str, list[tuple[str, float]]], titolo: str) -> str
 
 
 def grafico_barre(centesimi: list[float], etichette: list[str], titolo: str) -> str:
-    """Barre sopra e sotto lo zero (scarto dalla media della settimana); evidenziata la più bassa."""
-    sinistra, destra, alto, basso = 12, 12, 22, 30
+    """Barre sopra e sotto lo zero (scarto dalla media dei giorni attorno); evidenziata la più bassa."""
+    altezza = 170
+    sinistra, destra, alto, basso = 12, 12, 22, 38  # spazio per i valori scritti e per i giorni
     larghezza_utile = LARGHEZZA - sinistra - destra
-    estremo = max(0.5, max(abs(c) for c in centesimi)) * 1.15
-    zero = alto + (ALTEZZA - alto - basso) / 2
-    scala = (ALTEZZA - alto - basso) / 2 / estremo
+    # La scala segue i valori veri: sopra lo zero quanto serve al più alto, sotto quanto serve al più basso.
+    sopra = max(0.2, max(centesimi))
+    sotto = max(0.2, -min(centesimi))
+    scala = (altezza - alto - basso) / (sopra + sotto)
+    zero = alto + sopra * scala
     banda = larghezza_utile / len(centesimi)
     spessore = min(24, banda * 0.6)
     piu_basso = min(range(len(centesimi)), key=centesimi.__getitem__)
@@ -109,7 +131,7 @@ def grafico_barre(centesimi: list[float], etichette: list[str], titolo: str) -> 
             f'<path class="{classe}" d="{_barra(centro - spessore / 2, spessore, zero, valore * scala)}">'
             f"<title>{escape(etichetta)}: {_centesimi_testo(valore)}</title></path>"
         )
-        parti.append(f'<text class="asse" x="{centro:.1f}" y="{ALTEZZA - 8}" text-anchor="middle">{escape(etichetta)}</text>')
+        parti.append(f'<text class="asse" x="{centro:.1f}" y="{altezza - 6}" text-anchor="middle">{escape(etichetta)}</text>')
         if i in (piu_basso, piu_alto):  # solo gli estremi hanno il numero scritto
             sotto = valore < 0
             y_testo = zero - valore * scala + (14 if sotto else -6)
@@ -117,8 +139,10 @@ def grafico_barre(centesimi: list[float], etichette: list[str], titolo: str) -> 
                 f'<text class="valore" x="{centro:.1f}" y="{y_testo:.1f}" text-anchor="middle">{_centesimi_testo(valore)}</text>'
             )
     return (
-        f'<svg class="grafico" viewBox="0 0 {LARGHEZZA} {ALTEZZA}" role="img" '
-        f'aria-label="{escape(titolo)}: scarto dalla media della settimana per giorno">' + "".join(parti) + "</svg>"
+        f'<svg class="grafico" viewBox="0 0 {LARGHEZZA} {altezza}" role="img" '
+        f'aria-label="{escape(titolo)}: scarto dalla media dei 7 giorni attorno, per giorno della settimana">'
+        + "".join(parti)
+        + "</svg>"
     )
 
 

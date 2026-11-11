@@ -6,7 +6,12 @@
 <section class="fascia fascia-bassa">
   <div class="contenitore">
     <h1>Quale giorno della settimana conviene fare il pieno?</h1>
+    {% if analisi.pronto and analisi.categorie %}
+    {% set massimo = analisi.categorie.values() | map(attribute="scarto_massimo") | max %}
+    <p class="fascia-testo">{% if massimo < 1.5 %}In breve: conta poco. {% endif %}Tra il giorno più conveniente e il più caro la differenza è al massimo di {{ "%.1f" | format(massimo) | replace(".", ",") }} centesimi al litro.</p>
+    {% else %}
     <p class="fascia-testo">Lo diciamo solo quando lo storico dei prezzi basta a dirlo con un minimo di sicurezza.</p>
+    {% endif %}
   </div>
 </section>
 
@@ -29,17 +34,22 @@
     {% endif %}
   </div>
   {% else %}
+  <p class="sezione-testo">
+    Calcolato su {{ analisi.giorni_raccolti }} giorni di prezzi dei distributori di Terni, a partire da {{ primo_giorno | data_lunga }}.
+    Le differenze sono piccole: tienine conto prima di spostare il pieno di qualche giorno.
+  </p>
   {% for etichetta, r in analisi.categorie.items() %}
-  {% set scarto = r.centesimi[r.piu_caro] - r.centesimi[r.piu_economico] %}
+  {% set scarto = r.scarto_massimo %}
   <figure class="grafico-scheda grafico-giorno">
     <figcaption>{{ etichetta }}</figcaption>
     {% if scarto < 0.5 %}
     <p class="sezione-testo">Le differenze tra i giorni sono sotto il mezzo centesimo: per {{ etichetta | lower }} il giorno conta poco.</p>
     {% else %}
     <p class="sezione-testo">
-      In media conviene fare il pieno di <strong>{{ nomi_giorni[r.piu_economico] }}</strong>:
-      {{ "%.1f" | format(-r.centesimi[r.piu_economico]) | replace(".", ",") }} centesimi al litro sotto la media della settimana.
-      Il prezzo più alto si trova di {{ nomi_giorni[r.piu_caro] }}.
+      In media conviene fare il pieno di <strong>{{ nomi_giorni[r.piu_economico] }}</strong>,
+      il prezzo più alto si trova di {{ nomi_giorni[r.piu_caro] }}. Fra i due ci sono
+      {{ "%.1f" | format(scarto) | replace(".", ",") }} centesimi al litro: su un pieno da 50 litri, circa
+      {{ (scarto * 50 / 100 * 100) | round | int }} centesimi.
     </p>
     {% endif %}
     {{ r.svg | safe }}
@@ -67,13 +77,16 @@
   <h2>Come lo calcoliamo</h2>
   <div class="sezione-testo">
     <p>
-      Ogni giorno salviamo i prezzi in vigore alle 8. Per ogni distributore confrontiamo il prezzo di ogni giorno
-      con la media di quella stessa settimana in quello stesso distributore, poi facciamo la media di questi scarti
-      per giorno della settimana.
+      Usiamo i prezzi in vigore alle 8 di ogni giorno: quelli che salviamo ogni mattina e, per i mesi passati,
+      l'archivio storico del Ministero. Per ogni distributore confrontiamo il prezzo di ogni giorno con la media
+      dei 7 giorni attorno (i 3 prima, quel giorno e i 3 dopo), poi facciamo la media di questi scarti per giorno
+      della settimana.
     </p>
     <p>
-      Così il risultato non cambia se un distributore economico comunica i prezzi solo in alcuni giorni.
-      Le settimane in cui un distributore ha meno di 5 giorni di prezzi non le contiamo.
+      Confrontare con i giorni attorno, e non con la settimana da lunedì a domenica, serve quando i prezzi salgono
+      o scendono per settimane: altrimenti la domenica sembrerebbe più cara solo perché viene dopo il lunedì.
+      E confrontare ogni distributore con sé stesso evita che conti quali distributori comunicano i prezzi in quali giorni.
+      Se in quei 7 giorni manca anche un solo prezzo, quel giorno non lo contiamo.
     </p>
   </div>
 </section>

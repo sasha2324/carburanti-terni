@@ -47,7 +47,7 @@
   {% if giorni_raccolti < 2 %}
   <p class="sezione-testo">Lo storico parte dal {{ primo_giorno | data_lunga }}: le linee compaiono dal secondo giorno di raccolta. Per ora vedi il prezzo di oggi come un punto.</p>
   {% else %}
-  <p class="sezione-testo">Dal {{ primo_giorno | data_lunga }}, un punto al giorno: il prezzo in vigore alle 8.</p>
+  <p class="sezione-testo">Dal {{ primo_giorno | data_lunga }}, un punto al giorno: il prezzo in vigore alle 8. Dove la linea si interrompe mancano i dati di quei giorni.</p>
   {% endif %}
   {% if grafici %}
   <div class="legenda" aria-hidden="true">

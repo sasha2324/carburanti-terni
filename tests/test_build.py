@@ -63,6 +63,21 @@ def test_il_grafico_con_un_solo_giorno_mostra_dei_punti():
     assert 'class="punto ' in svg
 
 
+def test_la_linea_si_interrompe_dove_mancano_piu_di_3_giorni():
+    """Senza dati per settimane la linea non deve inventare una retta."""
+    punti = [("2026-09-28", 1.9), ("2026-09-29", 1.91), ("2026-09-30", 1.92), ("2026-11-10", 1.97), ("2026-11-11", 1.96)]
+    svg = grafico_linee({"self": punti}, titolo="Benzina")
+    percorso = svg.split('class="linea self" d="')[1].split('"')[0]
+    assert percorso.count("M") == 2
+
+
+def test_con_mesi_di_dati_l_asse_mostra_i_mesi():
+    punti = [("2026-04-01", 1.9), ("2026-06-15", 1.95), ("2026-09-30", 1.92)]
+    svg = grafico_linee({"self": punti}, titolo="Benzina")
+    for mese in ["apr", "mag", "giu", "lug", "ago", "set"]:
+        assert f">{mese}</text>" in svg
+
+
 def test_senza_dati_non_c_e_grafico():
     assert grafico_linee({}, titolo="Benzina") is None
 

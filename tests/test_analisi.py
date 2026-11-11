@@ -106,6 +106,7 @@ def test_con_8_settimane_trova_il_giorno_piu_economico():
     assert benzina_self["piu_economico"] == 0  # lunedì
     assert benzina_self["centesimi"][0] == pytest.approx(-1.714, abs=0.001)
     assert benzina_self["centesimi"][3] == pytest.approx(0.286, abs=0.001)
+    assert benzina_self["scarto_massimo"] == pytest.approx(2.0)  # tra il giorno più caro e il più economico
 
 
 def test_un_distributore_presente_solo_nei_feriali_non_falsa_il_risultato():
@@ -121,7 +122,15 @@ def test_un_distributore_presente_solo_nei_feriali_non_falsa_il_risultato():
     assert analisi["categorie"]["Benzina self"]["centesimi"] == pytest.approx([0.0] * 7)
 
 
-def test_le_settimane_con_meno_di_5_giorni_non_contano():
+def test_un_prezzo_in_salita_costante_non_fa_sembrare_conveniente_nessun_giorno():
+    """Se i prezzi salgono ogni giorno un po', la domenica non deve sembrare più cara
+    solo perché viene dopo il lunedì: conta il giorno, non la tendenza."""
+    analisi = giorni_consecutivi(70, lambda id, d: 1.80 + 0.001 * (d - LUNEDI).days)
+    risultato = giorno_della_settimana(analisi)
+    assert risultato["categorie"]["Benzina self"]["centesimi"] == pytest.approx([0.0] * 7, abs=1e-9)
+
+
+def test_le_finestre_incomplete_non_contano():
     """Il distributore 2 ha solo il lunedì (molto basso) di ogni settimana: va ignorato."""
 
     def prezzo(id, data):

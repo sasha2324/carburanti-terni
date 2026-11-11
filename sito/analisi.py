@@ -15,7 +15,6 @@ CATEGORIE = [
 ]
 
 SETTIMANE_MINIME = 8
-GIORNI_MINIMI_PER_SETTIMANA = 5
 
 
 def classifica(giorno: dict, carburante: str, self_service: bool) -> list[dict]:
@@ -49,9 +48,10 @@ def storico(giorni: list[dict]) -> dict[int, dict[tuple[str, bool], list[tuple[s
 def giorno_della_settimana(giorni: list[dict]) -> dict:
     """Quale giorno della settimana conviene, se lo storico basta.
 
-    Metodo: per ogni distributore e settimana si confronta il prezzo di ogni giorno con la media
-    di quella settimana in quel distributore; poi si fa la media di questi scarti per giorno della
-    settimana. Così non conta quali distributori entrano o escono dai dati.
+    Metodo: per ogni distributore si confronta il prezzo di ogni giorno con la media dei 7 giorni
+    centrati su quel giorno, nello stesso distributore; poi si fa la media di questi scarti per
+    giorno della settimana. Così non conta quali distributori entrano o escono dai dati, e una
+    tendenza generale (prezzi in salita o in discesa) non fa sembrare più cari gli ultimi giorni.
     """
     date_raccolte = sorted({date.fromisoformat(g["estrazione"]) for g in giorni})
     per_giorno = [0] * 7
@@ -75,16 +75,14 @@ def giorno_della_settimana(giorni: list[dict]) -> dict:
     for carburante, self_service, etichetta in CATEGORIE:
         scarti = [[] for _ in range(7)]
         for per_categoria in serie.values():
-            settimane = defaultdict(list)
-            for data_iso, prezzo in per_categoria.get((carburante, self_service), []):
-                d = date.fromisoformat(data_iso)
-                settimane[d.isocalendar()[:2]].append((d.weekday(), prezzo))
-            for valori in settimane.values():
-                if len(valori) < GIORNI_MINIMI_PER_SETTIMANA:
-                    continue
-                media = sum(p for _, p in valori) / len(valori)
-                for giorno_settimana, prezzo in valori:
-                    scarti[giorno_settimana].append(prezzo - media)
+            prezzi = {date.fromisoformat(d): p for d, p in per_categoria.get((carburante, self_service), [])}
+            for giorno, prezzo in prezzi.items():
+                # Media dei 7 giorni centrati su questo (3 prima, 3 dopo): contiene ogni giorno
+                # della settimana una volta e annulla una salita o discesa costante dei prezzi.
+                finestra = [prezzi.get(giorno + timedelta(days=k)) for k in range(-3, 4)]
+                if None in finestra:
+                    continue  # servono tutti e 7 i giorni attorno
+                scarti[giorno.weekday()].append(prezzo - sum(finestra) / 7)
         if not all(scarti):
             continue  # qualche giorno senza dati: per questa categoria non si può dire
         centesimi = [100 * sum(s) / len(s) for s in scarti]
@@ -93,6 +91,7 @@ def giorno_della_settimana(giorni: list[dict]) -> dict:
             "osservazioni": [len(s) for s in scarti],
             "piu_economico": min(range(7), key=centesimi.__getitem__),
             "piu_caro": max(range(7), key=centesimi.__getitem__),
+            "scarto_massimo": max(centesimi) - min(centesimi),
         }
     return risultato
 
