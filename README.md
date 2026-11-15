@@ -1,19 +1,18 @@
 # Prezzi carburanti a Terni
 
-Sito statico con i prezzi dei carburanti dei distributori del comune di Terni,
-costruito ogni mattina dagli open data del Ministero delle Imprese e del Made in Italy (MIMIT).
+**Cosa fa:** mostra i prezzi dei carburanti dei distributori del comune di Terni, aggiornati
+ogni mattina dagli open data del Ministero delle Imprese e del Made in Italy (MIMIT):
+classifica dei più economici (benzina e gasolio, self e servito), mappa, andamento dei prezzi
+di ogni distributore e quale giorno della settimana conviene.
 
-- Classifica dei distributori più economici (benzina e gasolio, self e servito)
-- Mappa dei distributori
-- Pagina di ogni distributore con l'andamento dei prezzi
-- Quale giorno della settimana conviene (quando lo storico basta)
+**Con cosa è fatto:** Python (scarica e pulisce i dati, genera le pagine con Jinja2), Leaflet
+e OpenStreetMap per la mappa, test con pytest. Niente server né database: una GitHub Action
+salva un file JSON del giorno in `data/` e pubblica il sito su GitHub Pages.
 
-Niente server e niente database: una GitHub Action scarica i dati, li pulisce,
-salva un file JSON del giorno in `data/` e ricostruisce il sito.
+**Stato:** online e aggiornato ogni giorno: <https://sasha2324.github.io/carburanti-terni/>.
+Scelte di progetto e formato dei dati in [`docs/progetto.md`](docs/progetto.md).
 
-Le scelte di progetto e il formato dei dati sono descritti in [`docs/progetto.md`](docs/progetto.md).
-
-## Lavorare in locale
+## Avviarlo
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -22,6 +21,13 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m sito.build      # costruisce il sito in dist/
 python3 -m http.server -d dist      # anteprima su http://localhost:8000
 ```
+
+## Aggiornamento automatico
+
+L'Action `.github/workflows/aggiorna.yml` gira ogni giorno alle 9:30 UTC, a mano con
+"Run workflow" e a ogni push su `main` (in quel caso ricostruisce solo il sito).
+Se il MIMIT non ha ancora pubblicato i dati o il formato cambia, l'Action fallisce con un
+messaggio che spiega il motivo e non pubblica niente: resta online il sito del giorno prima.
 
 ## Storico dall'archivio del MIMIT
 
@@ -33,22 +39,7 @@ curl -LO https://opendatacarburanti.mise.gov.it/categorized/prezzo_alle_8/2026/2
 .venv/bin/python -m pipeline.archivio 2026_4_tr.tar.gz   # i giorni già presenti non vengono toccati
 ```
 
-Il file `.tar.gz` (circa 50 MB) non va nel repository: servono solo i file del giorno che produce in `data/`.
-
-## Pubblicazione
-
-L'Action `.github/workflows/aggiorna.yml` gira ogni giorno alle 9:30 UTC, a mano dal pulsante
-"Run workflow" e a ogni push su `main` (in quel caso ricostruisce solo il sito, senza scaricare dati).
-
-Per attivarla la prima volta:
-
-1. Crea un repository **pubblico** su GitHub (GitHub Pages gratuito lo richiede) e carica il progetto.
-2. In *Settings → Pages → Build and deployment* scegli **Source: GitHub Actions**.
-3. Il primo push pubblica già il sito; dal giorno dopo l'Action aggiunge un file in `data/` ogni mattina.
-
-Se il MIMIT non ha ancora pubblicato i dati nuovi, o il formato dei file cambia, l'Action fallisce
-con un messaggio che spiega il motivo, e GitHub te lo segnala per email. In quel caso non viene
-salvato né pubblicato niente: il sito resta quello del giorno prima. Si può riprovare con "Run workflow".
+Il `.tar.gz` (circa 50 MB) non va nel repository: servono solo i file del giorno in `data/`.
 
 ## Fonte e licenza dei dati
 
