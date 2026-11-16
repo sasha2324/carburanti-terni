@@ -9,6 +9,8 @@ Scelte, formato dei dati e regole di pulizia: `docs/progetto.md`.
 - Aggiornare i dati (scarica dal MIMIT e salva `data/<estrazione>.json`): `.venv/bin/python -m pipeline`
 - Importare un trimestre dall'archivio storico: `.venv/bin/python -m pipeline.archivio FILE.tar.gz`
 - Costruire il sito in `dist/`: `.venv/bin/python -m sito.build`
+- Il MIMIT risponde solo dall'Europa: l'Action scarica tramite il ponte AWS in `ponte/`
+  (secret `MIMIT_PONTE_URL` e `MIMIT_PONTE_CHIAVE`). Installazione e chiave: `ponte/README.md`.
 
 ## Regole di lavoro
 

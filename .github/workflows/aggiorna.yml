@@ -41,6 +41,11 @@ jobs:
 
       - name: Scarica e pulisci i dati del MIMIT
         if: github.event_name != 'push'
+        env:
+          # Il MIMIT non risponde ai server di GitHub (USA): i file passano dal ponte
+          # su AWS a Francoforte (cartella ponte/). Senza questi secret si scarica diretto.
+          MIMIT_PONTE_URL: ${{ secrets.MIMIT_PONTE_URL }}
+          MIMIT_PONTE_CHIAVE: ${{ secrets.MIMIT_PONTE_CHIAVE }}
         run: python -m pipeline
 
       - name: Costruisci il sito

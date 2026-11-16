@@ -116,6 +116,12 @@ non vengono eseguiti.
 Orario: l'11/11/2026 il MIMIT ha pubblicato i file alle 07:45–07:51 UTC (intestazione `Last-Modified`).
 L'Action parte più tardi per avere margine e si può anche avviare a mano.
 
+Da dove si scarica: il sito del MIMIT risponde solo alle connessioni dall'Europa, e i server
+di GitHub Actions sono negli USA (dal 12 al 15/11/2026 ogni download dall'Action è andato in
+timeout). Per questo l'Action scarica tramite il **ponte**, una funzione AWS Lambda a
+Francoforte che restituisce i due file compressi: vedi [`ponte/README.md`](../ponte/README.md).
+Sul Mac, senza le variabili del ponte, si scarica direttamente dal MIMIT.
+
 ## 5. Il sito
 
 Statico, generato da Python con Jinja2 in `dist/`, pubblicato su GitHub Pages.

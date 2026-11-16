@@ -26,6 +26,8 @@ python3 -m http.server -d dist      # anteprima su http://localhost:8000
 
 L'Action `.github/workflows/aggiorna.yml` gira ogni giorno alle 9:30 UTC, a mano con
 "Run workflow" e a ogni push su `main` (in quel caso ricostruisce solo il sito).
+Il MIMIT risponde solo dall'Europa, mentre GitHub è negli USA: l'Action scarica i file
+tramite un piccolo «ponte» su AWS a Francoforte ([`ponte/`](ponte/README.md)).
 Se il MIMIT non ha ancora pubblicato i dati o il formato cambia, l'Action fallisce con un
 messaggio che spiega il motivo e non pubblica niente: resta online il sito del giorno prima.
 
