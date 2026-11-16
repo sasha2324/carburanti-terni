@@ -158,6 +158,30 @@ con un `.tar.gz` per trimestre (da marzo 2015), che contiene un CSV dei prezzi p
 - Importati l'11/11/2026: aprile–settembre 2026 (182 giorni; nell'archivio manca il 5 settembre).
   Restano senza dati 1° ottobre – 9 novembre 2026, finché non esce l'archivio del quarto trimestre.
 
+## 5 ter. La pagina «Come funziona»
+
+`come-funziona.html` spiega il percorso dei dati con uno schema animato, da linkare anche dalla
+scheda del portfolio. Approvata da Sasha il 17/11/2026.
+
+- **I 5 passi veri**: dati del MIMIT (2 CSV) → download → pulizia → file JSON nel repository →
+  la GitHub Action costruisce e pubblica il sito. Il download oggi si fa **a mano dal Mac**
+  (vedi «Da dove si scarica»): quando il ponte sarà installato, va cambiato il testo del passo 2.
+- **Numeri veri**: li calcola Python durante la build (`sito/data_path.py`) dall'ultimo file e da
+  tutto lo storico (prezzi tenuti, scartati e perché, giorni salvati). Il browser non scarica niente.
+- **Interazione**: un clic su un passo apre il pannello con 2–3 frasi e i numeri; Indietro/Avanti;
+  frecce della tastiera come nelle schede della classifica. Senza JavaScript i 5 passi sono un elenco.
+- **Movimento**: i «pacchetti» girano in un ciclo con animazioni CSS. Con «riduci movimento» sono
+  fermi; il pulsante Pausa ferma tutto anche per chi non ha l'impostazione.
+- **Tema scuro solo in questa pagina**: segue l'impostazione del telefono (`<html data-tema="auto">`).
+  Per estenderlo a tutto il sito basta mettere l'attributo nelle altre pagine e controllarle.
+- **Riferimenti**: il DESIGN.md del progetto vince. Dalle app di Dilum Sanjaya (screenshot mandati da
+  Sasha): etichette «PASSO 3 DI 5», pannello a destra, sfondo a puntini, Indietro/Avanti.
+  Da kinetics.colorion.co: «Step Progress» (il passo scelto si ingrandisce, 0,4 s), «Stagger
+  Entrance» (il testo entra di 14 px, 0,45 s, `cubic-bezier(0.16, 1, 0.3, 1)`), «Tab Pill Glide»
+  (`cubic-bezier(0.65, 0, 0.35, 1)` per i pacchetti). Da 21st.dev solo idee, niente codice:
+  pacchetti lungo i collegamenti («CPU Architecture»), testo che entra dalla direzione del movimento
+  («Rail Panel Sidebar»).
+
 ## 6. Struttura
 
 ```

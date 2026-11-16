@@ -12,7 +12,8 @@ Scelte, formato dei dati e regole di pulizia: `docs/progetto.md`.
 - Il MIMIT risponde solo dall'Europa, GitHub è negli USA. Il ponte AWS in `ponte/` è pronto ma
   non installato (l'utente non vuole spendere): l'orario dell'Action è spento dal 16/11/2026 e
   i dati si aggiornano dal Mac con `python -m pipeline` + commit + push.
-  Per riaccendere: `ponte/README.md`, secret `MIMIT_PONTE_URL`, poi `schedule` nel workflow.
+  Per riaccendere: `ponte/README.md`, secret `MIMIT_PONTE_URL`, poi `schedule` nel workflow,
+  e cambiare il passo 2 (Download) della pagina «Come funziona».
 
 ## Regole di lavoro
 
