@@ -1,7 +1,7 @@
 # Prezzi carburanti a Terni
 
-**Cosa fa:** mostra i prezzi dei carburanti dei distributori del comune di Terni, aggiornati
-ogni mattina dagli open data del Ministero delle Imprese e del Made in Italy (MIMIT):
+**Cosa fa:** mostra i prezzi dei carburanti dei distributori del comune di Terni, presi
+dagli open data del Ministero delle Imprese e del Made in Italy (MIMIT):
 classifica dei più economici (benzina e gasolio, self e servito), mappa, andamento dei prezzi
 di ogni distributore e quale giorno della settimana conviene.
 
@@ -9,7 +9,8 @@ di ogni distributore e quale giorno della settimana conviene.
 e OpenStreetMap per la mappa, test con pytest. Niente server né database: una GitHub Action
 salva un file JSON del giorno in `data/` e pubblica il sito su GitHub Pages.
 
-**Stato:** online e aggiornato ogni giorno: <https://sasha2324.github.io/carburanti-terni/>.
+**Stato:** online: <https://sasha2324.github.io/carburanti-terni/>. L'aggiornamento automatico
+è in pausa (vedi sotto): per ora i dati si aggiornano a mano dal Mac.
 Scelte di progetto e formato dei dati in [`docs/progetto.md`](docs/progetto.md).
 
 ## Avviarlo
@@ -24,10 +25,21 @@ python3 -m http.server -d dist      # anteprima su http://localhost:8000
 
 ## Aggiornamento automatico
 
-L'Action `.github/workflows/aggiorna.yml` gira ogni giorno alle 9:30 UTC, a mano con
-"Run workflow" e a ogni push su `main` (in quel caso ricostruisce solo il sito).
-Il MIMIT risponde solo dall'Europa, mentre GitHub è negli USA: l'Action scarica i file
-tramite un piccolo «ponte» su AWS a Francoforte ([`ponte/`](ponte/README.md)).
+L'Action `.github/workflows/aggiorna.yml` gira a mano con "Run workflow" e a ogni push su
+`main` (in quel caso ricostruisce solo il sito).
+
+**In pausa dal 16/11/2026.** Il MIMIT risponde solo dall'Europa, mentre GitHub è negli USA:
+da lì il download va sempre in timeout. La soluzione pronta è un piccolo «ponte» su AWS a
+Francoforte ([`ponte/`](ponte/README.md)), non ancora installato. Nel frattempo l'orario
+giornaliero è spento e i dati si aggiornano dal Mac:
+
+```sh
+.venv/bin/python -m pipeline   # salva data/<giorno>.json
+git add data/ && git commit -m "Dati: estrazione del <giorno>" && git push   # l'Action pubblica
+```
+
+Per riaccendere l'aggiornamento automatico: installare il ponte, mettere il secret
+`MIMIT_PONTE_URL` e togliere il commento da `schedule` nel workflow.
 Se il MIMIT non ha ancora pubblicato i dati o il formato cambia, l'Action fallisce con un
 messaggio che spiega il motivo e non pubblica niente: resta online il sito del giorno prima.
 

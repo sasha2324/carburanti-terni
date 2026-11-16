@@ -5,8 +5,11 @@
 name: Aggiorna prezzi e sito
 
 on:
-  schedule:
-    - cron: "30 9 * * *" # ogni giorno alle 9:30 UTC (10:30 ora solare, 11:30 ora legale)
+  # Orario spento dal 16/11/2026: il MIMIT non risponde ai server di GitHub (USA) e il ponte
+  # su AWS non è installato. I dati si aggiornano dal Mac (python -m pipeline + push).
+  # Per riaccenderlo, togliere il # dalle due righe qui sotto.
+  # schedule:
+  #   - cron: "30 9 * * *" # ogni giorno alle 9:30 UTC (10:30 ora solare, 11:30 ora legale)
   workflow_dispatch: # pulsante "Run workflow" per avviarla a mano
   push:
     branches: [main] # dopo una modifica al codice: solo test, costruzione e pubblicazione

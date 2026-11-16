@@ -9,8 +9,10 @@ Scelte, formato dei dati e regole di pulizia: `docs/progetto.md`.
 - Aggiornare i dati (scarica dal MIMIT e salva `data/<estrazione>.json`): `.venv/bin/python -m pipeline`
 - Importare un trimestre dall'archivio storico: `.venv/bin/python -m pipeline.archivio FILE.tar.gz`
 - Costruire il sito in `dist/`: `.venv/bin/python -m sito.build`
-- Il MIMIT risponde solo dall'Europa: l'Action scarica tramite il ponte AWS in `ponte/`
-  (secret `MIMIT_PONTE_URL` e `MIMIT_PONTE_CHIAVE`). Installazione e chiave: `ponte/README.md`.
+- Il MIMIT risponde solo dall'Europa, GitHub è negli USA. Il ponte AWS in `ponte/` è pronto ma
+  non installato (l'utente non vuole spendere): l'orario dell'Action è spento dal 16/11/2026 e
+  i dati si aggiornano dal Mac con `python -m pipeline` + commit + push.
+  Per riaccendere: `ponte/README.md`, secret `MIMIT_PONTE_URL`, poi `schedule` nel workflow.
 
 ## Regole di lavoro
 
