@@ -1,6 +1,9 @@
 """Numeri e date in italiano, senza dipendere dalla lingua del computer che costruisce il sito."""
 
 from datetime import date, datetime
+from zoneinfo import ZoneInfo
+
+ROME = ZoneInfo("Europe/Rome")
 
 MESI = [
     "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno",
@@ -45,6 +48,11 @@ def data_breve(iso: str) -> str:
     """"2026-11-09T20:00:07" -> "9 nov, 20:00"."""
     momento = datetime.fromisoformat(iso)
     return f"{momento.day} {MESI_BREVI[momento.month - 1]}, {momento:%H:%M}"
+
+
+def rome_time(iso_with_zone: str) -> str:
+    """"2026-11-16T12:53:26+00:00" (UTC) -> "16 nov, 13:53" (Italian time, summer time included)."""
+    return data_breve(datetime.fromisoformat(iso_with_zone).astimezone(ROME).replace(tzinfo=None).isoformat())
 
 
 def data_lunga(iso: str) -> str:
