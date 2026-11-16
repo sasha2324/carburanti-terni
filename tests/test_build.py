@@ -139,6 +139,7 @@ def sito(tmp_path):
 def test_genera_tutte_le_pagine(sito):
     pagine = sorted(p.relative_to(sito).as_posix() for p in sito.rglob("*.html"))
     assert pagine == [
+        "come-funziona.html",
         "distributore/1.html",
         "distributore/2.html",
         "distributore/3.html",
@@ -146,6 +147,31 @@ def test_genera_tutte_le_pagine(sito):
         "index.html",
         "mappa.html",
     ]
+
+
+def test_how_it_works_shows_the_five_steps(sito):
+    html = (sito / "come-funziona.html").read_text(encoding="utf-8")
+    for n in range(1, 6):
+        assert f'id="passo-{n}"' in html
+        assert f"Passo {n} di 5" in html
+
+
+def test_how_it_works_shows_the_real_numbers_of_the_last_run(sito):
+    html = (sito / "come-funziona.html").read_text(encoding="utf-8")
+    assert "11 nov, 10:30" in html  # generated at 09:30 UTC = 10:30 in Italy
+    assert "2026-11-11.json" in html
+    assert "<dd>3</dd>" in html  # stations
+    assert "<dd>2</dd>" in html  # stations with a price, kept prices, saved days
+
+
+def test_every_page_links_to_how_it_works(sito):
+    for pagina in sito.rglob("*.html"):
+        assert "come-funziona.html" in pagina.read_text(encoding="utf-8"), pagina
+
+
+def test_only_how_it_works_follows_the_dark_mode_of_the_phone(sito):
+    assert 'data-tema="auto"' in (sito / "come-funziona.html").read_text(encoding="utf-8")
+    assert 'data-tema="auto"' not in (sito / "index.html").read_text(encoding="utf-8")
 
 
 def test_ogni_pagina_cita_fonte_e_licenza(sito):

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="it">
+<html lang="it"{% block html_attributi %}{% endblock %}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,6 +20,7 @@
           <li><a href="{{ radice }}index.html"{% if pagina == "classifica" %} aria-current="page"{% endif %}>Classifica</a></li>
           <li><a href="{{ radice }}mappa.html"{% if pagina == "mappa" %} aria-current="page"{% endif %}>Mappa</a></li>
           <li><a href="{{ radice }}giorno-della-settimana.html"{% if pagina == "giorno" %} aria-current="page"{% endif %}>Giorno della settimana</a></li>
+          <li><a href="{{ radice }}come-funziona.html"{% if pagina == "come-funziona" %} aria-current="page"{% endif %}>Come funziona</a></li>
         </ul>
       </nav>
     </div>

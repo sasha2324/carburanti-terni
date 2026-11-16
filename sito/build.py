@@ -11,6 +11,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from sito.analisi import CATEGORIE, classifica, giorno_della_settimana, storico
+from sito.data_path import path_numbers
 from sito.formato import (
     GIORNI,
     GIORNI_BREVI,
@@ -20,6 +21,7 @@ from sito.formato import (
     data_lunga,
     prezzo_parti,
     prezzo_testo,
+    rome_time,
 )
 from sito.grafico import grafico_barre, grafico_linee
 
@@ -59,6 +61,7 @@ def costruisci(cartella_dati: Path, uscita: Path) -> None:
         data_breve=data_breve,
         data_lunga=data_lunga,
         data_giorno_mese=data_giorno_mese,
+        rome_time=rome_time,
         comune=comune_leggibile,
         nome=nome_impianto,
     )
@@ -97,6 +100,9 @@ def costruisci(cartella_dati: Path, uscita: Path) -> None:
     for etichetta, risultato in analisi["categorie"].items():
         risultato["svg"] = grafico_barre(risultato["centesimi"], GIORNI_BREVI, titolo=etichetta)
     scrivi("giorno-della-settimana.html", "giorno.html", pagina="giorno", analisi=analisi, nomi_giorni=GIORNI)
+
+    # The animated explanation of the data path, with the real numbers of the last run.
+    scrivi("come-funziona.html", "how-it-works.html", pagina="come-funziona", numbers=path_numbers(giorni))
 
     for impianto in oggi["impianti"]:
         grafici = []
