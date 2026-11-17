@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_path_panels.html" import PASSI, pannelli %}
 
 {# Only this page follows the dark mode of the phone (see style.css, data-tema="auto"). #}
 {% block html_attributi %} data-tema="auto"{% endblock %}
@@ -12,13 +13,7 @@
 {% endblock %}
 
 {% block contenuto %}
-{% set passi = [
-  {"nome": "MIMIT", "titolo": "I dati del Ministero", "icona": "file"},
-  {"nome": "Download", "titolo": "Il download", "icona": "download"},
-  {"nome": "Pulizia", "titolo": "La pulizia", "icona": "filtro"},
-  {"nome": "File JSON", "titolo": "Il file del giorno", "icona": "json"},
-  {"nome": "Sito", "titolo": "Il sito", "icona": "sito"},
-] %}
+{% set passi = PASSI %}
 
 {% macro icona(nome) %}
 <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false">
@@ -34,23 +29,6 @@
   <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 17v-3M12 17v-5M16 17v-2"/>
   {% endif %}
 </svg>
-{% endmacro %}
-
-{# One panel: label "Passo n di 5", title, the content written below, Back/Next (shown by the script). #}
-{% macro dettagli(n, passi) %}
-<section class="passo-dettagli" id="passo-{{ n }}" aria-labelledby="passo-{{ n }}-titolo">
-  <p class="etichetta">Passo {{ n }} di {{ passi | length }}</p>
-  <h3 id="passo-{{ n }}-titolo">{{ passi[n - 1].titolo }}</h3>
-  {{ caller() }}
-  <div class="passo-azioni" hidden>
-    {% if n > 1 %}
-    <button type="button" class="pulsante-contorno" data-vai="{{ n - 2 }}">‹ Indietro</button>
-    {% endif %}
-    {% if n < passi | length %}
-    <button type="button" class="pulsante-contorno avanti" data-vai="{{ n }}">Avanti: {{ passi[n].nome }} ›</button>
-    {% endif %}
-  </div>
-</section>
 {% endmacro %}
 
 <section class="fascia fascia-bassa">
@@ -93,53 +71,7 @@
     </div>
 
     <div class="percorso-pannello" data-pannello>
-      {% call dettagli(1, passi) %}
-      <p>Ogni giorno il Ministero delle Imprese e del Made in Italy (MIMIT) pubblica due file CSV: l'elenco dei distributori d'Italia e i loro prezzi alle 8 del mattino. Sono open data: chiunque può scaricarli e usarli.</p>
-      <dl class="numeri">
-        <div><dt>File</dt><dd>2 CSV</dd></div>
-        <div class="numero-testo"><dt>Prezzi delle 8 di</dt><dd>{{ numbers.date | data_giorno_mese }} {{ numbers.date[:4] }}</dd></div>
-      </dl>
-      {% endcall %}
-
-      {% call dettagli(2, passi) %}
-      <p>Per ora i file si scaricano a mano, da un Mac in Italia. Il sito del MIMIT risponde solo a chi si collega dall'Europa, mentre i server di GitHub sono negli Stati Uniti: per questo l'aggiornamento automatico è in pausa.</p>
-      <dl class="numeri">
-        <div class="numero-testo"><dt>Ultimo download</dt><dd>{{ numbers.generated | rome_time }}</dd></div>
-        <div class="numero-testo"><dt>Da dove</dt><dd>un Mac in Italia</dd></div>
-      </dl>
-      {% endcall %}
-
-      {% call dettagli(3, passi) %}
-      <p>Uno script Python tiene solo i distributori del comune di Terni. Poi scarta i prezzi comunicati da più di 7 giorni e quelli che non possono essere veri, come 0,10 € o 1,199 scritto al posto di 2,199. Ogni prezzo scartato resta nel file, con il motivo.</p>
-      <dl class="numeri">
-        <div><dt>Prezzi tenuti</dt><dd>{{ numbers.prices }}</dd></div>
-        <div><dt>Prezzi scartati</dt><dd>{{ numbers.removed_last }}</dd></div>
-      </dl>
-      <p class="numeri-nota">In tutti i {{ numbers.days }} giorni salvati, {{ numbers.removed_total }} prezzi scartati:</p>
-      <ul class="motivi">
-        {% for motivo, quanti in numbers.removed_by_reason %}
-        <li><strong>{{ quanti }}</strong> {{ motivo }}</li>
-        {% endfor %}
-      </ul>
-      {% endcall %}
-
-      {% call dettagli(4, passi) %}
-      <p>Il risultato è un file JSON, un testo con una struttura precisa che i programmi leggono facilmente. Ha la data nel nome e si salva nel repository su GitHub: così resta lo storico di ogni giorno.</p>
-      <dl class="numeri">
-        <div class="numero-testo"><dt>Ultimo file</dt><dd>{{ numbers.file }}</dd></div>
-        <div><dt>Giorni salvati</dt><dd>{{ numbers.days }}</dd></div>
-      </dl>
-      <p class="numeri-nota">Lo storico parte dal {{ numbers.first_day | data_giorno_mese }} {{ numbers.first_day[:4] }}.</p>
-      {% endcall %}
-
-      {% call dettagli(5, passi) %}
-      <p>A ogni salvataggio su GitHub, una GitHub Action esegue i test, costruisce le pagine con Python e le pubblica su GitHub Pages. Niente server e niente database: solo pagine statiche, veloci da aprire.</p>
-      <dl class="numeri">
-        <div><dt>Distributori</dt><dd>{{ numbers.stations }}</dd></div>
-        <div><dt>Con un prezzo</dt><dd>{{ numbers.stations_with_prices }}</dd></div>
-      </dl>
-      <p class="numeri-nota">Pagine: <a href="{{ radice }}index.html">classifica</a>, <a href="{{ radice }}mappa.html">mappa</a>, <a href="{{ radice }}giorno-della-settimana.html">giorno della settimana</a> e una per ogni distributore.</p>
-      {% endcall %}
+      {{ pannelli(numbers, radice, passi) }}
     </div>
   </div>
 </section>

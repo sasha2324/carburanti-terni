@@ -1,9 +1,13 @@
 // The whole scene: an isometric camera, soft light and shadows, the five steps and the pipes.
-// Step 2 of v2: the movement. It runs only while the scene is on screen and not paused;
-// with "reduce motion" the scene is a still image of the final state.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
+// Step 3 of v2: the interaction. Hover (or keyboard focus) lights an object up; a click
+// moves the camera close and opens the panel of that step, with the real numbers.
+// The panels are normal page HTML made by Python (the same as version 1): this file
+// only shows the chosen one.
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
+import CameraRig from "./CameraRig.jsx";
+import Selectable from "./Selectable.jsx";
 import { POSITIONS } from "./layout.js";
 import { MotionContext } from "./motion.js";
 import { readPalette } from "./palette.js";
@@ -15,35 +19,11 @@ import PetrolStation from "./objects/PetrolStation.jsx";
 import Pipeline from "./objects/Pipeline.jsx";
 import Flow from "./objects/Flow.jsx";
 
-const NAMES = ["MIMIT", "Download", "Pulizia", "File JSON", "Sito"];
-
-// How big the scene looks on screen, in scene units: the camera zooms so all of it fits.
-const VIEW = { width: 21.8, height: 7.6 };
-const LOOK_AT = [0, 0.1, 0];
-
 // Where each name goes: in front of the step, on the ground.
 const LABEL_POINTS = POSITIONS.map(([x, , z]) => new Vector3(x + 1.4, 0, z + 1.4));
 
-/** Zooms the camera to fit, and tells the page where the names go on screen. */
-function FitCamera({ onLabels }) {
-  const camera = useThree((state) => state.camera);
-  const size = useThree((state) => state.size);
-  const invalidate = useThree((state) => state.invalidate);
-  useLayoutEffect(() => {
-    camera.zoom = Math.min(size.width / VIEW.width, size.height / VIEW.height);
-    camera.lookAt(...LOOK_AT);
-    camera.updateProjectionMatrix();
-    camera.updateMatrixWorld();
-    onLabels(
-      LABEL_POINTS.map((point) => {
-        const p = point.clone().project(camera);
-        return { left: ((p.x + 1) / 2) * size.width, top: ((1 - p.y) / 2) * size.height };
-      })
-    );
-    invalidate();
-  }, [camera, size, invalidate, onLabels]);
-  return null;
-}
+// On wide screens the panel covers the right part of the scene: 20rem + margins (style.css).
+const PANEL_SIDE = 344;
 
 /** The ground only shows the shadows: the page's mint panel stays visible behind. */
 function Ground() {
@@ -55,16 +35,16 @@ function Ground() {
   );
 }
 
-/** true when the visitor asked their device for less motion (it can change while the page is open). */
-function useReducedMotion() {
-  const query = useMemo(() => matchMedia("(prefers-reduced-motion: reduce)"), []);
-  const [reduced, setReduced] = useState(query.matches);
+/** true while a media query matches (it can change while the page is open). */
+function useMedia(text) {
+  const query = useMemo(() => matchMedia(text), [text]);
+  const [matches, setMatches] = useState(query.matches);
   useEffect(() => {
-    const update = () => setReduced(query.matches);
+    const update = () => setMatches(query.matches);
     query.addEventListener("change", update);
     return () => query.removeEventListener("change", update);
   }, [query]);
-  return reduced;
+  return matches;
 }
 
 /** true while at least a bit of the element is on screen: no drawing when nobody sees it. */
@@ -78,15 +58,125 @@ function useOnScreen(ref) {
   return onScreen;
 }
 
-export default function App({ numbers }) {
+/** The step in the address (#passo-3 → 2), so a link can open a step directly. */
+function stepFromAddress(count) {
+  const match = location.hash.match(/^#passo-(\d)$/);
+  const n = match ? Number(match[1]) - 1 : -1;
+  return n >= 0 && n < count ? n : null;
+}
+
+/**
+ * Shows the chosen panel (or none), and wires its buttons: Back/Next and close.
+ * The panels are outside React, in the page made by Python.
+ */
+function usePanels(box, selected, choose) {
+  const panels = useMemo(() => Array.from(box.querySelectorAll(".passo-dettagli")), [box]);
+  const previous = useRef(selected);
+
+  useEffect(() => {
+    box.querySelectorAll(".passo-azioni, [data-chiudi]").forEach((element) => (element.hidden = false));
+    const onClick = (event) => {
+      const go = event.target.closest("[data-vai]");
+      if (go) choose(Number(go.dataset.vai), { focus: go.classList.contains("avanti") ? "avanti" : "indietro" });
+      if (event.target.closest("[data-chiudi]")) choose(null, { focus: "name" });
+    };
+    box.addEventListener("click", onClick);
+    return () => box.removeEventListener("click", onClick);
+  }, [box, choose]);
+
+  useEffect(() => {
+    box.hidden = selected == null;
+    box.dataset.direzione = selected != null && previous.current != null && selected < previous.current ? "indietro" : "avanti";
+    panels.forEach((panel, i) => {
+      panel.hidden = i !== selected;
+      panel.classList.remove("entra");
+    });
+    if (selected != null) {
+      void panels[selected].offsetWidth; // restart the entrance animation
+      panels[selected].classList.add("entra");
+    }
+    previous.current = selected;
+    const address = selected == null ? location.pathname + location.search : `#${panels[selected].id}`;
+    history.replaceState(null, "", address);
+  }, [box, panels, selected]);
+
+  return panels;
+}
+
+export default function App({ numbers, panelBox }) {
   const colors = useMemo(() => readPalette(), []);
-  const [labels, setLabels] = useState([]);
+  const names = useMemo(() => Array.from(panelBox.querySelectorAll(".passo-dettagli"), (p) => p.dataset.nome), [panelBox]);
+  const [selected, setSelected] = useState(() => stepFromAddress(names.length));
+  const [hovered, setHovered] = useState(null);
   const [paused, setPaused] = useState(false);
   const box = useRef();
-  const still = useReducedMotion();
+  const labels = useRef([]);
+  const still = useMedia("(prefers-reduced-motion: reduce)");
+  const wide = useMedia("(min-width: 64rem)");
   const onScreen = useOnScreen(box);
   const moving = !still && !paused && onScreen;
-  const motion = useMemo(() => ({ still }), [still]);
+  const motion = useMemo(() => ({ still, moving }), [still, moving]);
+  const side = wide && selected != null ? PANEL_SIDE : 0;
+
+  const current = useRef(selected);
+  current.current = selected;
+
+  // Choose a step (or null for the overview). `focus` says where the keyboard focus goes next.
+  const choose = useCallback(
+    (index, { focus } = {}) => {
+      const before = current.current;
+      setSelected(index);
+      // After the page has shown the new panel:
+      requestAnimationFrame(() => {
+        if (focus === "name" && before != null) labels.current[before]?.focus();
+        if (focus === "avanti" || focus === "indietro") {
+          const buttons = Array.from(panelBox.querySelectorAll(`#passo-${index + 1} [data-vai]`));
+          const same = buttons.find((b) => b.classList.contains("avanti") === (focus === "avanti"));
+          (same || buttons[0])?.focus();
+        }
+        // On narrow screens the panel is under the scene: bring it into view.
+        if (index != null && focus !== "name" && !wide) {
+          panelBox.scrollIntoView({ block: "nearest", behavior: still ? "auto" : "smooth" });
+        }
+      });
+    },
+    [panelBox, wide, still]
+  );
+
+  usePanels(panelBox, selected, choose);
+
+  // Esc closes the panel and puts the focus back on the name of that step.
+  useEffect(() => {
+    if (selected == null) return undefined;
+    const onKey = (event) => {
+      if (event.key === "Escape") choose(null, { focus: "name" });
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [selected, choose]);
+
+  // The hand cursor over an object you can click.
+  useEffect(() => {
+    document.body.style.cursor = hovered != null ? "pointer" : "";
+    return () => (document.body.style.cursor = "");
+  }, [hovered]);
+
+  const objects = [
+    <Ministry colors={colors} />,
+    <Pump colors={colors} />,
+    <Filter colors={colors} />,
+    <StorageTank colors={colors} days={numbers.days} />,
+    <PetrolStation colors={colors} prices={numbers.cheapest} date={numbers.generated_text.split(",")[0]} />,
+  ];
+
+  const onNameKey = (event, i) => {
+    const keys = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: names.length - 1 };
+    if (!(event.key in keys)) return;
+    event.preventDefault();
+    const next = Math.min(Math.max(keys[event.key], 0), names.length - 1);
+    choose(next);
+    labels.current[next]?.focus();
+  };
 
   return (
     <div className="scena-tela" ref={box}>
@@ -98,9 +188,10 @@ export default function App({ numbers }) {
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
         camera={{ position: [20, 20, 20], near: 0.1, far: 100, zoom: 40 }}
+        onPointerMissed={(event) => event.button === 0 && choose(null)}
       >
         <MotionContext.Provider value={motion}>
-          <FitCamera onLabels={setLabels} />
+          <CameraRig selected={selected} side={side} positions={POSITIONS} labelPoints={LABEL_POINTS} labels={labels} />
           <hemisphereLight args={["#ffffff", colors.mint200, 1.5]} />
           <directionalLight
             position={[-6, 14, 9]}
@@ -120,29 +211,35 @@ export default function App({ numbers }) {
           <Ground />
           <Pipeline colors={colors} />
           <Flow colors={colors} />
-          <group position={POSITIONS[0]}>
-            <Ministry colors={colors} />
-          </group>
-          <group position={POSITIONS[1]}>
-            <Pump colors={colors} />
-          </group>
-          <group position={POSITIONS[2]}>
-            <Filter colors={colors} />
-          </group>
-          <group position={POSITIONS[3]}>
-            <StorageTank colors={colors} days={numbers.days} />
-          </group>
-          <group position={POSITIONS[4]}>
-            <PetrolStation colors={colors} prices={numbers.cheapest} date={numbers.generated_text.split(",")[0]} />
-          </group>
+          {objects.map((object, i) => (
+            <group key={names[i]} position={POSITIONS[i]}>
+              <Selectable index={i} glow={hovered === i ? 0.55 : selected === i ? 0.3 : 0} onHover={setHovered} onChoose={choose}>
+                {object}
+              </Selectable>
+            </group>
+          ))}
         </MotionContext.Provider>
       </Canvas>
 
-      {/* the names of the steps: normal page text, placed over the scene */}
+      {/* the names of the steps: real buttons over the scene, so the keyboard works too */}
       <ol className="scena-etichette">
-        {labels.map((spot, i) => (
-          <li key={NAMES[i]} className="scena-etichetta" style={{ left: spot.left, top: spot.top }}>
-            {NAMES[i]}
+        {names.map((name, i) => (
+          <li key={name}>
+            <button
+              type="button"
+              ref={(element) => (labels.current[i] = element)}
+              className="scena-etichetta"
+              aria-controls={`passo-${i + 1}`}
+              aria-expanded={selected === i}
+              onClick={() => choose(selected === i ? null : i)}
+              onKeyDown={(event) => onNameKey(event, i)}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              onFocus={() => setHovered(i)}
+              onBlur={() => setHovered(null)}
+            >
+              {name}
+            </button>
           </li>
         ))}
       </ol>

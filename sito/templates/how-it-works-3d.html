@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+{% from "_path_panels.html" import PASSI, pannelli %}
 
 {# Version 2 of "Come funziona", in 3D. A test page: not in the menu and not in search engines
-   until Sasha approves it. Version 1 (come-funziona.html) stays as it is. #}
+   until Sasha approves it. Version 1 (come-funziona.html) stays as it is.
+   Without JavaScript or WebGL the five panels are a simple list under the scene. #}
 {% block html_attributi %} data-tema="auto"{% endblock %}
 
 {% block titolo %}Come funziona (3D, prova){% endblock %}
@@ -21,9 +23,17 @@
 
 <section class="contenitore sezione" aria-labelledby="scena-titolo">
   <h2 id="scena-titolo" class="etichetta">Il percorso dei dati, in 3D</h2>
-  <div class="scena-3d" id="scena-3d">
-    <p class="scena-attesa">Carico la scena 3D…</p>
+  <p class="sezione-testo scena-istruzioni">Tocca un oggetto o un nome per vedere cosa succede in quel passo. I numeri sono quelli dell'ultimo aggiornamento: prezzi delle 8 di {{ numbers_3d.date | data_lunga }}.</p>
+
+  <div class="scena" id="scena">
+    <div class="scena-3d" id="scena-3d">
+      <p class="scena-attesa">La scena 3D ha bisogno di JavaScript. Qui sotto trovi tutti i passi.</p>
+    </div>
+    <div class="scena-pannelli" id="scena-pannelli">
+      {{ pannelli(numbers_3d, radice, PASSI, chiudi=true) }}
+    </div>
   </div>
+
   <p class="sezione-testo scena-nota">Versione di prova. Lo schema in 2D è qui: <a href="{{ radice }}come-funziona.html">come funziona</a>.</p>
 </section>
 

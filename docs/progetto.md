@@ -200,6 +200,14 @@ la versione 1 resta com'è. Si fa a passi: 1) solo gli oggetti, 2) il movimento,
   prezzi veri («Odometer Count-up» di kinetics.colorion.co, 1,4 s). Si muove solo quando la scena
   è sullo schermo e non in pausa (pulsante Pausa); con «riduci movimento» è un'immagine ferma
   dello stato finale.
+- Interazione (passo 3): passando sopra un oggetto (o col focus sul suo nome) si illumina; con un
+  clic la camera si avvicina in 0,8 s (con «riduci movimento» salta) e si apre il pannello di quel
+  passo, a destra sopra la scena sugli schermi larghi, sotto sui telefoni. I pannelli sono gli
+  stessi della versione 1: stanno in `sito/templates/_path_panels.html`, usato da tutte e due.
+  I nomi dei passi sono pulsanti veri (Tab, frecce, Invio); Esc, ✕ o un clic sul vuoto chiudono.
+  Senza JavaScript o WebGL i cinque pannelli restano un elenco sotto la scena.
+- Da fare prima dell'approvazione: la vista d'insieme sul telefono (oggi troppo piccola) e i colori
+  degli oggetti nel tema scuro.
 - Prima della pubblicazione: aggiungere Node e la build di `scene-3d/` alla GitHub Action.
 
 ## 6. Struttura

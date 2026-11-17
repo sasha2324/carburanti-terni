@@ -179,6 +179,17 @@ def test_the_3d_version_gets_the_real_numbers_as_json(sito):
     assert numbers["generated_text"] == "11 nov, 10:30"
 
 
+def test_the_3d_version_has_the_same_five_panels_with_a_close_button(sito):
+    html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")
+    for n in range(1, 6):
+        assert f'id="passo-{n}"' in html
+        assert f"Passo {n} di 5" in html
+    assert html.count("data-chiudi") == 5
+    assert 'data-nome="MIMIT"' in html
+    assert "<dd>3</dd>" in html  # stations, as in version 1
+    assert "data-chiudi" not in (sito / "come-funziona.html").read_text(encoding="utf-8")
+
+
 def test_the_3d_version_is_a_hidden_test_page(sito):
     """Until Sasha approves it: not in the menu, not in search engines; version 1 stays."""
     html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")

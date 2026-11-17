@@ -1497,11 +1497,16 @@ strong {
 
 /* --- come-funziona-3d.html: version 2 in 3D (test page) ------------------- */
 
+/* The scene and its panels */
+.scena {
+  position: relative;
+  margin-top: var(--s-md);
+}
+
 /* Phones: a fixed height (a ratio plus a minimum height would make the box wider than the screen) */
 .scena-3d {
   position: relative;
   height: 340px;
-  margin-top: var(--s-md);
   overflow: hidden;
   border-radius: var(--r-xxxl);
   background-color: var(--mint-50);
@@ -1539,19 +1544,117 @@ strong {
   pointer-events: none;
 }
 
-/* The name of each step, as page text over the 3D scene */
+/* The name of each step: a real button over the 3D scene (keyboard and screen readers) */
 .scena-etichetta {
+  appearance: none;
   position: absolute;
   transform: translate(-50%, -50%);
-  padding: 2px 10px;
+  min-height: 28px;
+  padding: 4px 12px;
   background: var(--canvas);
   border: 1px solid var(--hairline-strong);
   border-radius: var(--r-lg);
   color: var(--ink);
+  font: inherit;
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
-  pointer-events: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.scena-etichetta:hover {
+  border-color: var(--primary);
+}
+
+/* The chosen step: green, like every active state in DESIGN.md */
+.scena-etichetta[aria-expanded="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--on-primary);
+}
+
+/* The panels: without JavaScript a list under the scene; with it, only the chosen one */
+.scena-pannelli {
+  display: grid;
+  gap: var(--s-md);
+  margin-top: var(--s-md);
+}
+
+.scena-pannelli[hidden] {
+  display: none;
+}
+
+.scena-pannelli .passo-dettagli {
+  position: relative;
+}
+
+.scena-chiudi {
+  position: absolute;
+  top: var(--s-sm);
+  right: var(--s-sm);
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: var(--canvas);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-lg);
+  color: var(--body);
+  font: inherit;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.scena-chiudi:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.scena-chiudi[hidden] {
+  display: none;
+}
+
+/* Wide screens: the panel floats on the right part of the scene (Elevation 3 in DESIGN.md) */
+@media (min-width: 64rem) {
+  .con-scena .scena-pannelli {
+    position: absolute;
+    top: var(--s-sm);
+    right: var(--s-sm);
+    bottom: var(--s-sm);
+    z-index: 2;
+    width: 20rem;
+    margin: 0;
+    overflow-y: auto;
+    align-content: start;
+    border-radius: var(--r-lg);
+  }
+
+  .con-scena .scena-pannelli .passo-dettagli {
+    padding: var(--s-lg);
+    box-shadow: rgba(100, 102, 106, 0.05) 0 4px 16px, rgba(100, 102, 104, 0.05) 0 16px 40px;
+  }
+
+  .con-scena .scena-pannelli .passo-dettagli > p {
+    font-size: 15px;
+  }
+
+  /* a bit taller, so most panels fit without scrolling */
+  .con-scena .scena-3d {
+    aspect-ratio: 11 / 5;
+  }
+}
+
+/* "2026-11-15.json" on one line in the narrow panel */
+.scena-pannelli .numeri .numero-testo dd {
+  font-size: 15px;
+  overflow-wrap: normal;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .con-scena .passo-dettagli.entra {
+    animation: dettagli-entra 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
 }
 
 .scena-nota {
@@ -1559,9 +1662,10 @@ strong {
   font-size: 14px;
 }
 
+/* Top left, so the panel on the right never covers it */
 .scena-pausa {
   position: absolute;
   top: var(--s-sm);
-  right: var(--s-sm);
+  left: var(--s-sm);
   background: var(--canvas);
 }
