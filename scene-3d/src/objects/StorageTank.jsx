@@ -1,17 +1,34 @@
 // Step 4, the JSON file: a glass storage tank. The level is real: saved days out of a year.
-import { useMemo } from "react";
-import { PIPE_Y, CONNECT } from "../layout.js";
+// When the scene starts, the tank fills up to that level; then small bubbles rise inside.
+import { useMemo, useRef } from "react";
+import { CONNECT, PIPE_Y } from "../layout.js";
+import { easeOutCubic, useTicker } from "../motion.js";
 import { Cylinder, Glass, Pad, Rod, Solid } from "../parts.jsx";
 import { plateTexture } from "../signs.js";
 
 const BOTTOM = 0.2;
 const HEIGHT = 1.5;
 const RADIUS = 0.7;
+const FILL_SECONDS = 2.2;
+const BUBBLES = 6;
 
 export default function StorageTank({ colors, days }) {
-  const fill = Math.min(Math.max(days / 365, 0.06), 1);
-  const liquid = (HEIGHT - 0.06) * fill;
+  const target = (HEIGHT - 0.06) * Math.min(Math.max(days / 365, 0.06), 1);
   const plate = useMemo(() => plateTexture("{ } JSON", { background: colors.white, color: colors.primaryDeep }), [colors]);
+  const liquid = useRef();
+  const bubbles = useRef([]);
+
+  useTicker((time) => {
+    const level = Math.max(target * easeOutCubic(time / FILL_SECONDS), 0.001);
+    liquid.current.scale.y = level;
+    liquid.current.position.y = BOTTOM + 0.03 + level / 2;
+    bubbles.current.forEach((bubble, k) => {
+      const rise = (time * 0.32 + k / BUBBLES) % 1;
+      const angle = k * 2.1;
+      bubble.position.set(Math.cos(angle) * 0.38, BOTTOM + 0.08 + rise * (level - 0.12), Math.sin(angle) * 0.38);
+      bubble.visible = level > 0.2;
+    });
+  });
 
   return (
     <group>
@@ -22,11 +39,17 @@ export default function StorageTank({ colors, days }) {
       <Rod from={[0, PIPE_Y, 0.4]} to={[0, PIPE_Y, CONNECT]} radius={0.13} color={colors.hairlineStrong} />
       <Rod from={[RADIUS - 0.05, PIPE_Y, 0]} to={[CONNECT, PIPE_Y, 0]} radius={0.13} color={colors.hairlineStrong} />
 
-      {/* the data inside, then the glass around it */}
-      <mesh position={[0, BOTTOM + 0.03 + liquid / 2, 0]} castShadow>
-        <cylinderGeometry args={[RADIUS - 0.04, RADIUS - 0.04, liquid, 14]} />
+      {/* the data inside (a cylinder 1 unit tall, scaled to the level), then the glass around it */}
+      <mesh ref={liquid} castShadow>
+        <cylinderGeometry args={[RADIUS - 0.04, RADIUS - 0.04, 1, 14]} />
         <Solid color={colors.lime} />
       </mesh>
+      {Array.from({ length: BUBBLES }, (_, k) => (
+        <mesh key={k} ref={(mesh) => (bubbles.current[k] = mesh)}>
+          <icosahedronGeometry args={[0.04, 0]} />
+          <Solid color={colors.white} />
+        </mesh>
+      ))}
       <mesh position={[0, BOTTOM + HEIGHT / 2, 0]}>
         <cylinderGeometry args={[RADIUS, RADIUS, HEIGHT, 14, 1, true]} />
         <Glass opacity={0.28} />

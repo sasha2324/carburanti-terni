@@ -1,9 +1,6 @@
 // Step 3, Cleaning: the filter. Wrong prices slide down a chute into a small bin.
-import { PIPE_Y, CONNECT } from "../layout.js";
+import { BASE, BIN, CHUTE, CONNECT, PIPE_Y } from "../layout.js";
 import { Box, Cylinder, Drop, Pad, Rod, Solid } from "../parts.jsx";
-
-const BASE = 0.12;
-const BIN = { x: 0.88, z: 0.85, size: 0.5, height: 0.34 };
 
 export default function Filter({ colors }) {
   const wall = 0.03;
@@ -27,7 +24,7 @@ export default function Filter({ colors }) {
       <Rod from={[0.46, PIPE_Y, 0]} to={[CONNECT, PIPE_Y, 0]} radius={0.13} color={colors.hairlineStrong} />
 
       {/* the chute and the bin of the wrong prices */}
-      <Rod from={[0.3, BASE + 0.55, 0.28]} to={[BIN.x - 0.12, BASE + BIN.height + 0.04, BIN.z - 0.12]} radius={0.05} color={colors.hairlineStrong} />
+      <Rod from={CHUTE.from} to={CHUTE.to} radius={0.05} color={colors.hairlineStrong} />
       <group position={[BIN.x, BASE, BIN.z]}>
         <Box at={[0, wall / 2, 0]} size={[BIN.size, wall, BIN.size]} color={colors.hairlineStrong} />
         <Box at={[0, BIN.height / 2, half]} size={[BIN.size, BIN.height, wall]} color={colors.hairlineStrong} />

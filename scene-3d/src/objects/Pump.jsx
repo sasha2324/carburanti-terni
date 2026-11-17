@@ -1,8 +1,16 @@
 // Step 2, Download: a pump with a valve, between the Ministry and the filter.
+import { useRef } from "react";
 import { PIPE_Y, CONNECT } from "../layout.js";
+import { useTicker } from "../motion.js";
 import { Box, Cylinder, Pad, Rod, Solid } from "../parts.jsx";
 
 export default function Pump({ colors }) {
+  const wheel = useRef();
+  // The valve wheel turns slowly while the data flows.
+  useTicker((time) => {
+    wheel.current.rotation.y = time * 0.9;
+  });
+
   return (
     <group>
       <Pad color={colors.white} />
@@ -18,12 +26,17 @@ export default function Pump({ colors }) {
       <Rod from={[0, PIPE_Y, 0.22]} to={[0, PIPE_Y, CONNECT]} radius={0.13} color={colors.hairlineStrong} />
       <Rod from={[0.3, PIPE_Y, 0]} to={[CONNECT, PIPE_Y, 0]} radius={0.13} color={colors.hairlineStrong} />
 
-      {/* the valve wheel on the pipe */}
+      {/* the valve wheel on the pipe, with three spokes so you can see it turn */}
       <Rod from={[0, PIPE_Y, 0.62]} to={[0, PIPE_Y + 0.38, 0.62]} radius={0.03} color={colors.body} />
-      <mesh position={[0, PIPE_Y + 0.38, 0.62]} rotation={[Math.PI / 2, 0, 0]} castShadow>
-        <torusGeometry args={[0.17, 0.03, 6, 12]} />
-        <Solid color={colors.primary} />
-      </mesh>
+      <group ref={wheel} position={[0, PIPE_Y + 0.38, 0.62]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <torusGeometry args={[0.17, 0.03, 6, 12]} />
+          <Solid color={colors.primary} />
+        </mesh>
+        {[0, 1, 2].map((k) => (
+          <Box key={k} at={[0, 0, 0]} size={[0.32, 0.025, 0.025]} rotation={[0, (k * Math.PI) / 3, 0]} color={colors.primary} />
+        ))}
+      </group>
     </group>
   );
 }

@@ -1558,3 +1558,10 @@ strong {
   margin-top: var(--s-sm);
   font-size: 14px;
 }
+
+.scena-pausa {
+  position: absolute;
+  top: var(--s-sm);
+  right: var(--s-sm);
+  background: var(--canvas);
+}

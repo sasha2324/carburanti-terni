@@ -194,6 +194,12 @@ la versione 1 resta com'è. Si fa a passi: 1) solo gli oggetti, 2) il movimento,
 - Oggetti fatti con forme semplici nel codice, colori presi dai token CSS: niente modelli 3D
   scaricati, niente file da server esterni. Il serbatoio del JSON si riempie in base ai giorni
   salvati (su 365); il cartello del distributore mostra i prezzi self più bassi dell'ultimo giorno.
+- Movimento (passo 2): gocce nei tubi di vetro del download, circa una su dieci è rossa e alla
+  pulizia scivola nel cestino (illustrativo: la quota vera è molto più bassa, la dicono i numeri);
+  il serbatoio si riempie fino al livello vero, poi salgono bollicine; il cartello conta fino ai
+  prezzi veri («Odometer Count-up» di kinetics.colorion.co, 1,4 s). Si muove solo quando la scena
+  è sullo schermo e non in pausa (pulsante Pausa); con «riduci movimento» è un'immagine ferma
+  dello stato finale.
 - Prima della pubblicazione: aggiungere Node e la build di `scene-3d/` alla GitHub Action.
 
 ## 6. Struttura

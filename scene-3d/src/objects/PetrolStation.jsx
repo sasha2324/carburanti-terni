@@ -1,13 +1,26 @@
 // Step 5, the website: a petrol station. Its sign shows the real cheapest prices.
-import { useMemo } from "react";
-import { PIPE_Y, CONNECT } from "../layout.js";
+// When the scene starts, the prices count up to the real ones, like an odometer.
+import { useMemo, useRef } from "react";
+import { BASE, CONNECT, PIPE_Y } from "../layout.js";
+import { easeOutCubic, useTicker } from "../motion.js";
 import { Box, Cylinder, Pad, Rod } from "../parts.jsx";
-import { priceSignTexture } from "../signs.js";
+import { createPriceSign } from "../signs.js";
 
-const BASE = 0.12;
+const COUNT_SECONDS = 1.4; // kinetics.colorion.co, "Odometer Count-up"
+const COUNT_FROM = 0.4; // the numbers start 0,400 € lower
 
 export default function PetrolStation({ colors, prices, date }) {
-  const sign = useMemo(() => priceSignTexture({ prices, date, colors }), [prices, date, colors]);
+  const sign = useMemo(() => createPriceSign({ date, colors }), [date, colors]);
+  const lastStep = useRef(-1);
+
+  useTicker((time) => {
+    const k = easeOutCubic(time / COUNT_SECONDS);
+    // Paint again only while the numbers change (a thousandth of a euro at a time).
+    const step = Math.round(k * 1000);
+    if (step === lastStep.current) return;
+    lastStep.current = step;
+    sign.draw(prices.map(([label, price]) => [label, price - COUNT_FROM * (1 - k)]));
+  });
 
   return (
     <group>
@@ -41,7 +54,7 @@ export default function PetrolStation({ colors, prices, date }) {
         <Box at={[0, 0.82, 0]} size={[0.6, 1.4, 0.1]} color={colors.white} />
         <mesh position={[0, 0.84, 0.051]}>
           <planeGeometry args={[0.56, 1.12]} />
-          <meshBasicMaterial map={sign} toneMapped={false} />
+          <meshBasicMaterial map={sign.texture} toneMapped={false} />
         </mesh>
       </group>
     </group>
