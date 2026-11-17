@@ -139,6 +139,7 @@ def sito(tmp_path):
 def test_genera_tutte_le_pagine(sito):
     pagine = sorted(p.relative_to(sito).as_posix() for p in sito.rglob("*.html"))
     assert pagine == [
+        "come-funziona-3d.html",
         "come-funziona.html",
         "distributore/1.html",
         "distributore/2.html",
@@ -167,6 +168,23 @@ def test_how_it_works_shows_the_real_numbers_of_the_last_run(sito):
 def test_every_page_links_to_how_it_works(sito):
     for pagina in sito.rglob("*.html"):
         assert "come-funziona.html" in pagina.read_text(encoding="utf-8"), pagina
+
+
+def test_the_3d_version_gets_the_real_numbers_as_json(sito):
+    html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")
+    start = html.index('<script type="application/json" id="numeri-3d">') + len('<script type="application/json" id="numeri-3d">')
+    numbers = json.loads(html[start : html.index("</script>", start)])
+    assert numbers["stations"] == 3
+    assert numbers["cheapest"] == [["Benzina self", 1.949]]
+    assert numbers["generated_text"] == "11 nov, 10:30"
+
+
+def test_the_3d_version_is_a_hidden_test_page(sito):
+    """Until Sasha approves it: not in the menu, not in search engines; version 1 stays."""
+    html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")
+    assert '<meta name="robots" content="noindex">' in html
+    assert 'id="scena-3d"' in html
+    assert "come-funziona-3d.html" not in (sito / "index.html").read_text(encoding="utf-8")
 
 
 def test_only_how_it_works_follows_the_dark_mode_of_the_phone(sito):

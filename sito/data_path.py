@@ -6,6 +6,11 @@ all the saved days: the visitor's browser downloads nothing extra.
 
 from collections import Counter
 
+from sito.analisi import classifica
+
+# The price signs of the petrol station in the 3D version: the cheapest self-service prices.
+SIGNS = [("Benzina", True, "Benzina self"), ("Gasolio", True, "Gasolio self")]
+
 # The reasons written by pipeline/pulisci.py, in the order of the cleaning rules,
 # with the words shown on the page.
 REASONS = [
@@ -37,4 +42,15 @@ def path_numbers(days: list[dict]) -> dict:
         "removed_by_reason": by_reason,
         "days": len(days),
         "first_day": days[0]["estrazione"],
+        "cheapest": cheapest(last),
     }
+
+
+def cheapest(day: dict) -> list[tuple[str, float]]:
+    """The lowest price of each sign, from the same ranking as the home page."""
+    signs = []
+    for fuel, self_service, label in SIGNS:
+        rows = classifica(day, fuel, self_service)
+        if rows:
+            signs.append((label, rows[0]["prezzo"]))
+    return signs

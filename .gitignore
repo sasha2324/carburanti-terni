@@ -14,3 +14,9 @@ tmp/
 
 # archivi trimestrali del MIMIT scaricati per l importazione
 *.tar.gz
+
+# 3D scene (scene-3d/): packages, local npm settings, and the built JavaScript
+scene-3d/node_modules/
+scene-3d/.npm-cache/
+scene-3d/.npmrc
+sito/static/scene-3d/

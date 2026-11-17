@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{# Version 2 of "Come funziona", in 3D. A test page: not in the menu and not in search engines
+   until Sasha approves it. Version 1 (come-funziona.html) stays as it is. #}
+{% block html_attributi %} data-tema="auto"{% endblock %}
+
+{% block titolo %}Come funziona (3D, prova){% endblock %}
+
+{% block testa %}
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+{% endblock %}
+
+{% block contenuto %}
+<section class="fascia fascia-bassa">
+  <div class="contenitore">
+    <h1>Come funziona</h1>
+    <p class="fascia-testo">Dai file del Ministero a queste pagine, come in un piccolo impianto di carburante.</p>
+  </div>
+</section>
+
+<section class="contenitore sezione" aria-labelledby="scena-titolo">
+  <h2 id="scena-titolo" class="etichetta">Il percorso dei dati, in 3D</h2>
+  <div class="scena-3d" id="scena-3d">
+    <p class="scena-attesa">Carico la scena 3D…</p>
+  </div>
+  <p class="sezione-testo scena-nota">Versione di prova. Lo schema in 2D è qui: <a href="{{ radice }}come-funziona.html">come funziona</a>.</p>
+</section>
+
+<script type="application/json" id="numeri-3d">{{ numbers_3d | tojson }}</script>
+{% endblock %}
+
+{% block script %}
+<script type="module" src="{{ radice }}static/scene-3d/scene.js"></script>
+{% endblock %}

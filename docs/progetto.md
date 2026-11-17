@@ -182,6 +182,20 @@ scheda del portfolio. Approvata da Sasha il 17/11/2026.
   pacchetti lungo i collegamenti («CPU Architecture»), testo che entra dalla direzione del movimento
   («Rail Panel Sidebar»).
 
+### Versione 2 in 3D (in prova)
+
+`come-funziona-3d.html`: lo stesso percorso come un piccolo impianto di carburante in 3D
+(vista isometrica, stile low-poly). Fuori dal menu e con `noindex` finché Sasha non la approva;
+la versione 1 resta com'è. Si fa a passi: 1) solo gli oggetti, 2) il movimento, 3) l'interazione.
+
+- La scena è un piccolo progetto React Three Fiber in `scene-3d/` (pacchetti approvati da Sasha il
+  17/11/2026): `npm run build` lì dentro crea `sito/static/scene-3d/scene.js` (fuori da git).
+  Python scrive i numeri veri nella pagina come JSON (`numbers_3d`), la scena li legge.
+- Oggetti fatti con forme semplici nel codice, colori presi dai token CSS: niente modelli 3D
+  scaricati, niente file da server esterni. Il serbatoio del JSON si riempie in base ai giorni
+  salvati (su 365); il cartello del distributore mostra i prezzi self più bassi dell'ultimo giorno.
+- Prima della pubblicazione: aggiungere Node e la build di `scene-3d/` alla GitHub Action.
+
 ## 6. Struttura
 
 ```

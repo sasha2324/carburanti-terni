@@ -102,7 +102,13 @@ def costruisci(cartella_dati: Path, uscita: Path) -> None:
     scrivi("giorno-della-settimana.html", "giorno.html", pagina="giorno", analisi=analisi, nomi_giorni=GIORNI)
 
     # The animated explanation of the data path, with the real numbers of the last run.
-    scrivi("come-funziona.html", "how-it-works.html", pagina="come-funziona", numbers=path_numbers(giorni))
+    numbers = path_numbers(giorni)
+    scrivi("come-funziona.html", "how-it-works.html", pagina="come-funziona", numbers=numbers)
+
+    # Version 2 in 3D, still a test: not in the menu. The scene is built by scene-3d/ (Vite)
+    # into static/scene-3d/scene.js and reads these numbers from the page.
+    numbers_3d = {**numbers, "generated_text": rome_time(numbers["generated"])}
+    scrivi("come-funziona-3d.html", "how-it-works-3d.html", pagina="come-funziona", numbers_3d=numbers_3d)
 
     for impianto in oggi["impianti"]:
         grafici = []

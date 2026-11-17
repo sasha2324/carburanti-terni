@@ -5,7 +5,8 @@ from sito.formato import rome_time
 
 
 def station(prices: int) -> dict:
-    return {"id": 1, "prezzi": [{"carburante": "Benzina", "self": True, "prezzo": 1.9}] * prices}
+    price = {"carburante": "Benzina", "self": True, "prezzo": 1.9, "comunicato": "2026-11-15T07:00:00"}
+    return {"id": 1, "prezzi": [price] * prices}
 
 
 def day(date: str, stations: list[dict], removed: list[str], generated: str = "2026-11-16T12:53:26+00:00") -> dict:
@@ -62,6 +63,35 @@ def test_a_day_without_removed_prices():
     numbers = path_numbers(days)
     assert numbers["removed_last"] == 0
     assert numbers["removed_total"] == 0
+
+
+def priced_station(prices: list[tuple[str, bool, float]]) -> dict:
+    return {
+        "id": 1,
+        "prezzi": [
+            {"carburante": fuel, "self": self_service, "prezzo": price, "comunicato": "2026-11-15T07:00:00"}
+            for fuel, self_service, price in prices
+        ],
+    }
+
+
+def test_cheapest_self_prices_for_the_price_signs():
+    days = [
+        day(
+            "2026-11-15",
+            [
+                priced_station([("Benzina", True, 1.959), ("Gasolio", True, 1.889)]),
+                priced_station([("Benzina", True, 1.929), ("Benzina", False, 1.799)]),
+            ],
+            [],
+        )
+    ]
+    assert path_numbers(days)["cheapest"] == [("Benzina self", 1.929), ("Gasolio self", 1.889)]
+
+
+def test_a_fuel_without_prices_has_no_sign():
+    days = [day("2026-11-15", [priced_station([("Gasolio", True, 1.889)])], [])]
+    assert path_numbers(days)["cheapest"] == [("Gasolio self", 1.889)]
 
 
 def test_rome_time_in_winter_is_utc_plus_one():
