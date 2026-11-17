@@ -1,7 +1,6 @@
 // Small building blocks shared by the five objects.
 import { useMemo } from "react";
 import { Quaternion, Vector3 } from "three";
-import { RoundedBox } from "@react-three/drei";
 
 /** Matte material with flat faces: the low-poly look. */
 export function Solid({ color, ...rest }) {
@@ -63,11 +62,12 @@ export function Drop({ at, color, size = 0.075 }) {
   );
 }
 
-/** The low base under each step. */
+/** The low base under each step: a plain box, in the low-poly style. */
 export function Pad({ color }) {
   return (
-    <RoundedBox args={[2.6, 0.12, 2.6]} radius={0.05} smoothness={2} position={[0, 0.06, 0]} receiveShadow>
+    <mesh position={[0, 0.06, 0]} receiveShadow>
+      <boxGeometry args={[2.6, 0.12, 2.6]} />
       <Solid color={color} />
-    </RoundedBox>
+    </mesh>
   );
 }

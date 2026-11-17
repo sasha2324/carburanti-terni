@@ -19,6 +19,7 @@ Scelte di progetto e formato dei dati in [`docs/progetto.md`](docs/progetto.md).
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python -m pytest          # test
 .venv/bin/python -m pipeline        # scarica i dati di oggi in data/
+(cd scene-3d && npm install && npm run build)   # la scena 3D di «Come funziona» (Node.js 24)
 .venv/bin/python -m sito.build      # costruisce il sito in dist/
 python3 -m http.server -d dist      # anteprima su http://localhost:8000
 ```

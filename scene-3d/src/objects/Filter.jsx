@@ -7,7 +7,7 @@ export default function Filter({ colors }) {
   const half = BIN.size / 2;
   return (
     <group>
-      <Pad color={colors.white} />
+      <Pad color={colors.pad} />
 
       {/* the filter: a vessel with rings like a cartridge, and a funnel on top */}
       <Cylinder at={[0, BASE + 0.45, 0]} radius={0.48} height={0.9} color={colors.white} />

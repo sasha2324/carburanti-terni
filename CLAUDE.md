@@ -9,11 +9,14 @@ Scelte, formato dei dati e regole di pulizia: `docs/progetto.md`.
 - Aggiornare i dati (scarica dal MIMIT e salva `data/<estrazione>.json`): `.venv/bin/python -m pipeline`
 - Importare un trimestre dall'archivio storico: `.venv/bin/python -m pipeline.archivio FILE.tar.gz`
 - Costruire il sito in `dist/`: `.venv/bin/python -m sito.build`
+- Scena 3D di «Come funziona» (`scene-3d/`, React Three Fiber): `cd scene-3d && npm run build`
+  prima di `sito.build` (crea `sito/static/scene-3d/scene.js`). Sul Mac `scene-3d/.npmrc` usa una
+  cache locale, perché `~/.npm` ha file di root.
 - Il MIMIT risponde solo dall'Europa, GitHub è negli USA. Il ponte AWS in `ponte/` è pronto ma
   non installato (l'utente non vuole spendere): l'orario dell'Action è spento dal 16/11/2026 e
   i dati si aggiornano dal Mac con `python -m pipeline` + commit + push.
   Per riaccendere: `ponte/README.md`, secret `MIMIT_PONTE_URL`, poi `schedule` nel workflow,
-  e cambiare il passo 2 (Download) della pagina «Come funziona».
+  e cambiare il passo 2 (Download) della pagina «Come funziona» in `sito/templates/_path_panels.html`.
 
 ## Regole di lavoro
 

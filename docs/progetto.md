@@ -160,55 +160,44 @@ con un `.tar.gz` per trimestre (da marzo 2015), che contiene un CSV dei prezzi p
 
 ## 5 ter. La pagina «Come funziona»
 
-`come-funziona.html` spiega il percorso dei dati con uno schema animato, da linkare anche dalla
-scheda del portfolio. Approvata da Sasha il 17/11/2026.
+`come-funziona.html` spiega il percorso dei dati come un piccolo impianto di carburante in 3D
+(vista isometrica, stile low-poly), linkata anche dalla scheda del portfolio. Il 17/11/2026 ha
+preso il posto della prima versione, uno schema animato in 2D (approvazione di Sasha).
 
 - **I 5 passi veri**: dati del MIMIT (2 CSV) → download → pulizia → file JSON nel repository →
   la GitHub Action costruisce e pubblica il sito. Il download oggi si fa **a mano dal Mac**
-  (vedi «Da dove si scarica»): quando il ponte sarà installato, va cambiato il testo del passo 2.
+  (vedi «Da dove si scarica»): quando il ponte sarà installato, va cambiato il testo del passo 2
+  in `sito/templates/_path_panels.html`.
 - **Numeri veri**: li calcola Python durante la build (`sito/data_path.py`) dall'ultimo file e da
-  tutto lo storico (prezzi tenuti, scartati e perché, giorni salvati). Il browser non scarica niente.
-- **Interazione**: un clic su un passo apre il pannello con 2–3 frasi e i numeri; Indietro/Avanti;
-  frecce della tastiera come nelle schede della classifica. Senza JavaScript i 5 passi sono un elenco.
-- **Movimento**: i «pacchetti» girano in un ciclo con animazioni CSS. Con «riduci movimento» sono
-  fermi; il pulsante Pausa ferma tutto anche per chi non ha l'impostazione.
-- **Tema scuro solo in questa pagina**: segue l'impostazione del telefono (`<html data-tema="auto">`).
-  Per estenderlo a tutto il sito basta mettere l'attributo nelle altre pagine e controllarle.
-- **Riferimenti**: il DESIGN.md del progetto vince. Dalle app di Dilum Sanjaya (screenshot mandati da
-  Sasha): etichette «PASSO 3 DI 5», pannello a destra, sfondo a puntini, Indietro/Avanti.
-  Da kinetics.colorion.co: «Step Progress» (il passo scelto si ingrandisce, 0,4 s), «Stagger
-  Entrance» (il testo entra di 14 px, 0,45 s, `cubic-bezier(0.16, 1, 0.3, 1)`), «Tab Pill Glide»
-  (`cubic-bezier(0.65, 0, 0.35, 1)` per i pacchetti). Da 21st.dev solo idee, niente codice:
-  pacchetti lungo i collegamenti («CPU Architecture»), testo che entra dalla direzione del movimento
-  («Rail Panel Sidebar»).
-
-### Versione 2 in 3D (in prova)
-
-`come-funziona-3d.html`: lo stesso percorso come un piccolo impianto di carburante in 3D
-(vista isometrica, stile low-poly). Fuori dal menu e con `noindex` finché Sasha non la approva;
-la versione 1 resta com'è. Si fa a passi: 1) solo gli oggetti, 2) il movimento, 3) l'interazione.
-
-- La scena è un piccolo progetto React Three Fiber in `scene-3d/` (pacchetti approvati da Sasha il
-  17/11/2026): `npm run build` lì dentro crea `sito/static/scene-3d/scene.js` (fuori da git).
-  Python scrive i numeri veri nella pagina come JSON (`numbers_3d`), la scena li legge.
-- Oggetti fatti con forme semplici nel codice, colori presi dai token CSS: niente modelli 3D
-  scaricati, niente file da server esterni. Il serbatoio del JSON si riempie in base ai giorni
-  salvati (su 365); il cartello del distributore mostra i prezzi self più bassi dell'ultimo giorno.
-- Movimento (passo 2): gocce nei tubi di vetro del download, circa una su dieci è rossa e alla
-  pulizia scivola nel cestino (illustrativo: la quota vera è molto più bassa, la dicono i numeri);
-  il serbatoio si riempie fino al livello vero, poi salgono bollicine; il cartello conta fino ai
-  prezzi veri («Odometer Count-up» di kinetics.colorion.co, 1,4 s). Si muove solo quando la scena
-  è sullo schermo e non in pausa (pulsante Pausa); con «riduci movimento» è un'immagine ferma
+  tutto lo storico (prezzi tenuti, scartati e perché, giorni salvati, prezzi self più bassi).
+  Finiscono nella pagina due volte: nei pannelli HTML e come JSON per la scena 3D.
+- **La scena**: un piccolo progetto React Three Fiber in `scene-3d/` (pacchetti approvati da Sasha
+  il 17/11/2026). `npm run build` lì dentro crea `sito/static/scene-3d/scene.js` (fuori da git:
+  la GitHub Action lo costruisce prima del sito). Oggetti fatti con forme semplici nel codice e
+  colori del DESIGN.md: niente modelli 3D scaricati, niente file da server esterni. Il file è di
+  circa 1,2 MB (310 KB compresso): React Three Fiber porta con sé tutta Three.js.
+- **I cinque oggetti**: il Ministero con il serbatoio da cui parte il tubo; la pompa del download con
+  i tubi di vetro; il filtro con il cestino dei prezzi sbagliati; il serbatoio del JSON, che si
+  riempie fino ai giorni salvati su 365; il distributore, con il cartello dei prezzi self più bassi.
+- **Movimento**: gocce nei tubi di vetro, circa una su dieci è rossa e alla pulizia scivola nel
+  cestino (illustrativo: la quota vera è molto più bassa, la dicono i numeri); il serbatoio si
+  riempie, poi salgono bollicine; il cartello conta fino ai prezzi veri. Si muove solo quando la
+  scena è sullo schermo e non in pausa (pulsante Pausa); con «riduci movimento» è un'immagine ferma
   dello stato finale.
-- Interazione (passo 3): passando sopra un oggetto (o col focus sul suo nome) si illumina; con un
-  clic la camera si avvicina in 0,8 s (con «riduci movimento» salta) e si apre il pannello di quel
-  passo, a destra sopra la scena sugli schermi larghi, sotto sui telefoni. I pannelli sono gli
-  stessi della versione 1: stanno in `sito/templates/_path_panels.html`, usato da tutte e due.
-  I nomi dei passi sono pulsanti veri (Tab, frecce, Invio); Esc, ✕ o un clic sul vuoto chiudono.
-  Senza JavaScript o WebGL i cinque pannelli restano un elenco sotto la scena.
-- Da fare prima dell'approvazione: la vista d'insieme sul telefono (oggi troppo piccola) e i colori
-  degli oggetti nel tema scuro.
-- Prima della pubblicazione: aggiungere Node e la build di `scene-3d/` alla GitHub Action.
+- **Interazione**: passando sopra un oggetto (o col focus sul suo nome) si illumina; con un clic la
+  camera si avvicina in 0,8 s (con «riduci movimento» salta) e si apre il pannello di quel passo:
+  a destra sopra la scena da 1024 px, sotto altrimenti. I nomi dei passi sono pulsanti veri
+  (Tab, frecce, Invio); Esc, ✕ o un clic sul vuoto chiudono. Il passo scelto va nell'indirizzo
+  (`#passo-3`). Senza JavaScript o WebGL i cinque pannelli sono un elenco sotto la scena.
+- **Telefono**: sotto i 768 px i passi stanno in colonna (dall'alto in basso) invece che in riga;
+  gli oggetti girano di 90° e cartello e targa si rigirano verso chi guarda.
+- **Tema scuro solo in questa pagina**: segue l'impostazione del telefono (`<html data-tema="auto">`).
+  Gli oggetti restano chiari, come un modellino; diventano scure le basi e più forti le ombre.
+- **Riferimenti**: il DESIGN.md del progetto vince. Dalle app di Dilum Sanjaya (screenshot mandati da
+  Sasha): etichette «PASSO 3 DI 5», pannello a destra, sfondo a puntini, Indietro/Avanti, legenda.
+  Da kinetics.colorion.co: «Stagger Entrance» (il testo entra di 14 px, 0,45 s,
+  `cubic-bezier(0.16, 1, 0.3, 1)`), «Odometer Count-up» (il cartello, 1,4 s), «Tab Pill Glide»
+  (`cubic-bezier(0.65, 0, 0.35, 1)` per le gocce). Da 21st.dev solo idee, niente codice.
 
 ## 6. Struttura
 
@@ -217,6 +206,7 @@ la versione 1 resta com'è. Si fa a passi: 1) solo gli oggetti, 2) il movimento,
 pipeline/                        scarica, leggi (formato), pulisci, aggiorna (python -m pipeline),
                                  archivio (storico: python -m pipeline.archivio)
 sito/                            build.py, templates/, static/
+scene-3d/                        la scena 3D di «Come funziona» (React Three Fiber, Vite)
 data/                            un JSON per giorno di estrazione
 tests/                           pytest + CSV finti in tests/fixtures/
 docs/progetto.md                 questo file

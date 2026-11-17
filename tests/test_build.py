@@ -139,7 +139,6 @@ def sito(tmp_path):
 def test_genera_tutte_le_pagine(sito):
     pagine = sorted(p.relative_to(sito).as_posix() for p in sito.rglob("*.html"))
     assert pagine == [
-        "come-funziona-3d.html",
         "come-funziona.html",
         "distributore/1.html",
         "distributore/2.html",
@@ -170,8 +169,8 @@ def test_every_page_links_to_how_it_works(sito):
         assert "come-funziona.html" in pagina.read_text(encoding="utf-8"), pagina
 
 
-def test_the_3d_version_gets_the_real_numbers_as_json(sito):
-    html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")
+def test_how_it_works_gives_the_real_numbers_to_the_3d_scene_as_json(sito):
+    html = (sito / "come-funziona.html").read_text(encoding="utf-8")
     start = html.index('<script type="application/json" id="numeri-3d">') + len('<script type="application/json" id="numeri-3d">')
     numbers = json.loads(html[start : html.index("</script>", start)])
     assert numbers["stations"] == 3
@@ -179,23 +178,20 @@ def test_the_3d_version_gets_the_real_numbers_as_json(sito):
     assert numbers["generated_text"] == "11 nov, 10:30"
 
 
-def test_the_3d_version_has_the_same_five_panels_with_a_close_button(sito):
-    html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")
-    for n in range(1, 6):
-        assert f'id="passo-{n}"' in html
-        assert f"Passo {n} di 5" in html
+def test_how_it_works_has_the_3d_scene_and_a_close_button_in_each_panel(sito):
+    html = (sito / "come-funziona.html").read_text(encoding="utf-8")
+    assert 'id="scena-3d"' in html
+    assert "static/scene-3d/scene.js" in html
     assert html.count("data-chiudi") == 5
     assert 'data-nome="MIMIT"' in html
-    assert "<dd>3</dd>" in html  # stations, as in version 1
-    assert "data-chiudi" not in (sito / "come-funziona.html").read_text(encoding="utf-8")
 
 
-def test_the_3d_version_is_a_hidden_test_page(sito):
-    """Until Sasha approves it: not in the menu, not in search engines; version 1 stays."""
-    html = (sito / "come-funziona-3d.html").read_text(encoding="utf-8")
-    assert '<meta name="robots" content="noindex">' in html
-    assert 'id="scena-3d"' in html
-    assert "come-funziona-3d.html" not in (sito / "index.html").read_text(encoding="utf-8")
+def test_how_it_works_is_a_normal_page_of_the_site(sito):
+    """The 3D version replaced the 2D one (17/11/2026): in the menu and in search engines."""
+    html = (sito / "come-funziona.html").read_text(encoding="utf-8")
+    assert "noindex" not in html
+    assert "prova" not in html.split("</title>")[0]
+    assert 'href="come-funziona.html" aria-current="page"' in html
 
 
 def test_only_how_it_works_follows_the_dark_mode_of_the_phone(sito):

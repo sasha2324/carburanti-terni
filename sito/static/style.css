@@ -940,10 +940,9 @@ strong {
   }
 }
 
-/* --- come-funziona.html: the data path ----------------------------------- */
-/* Ideas from Dilum Sanjaya's learning apps (dot grid, "Passo 3 di 5", Back/Next);
-   timings from kinetics.colorion.co (Step Progress, Stagger Entrance, Tab Pill Glide).
-   Colours, type and shapes stay those of DESIGN.md. */
+/* --- come-funziona.html: the panels of the five steps (also without JavaScript) ---- */
+/* Ideas from Dilum Sanjaya's learning apps ("Passo 3 di 5", Back/Next);
+   timings from kinetics.colorion.co (Stagger Entrance). Colours, type and shapes: DESIGN.md. */
 
 /* Small uppercase label (eyebrow in DESIGN.md) */
 .etichetta {
@@ -982,216 +981,7 @@ strong {
   display: none;
 }
 
-.percorso-testa {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--s-md);
-  min-height: 44px;
-}
-
-.percorso-testa .etichetta {
-  margin: 0;
-}
-
-.percorso-intro {
-  color: var(--body);
-}
-
-.percorso {
-  display: grid;
-  gap: var(--s-xl);
-  align-items: start;
-  margin-top: var(--s-md);
-}
-
-/* The canvas: mint panel with a grid of dots */
-.percorso-tela {
-  background-color: var(--mint-50);
-  background-image: radial-gradient(circle, var(--mint-200) 1px, transparent 1.5px);
-  background-size: 16px 16px;
-  border-radius: var(--r-xxxl);
-  padding: var(--s-xl) var(--s-lg);
-}
-
-.percorso-passi {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* Phones (and no JavaScript): the steps go from top to bottom */
-.passo {
-  display: flex;
-  flex-direction: column;
-}
-
-.passo:nth-child(1) { --i: 0; }
-.passo:nth-child(2) { --i: 1; }
-.passo:nth-child(3) { --i: 2; }
-.passo:nth-child(4) { --i: 3; }
-.passo:nth-child(5) { --i: 4; }
-
-.passo-nodo {
-  appearance: none;
-  align-self: flex-start;
-  display: flex;
-  align-items: center;
-  gap: var(--s-sm);
-  margin: 0;
-  padding: var(--s-xxs);
-  background: none;
-  border: 0;
-  border-radius: var(--r-lg);
-  color: var(--ink);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.passo-nodo:disabled {
-  color: var(--ink);
-  cursor: default;
-}
-
-/* The step icon in a circle (icon-circle in DESIGN.md) */
-.passo-icona {
-  position: relative;
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 56px;
-  height: 56px;
-  border: 1px solid var(--mint-200);
-  border-radius: 50%;
-  background: var(--canvas);
-  color: var(--primary);
-  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
-}
-
-.passo-icona svg {
-  display: block;
-}
-
-/* The ring that shows a packet arriving */
-.passo-icona::after {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border: 2px solid var(--primary);
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.passo-nome {
-  padding-bottom: 2px;
-  border-bottom: 2px solid transparent;
-  color: var(--ink);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.passo-nodo:enabled:hover .passo-icona {
-  border-color: var(--primary);
-}
-
-.passo-nodo[aria-expanded="true"] .passo-icona {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--on-primary);
-}
-
-.passo-nodo[aria-expanded="true"] .passo-nome {
-  color: var(--primary);
-  border-bottom-color: var(--primary);
-}
-
-/* The connection between two steps, with the data packets */
-.tratto {
-  position: relative;
-  display: block;
-  width: 56px;
-  height: 40px;
-  margin-left: var(--s-xxs);
-  pointer-events: none;
-}
-
-.tratto-linea {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-}
-
-.tratto-linea line {
-  stroke: var(--primary);
-  stroke-opacity: 0.45;
-  stroke-width: 2;
-  stroke-dasharray: 3 5;
-  stroke-linecap: round;
-}
-
-.linea-x {
-  display: none;
-}
-
-.binario {
-  position: absolute;
-  inset: 0;
-}
-
-.pacchetto {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
-  border: 1.5px solid var(--forest);
-  border-radius: 3px;
-  background: var(--lime-ribbon);
-  opacity: 0;
-}
-
-/* Legend under the diagram: what a packet is */
-.percorso-legenda {
-  display: flex;
-  align-items: center;
-  gap: var(--s-xs);
-  margin: var(--s-lg) 0 0;
-  color: var(--body);
-  font-size: 13px;
-}
-
-.pacchetto-esempio {
-  flex: none;
-  width: 10px;
-  height: 10px;
-  border: 1.5px solid var(--forest);
-  border-radius: 3px;
-  background: var(--lime-ribbon);
-}
-
-/* Without movement (no JavaScript, or "reduce motion"): one packet stands in the middle */
-.binario:first-of-type {
-  transform: translateY(50%);
-}
-
-.binario:first-of-type .pacchetto {
-  opacity: 1;
-}
-
 /* The panels with the texts and the numbers (product-card and spec-cell in DESIGN.md) */
-.percorso-pannello {
-  display: grid;
-  gap: var(--s-md);
-}
-
-.passo .percorso-pannello {
-  margin: var(--s-sm) 0 var(--s-xs);
-}
-
 .passo-dettagli {
   min-width: 0;
   padding: var(--s-xl);
@@ -1280,178 +1070,8 @@ strong {
   margin-left: auto;
 }
 
-/* From 768px: the steps in a row, the packets move from left to right */
-@media (min-width: 48rem) {
-  .percorso-tela {
-    padding: var(--s-xxl) var(--s-xl);
-  }
-
-  .percorso-passi {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .passo {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .passo:not(:last-child) {
-    flex: 1 1 0;
-  }
-
-  .passo-nodo {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--s-xs);
-    width: 5.5rem;
-    text-align: center;
-  }
-
-  /* The line goes under the empty sides of the step, from circle to circle */
-  .tratto {
-    flex: 1 1 auto;
-    width: auto;
-    min-width: 24px;
-    height: 56px;
-    margin: var(--s-xxs) calc((5.5rem - 56px) / -2) 0;
-  }
-
-  .linea-x {
-    display: inline;
-  }
-
-  .linea-y {
-    display: none;
-  }
-
-  .pacchetto {
-    left: 0;
-    top: 50%;
-  }
-
-  .binario:first-of-type {
-    transform: translateX(50%);
-  }
-}
-
-/* From 1024px, with JavaScript: the panel stands next to the diagram */
-@media (min-width: 64rem) {
-  .con-percorso .percorso {
-    grid-template-columns: minmax(0, 1fr) 20rem;
-  }
-
-  /* A fixed height, so the diagram does not jump when the panel changes */
-  .con-percorso .percorso-tela {
-    display: flex;
-    flex-direction: column;
-    min-height: 24rem;
-  }
-
-  .con-percorso .percorso-passi {
-    margin: auto 0;
-  }
-}
-
-/* The movement: only with JavaScript (it gives the Pause button)
-   and only for those who did not ask their device for less motion */
-@media (prefers-reduced-motion: no-preference) {
-  .con-percorso .binario {
-    animation: corsa-y 6s infinite both;
-    animation-delay: calc(var(--i) * 1.5s + var(--onda, 0s));
-  }
-
-  .con-percorso .binario:nth-of-type(2) {
-    --onda: 3s;
-  }
-
-  .con-percorso .pacchetto {
-    animation: pacchetto-luce 6s linear infinite both;
-    animation-delay: inherit;
-  }
-
-  .con-percorso .passo-icona::after {
-    animation: passo-arrivo 3s linear infinite;
-    animation-delay: calc(var(--i) * 1.5s);
-  }
-
-  .con-percorso .passo-nodo[aria-expanded="true"] .passo-icona {
-    animation: passo-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  .con-percorso .passo-dettagli.entra {
-    animation: dettagli-entra 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .percorso.in-pausa .binario,
-  .percorso.in-pausa .pacchetto,
-  .percorso.in-pausa .passo-icona::after {
-    animation-play-state: paused;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (min-width: 48rem) {
-  .con-percorso .binario {
-    animation-name: corsa-x;
-  }
-}
-
 [data-direzione="indietro"] {
   --da: -14px;
-}
-
-@keyframes corsa-x {
-  0% {
-    transform: translateX(0);
-    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
-  }
-  25%,
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes corsa-y {
-  0% {
-    transform: translateY(0);
-    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
-  }
-  25%,
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes pacchetto-luce {
-  0% {
-    opacity: 0;
-  }
-  3%,
-  22% {
-    opacity: 1;
-  }
-  25%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes passo-arrivo {
-  0% {
-    opacity: 0.55;
-    transform: scale(1);
-  }
-  20%,
-  100% {
-    opacity: 0;
-    transform: scale(1.4);
-  }
-}
-
-@keyframes passo-pop {
-  from {
-    transform: scale(0.86);
-  }
 }
 
 @keyframes dettagli-entra {
@@ -1495,7 +1115,7 @@ strong {
   }
 }
 
-/* --- come-funziona-3d.html: version 2 in 3D (test page) ------------------- */
+/* --- come-funziona.html: the 3D scene (scene-3d/, React Three Fiber) ---------- */
 
 /* The scene and its panels */
 .scena {
@@ -1503,10 +1123,11 @@ strong {
   margin-top: var(--s-md);
 }
 
-/* Phones: a fixed height (a ratio plus a minimum height would make the box wider than the screen) */
+/* Phones: the steps stand in a column, so the scene is tall. A fixed height
+   (a ratio plus a minimum height would make the box wider than the screen). */
 .scena-3d {
   position: relative;
-  height: 340px;
+  height: 600px;
   overflow: hidden;
   border-radius: var(--r-xxxl);
   background-color: var(--mint-50);

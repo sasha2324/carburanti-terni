@@ -51,6 +51,21 @@ jobs:
           MIMIT_PONTE_CHIAVE: ${{ secrets.MIMIT_PONTE_CHIAVE }}
         run: python -m pipeline
 
+      # La scena 3D di «Come funziona» è un piccolo progetto React Three Fiber in scene-3d/:
+      # Vite la costruisce in sito/static/scene-3d/scene.js, che il sito copia in dist/.
+      - name: Prepara Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: scene-3d/package-lock.json
+
+      - name: Costruisci la scena 3D
+        working-directory: scene-3d
+        run: |
+          npm ci
+          npm run build
+
       - name: Costruisci il sito
         run: python -m sito.build
 

@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 
-// The real numbers, written into the page by Python (sito/build.py → how-it-works-3d.html).
+// The real numbers, written into the page by Python (sito/build.py → how-it-works.html).
 const numbers = JSON.parse(document.getElementById("numeri-3d").textContent);
 const container = document.getElementById("scena-3d");
 const panelBox = document.getElementById("scena-pannelli");

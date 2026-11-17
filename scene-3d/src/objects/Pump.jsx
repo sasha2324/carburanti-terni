@@ -13,7 +13,7 @@ export default function Pump({ colors }) {
 
   return (
     <group>
-      <Pad color={colors.white} />
+      <Pad color={colors.pad} />
       <Box at={[0, 0.16, 0]} size={[1.2, 0.08, 1.0]} color={colors.mint200} />
 
       {/* the motor, lying down, with green ends */}

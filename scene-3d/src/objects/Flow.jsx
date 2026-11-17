@@ -3,7 +3,7 @@
 // down the chute and falls into the bin. (The real share is much smaller: the panels
 // of the next step show the real numbers.)
 import { useMemo, useRef } from "react";
-import { BIN_BOTTOM, CHUTE, POSITIONS, route } from "../layout.js";
+import { BIN_BOTTOM, CHUTE, route, turnPoint } from "../layout.js";
 import { easeInQuad, useTicker } from "../motion.js";
 import { Solid } from "../parts.jsx";
 
@@ -15,9 +15,10 @@ const SLIDE = 0.8; // seconds on the chute
 const FALL = 0.5; // seconds from the chute into the bin
 
 /** The whole path as straight pieces; `hidden` pieces are inside the pump. */
-function buildPath() {
-  const first = route(POSITIONS[0], POSITIONS[1]);
-  const second = route(POSITIONS[1], POSITIONS[2]);
+function buildPath(layout) {
+  const [ministry, pump, filter] = layout.positions;
+  const first = route(ministry, pump, layout);
+  const second = route(pump, filter, layout);
   const pieces = [
     { from: first.start, to: first.elbow },
     { from: first.elbow, to: first.end },
@@ -44,8 +45,13 @@ function pointAt({ pieces }, distance) {
   return { at: last.to, visible: false };
 }
 
-export default function Flow({ colors }) {
-  const path = useMemo(buildPath, []);
+export default function Flow({ colors, layout }) {
+  const path = useMemo(() => buildPath(layout), [layout]);
+  // The chute and the bin turn with the filter (at the centre of the scene).
+  const chute = useMemo(
+    () => ({ from: turnPoint(CHUTE.from, layout.turn), to: turnPoint(CHUTE.to, layout.turn), bin: turnPoint(BIN_BOTTOM, layout.turn) }),
+    [layout]
+  );
   const drops = useRef([]);
   const falling = useRef();
 
@@ -62,8 +68,8 @@ export default function Flow({ colors }) {
         const slide = since / SLIDE;
         const fall = (since - SLIDE) / FALL;
         falling.current.visible = since < SLIDE + FALL;
-        if (slide < 1) falling.current.position.set(...mix(CHUTE.from, CHUTE.to, easeInQuad(slide)));
-        else falling.current.position.set(...mix(CHUTE.to, BIN_BOTTOM, easeInQuad(fall)));
+        if (slide < 1) falling.current.position.set(...mix(chute.from, chute.to, easeInQuad(slide)));
+        else falling.current.position.set(...mix(chute.to, chute.bin, easeInQuad(fall)));
       }
     });
   });

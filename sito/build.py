@@ -101,14 +101,12 @@ def costruisci(cartella_dati: Path, uscita: Path) -> None:
         risultato["svg"] = grafico_barre(risultato["centesimi"], GIORNI_BREVI, titolo=etichetta)
     scrivi("giorno-della-settimana.html", "giorno.html", pagina="giorno", analisi=analisi, nomi_giorni=GIORNI)
 
-    # The animated explanation of the data path, with the real numbers of the last run.
+    # How it works: the data path as a small 3D fuel pipeline, with the real numbers of the
+    # last run. The scene is built by scene-3d/ (Vite) into static/scene-3d/scene.js and reads
+    # these numbers from the page; the panels with the same numbers are normal HTML.
     numbers = path_numbers(giorni)
+    numbers["generated_text"] = rome_time(numbers["generated"])
     scrivi("come-funziona.html", "how-it-works.html", pagina="come-funziona", numbers=numbers)
-
-    # Version 2 in 3D, still a test: not in the menu. The scene is built by scene-3d/ (Vite)
-    # into static/scene-3d/scene.js and reads these numbers from the page.
-    numbers_3d = {**numbers, "generated_text": rome_time(numbers["generated"])}
-    scrivi("come-funziona-3d.html", "how-it-works-3d.html", pagina="come-funziona", numbers_3d=numbers_3d)
 
     for impianto in oggi["impianti"]:
         grafici = []

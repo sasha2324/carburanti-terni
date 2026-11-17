@@ -13,7 +13,7 @@ export default function Ministry({ colors }) {
 
   return (
     <group>
-      <Pad color={colors.white} />
+      <Pad color={colors.pad} />
 
       {/* the building */}
       <Box at={[building.x, BASE + building.h / 2, building.z]} size={[building.w, building.h, building.d]} color={colors.white} />

@@ -1,82 +1,45 @@
 {% extends "base.html" %}
 {% from "_path_panels.html" import PASSI, pannelli %}
 
-{# Only this page follows the dark mode of the phone (see style.css, data-tema="auto"). #}
+{# "Come funziona": the data path as a small 3D fuel pipeline (React Three Fiber, scene-3d/).
+   It replaced the 2D diagram on 17/11/2026. Only this page follows the dark mode of the phone.
+   Without JavaScript or WebGL the five panels are a simple list under the scene. #}
 {% block html_attributi %} data-tema="auto"{% endblock %}
 
 {% block titolo %}Come funziona{% endblock %}
 
-{% block descrizione %}Il percorso dei dati, dai file del Ministero alle pagine di questo sito: 5 passi con i numeri dell'ultimo aggiornamento.{% endblock %}
+{% block descrizione %}Il percorso dei dati, dai file del Ministero alle pagine di questo sito, come in un piccolo impianto di carburante: 5 passi con i numeri dell'ultimo aggiornamento.{% endblock %}
 
 {% block testa %}
   <meta name="color-scheme" content="light dark">
 {% endblock %}
 
 {% block contenuto %}
-{% set passi = PASSI %}
-
-{% macro icona(nome) %}
-<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-  {% if nome == "file" %}
-  <path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 11h6M9 14h6M9 17h4"/>
-  {% elif nome == "download" %}
-  <path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 19h14"/>
-  {% elif nome == "filtro" %}
-  <path d="M4 5h16l-6 7v6l-4 2v-8z"/>
-  {% elif nome == "json" %}
-  <path d="M9 4H8a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1"/><path d="M15 4h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/>
-  {% else %}
-  <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M8 17v-3M12 17v-5M16 17v-2"/>
-  {% endif %}
-</svg>
-{% endmacro %}
-
 <section class="fascia fascia-bassa">
   <div class="contenitore">
     <h1>Come funziona</h1>
-    <p class="fascia-testo">Dai file del Ministero a queste pagine, in 5 passi. Scegli un passo per vedere cosa succede e i numeri veri dell'ultimo aggiornamento.</p>
+    <p class="fascia-testo">Dai file del Ministero a queste pagine, come in un piccolo impianto di carburante.</p>
   </div>
 </section>
 
-<section class="contenitore sezione" aria-labelledby="percorso-titolo">
-  <div class="percorso-testa">
-    <h2 id="percorso-titolo" class="etichetta">Il percorso dei dati</h2>
-    <button type="button" class="pulsante-contorno percorso-pausa" hidden>Pausa</button>
-  </div>
-  <p class="sezione-testo percorso-intro">I numeri sono quelli dell'ultimo aggiornamento: prezzi delle 8 di {{ numbers.date | data_lunga }}.</p>
+<section class="contenitore sezione" aria-labelledby="scena-titolo">
+  <h2 id="scena-titolo" class="etichetta">Il percorso dei dati, in 3D</h2>
+  <p class="sezione-testo scena-istruzioni">Tocca un oggetto o un nome per vedere cosa succede in quel passo. I numeri sono quelli dell'ultimo aggiornamento: prezzi delle 8 di {{ numbers.date | data_lunga }}.</p>
 
-  <div class="percorso" data-percorso>
-    <div class="percorso-tela">
-      <ol class="percorso-passi">
-        {% for passo in passi %}
-        <li class="passo">
-          <button type="button" class="passo-nodo" aria-controls="passo-{{ loop.index }}" aria-expanded="false" disabled>
-            <span class="passo-icona" aria-hidden="true">{{ icona(passo.icona) }}</span>
-            <span class="passo-nome">{{ passo.nome }}</span>
-          </button>
-          {% if not loop.last %}
-          <span class="tratto" aria-hidden="true">
-            <svg class="tratto-linea" width="100%" height="100%" focusable="false">
-              <line class="linea-x" x1="0" y1="50%" x2="100%" y2="50%"/>
-              <line class="linea-y" x1="50%" y1="0" x2="50%" y2="100%"/>
-            </svg>
-            <span class="binario"><span class="pacchetto"></span></span>
-            <span class="binario"><span class="pacchetto"></span></span>
-          </span>
-          {% endif %}
-        </li>
-        {% endfor %}
-      </ol>
-      <p class="percorso-legenda" aria-hidden="true"><span class="pacchetto-esempio"></span> I prezzi di un giorno, in viaggio verso il sito</p>
+  <div class="scena" id="scena">
+    <div class="scena-3d" id="scena-3d">
+      <p class="scena-attesa">La scena 3D ha bisogno di JavaScript. Qui sotto trovi tutti i passi.</p>
     </div>
-
-    <div class="percorso-pannello" data-pannello>
-      {{ pannelli(numbers, radice, passi) }}
+    <div class="scena-pannelli" id="scena-pannelli">
+      {{ pannelli(numbers, radice, PASSI) }}
     </div>
   </div>
+
 </section>
+
+<script type="application/json" id="numeri-3d">{{ numbers | tojson }}</script>
 {% endblock %}
 
 {% block script %}
-<script src="{{ radice }}static/js/data-path.js" defer></script>
+<script type="module" src="{{ radice }}static/scene-3d/scene.js"></script>
 {% endblock %}

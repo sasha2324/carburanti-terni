@@ -12,7 +12,8 @@ const RADIUS = 0.7;
 const FILL_SECONDS = 2.2;
 const BUBBLES = 6;
 
-export default function StorageTank({ colors, days }) {
+// `turn`: how much the layout turned this object; the plate turns back, so it always faces the camera.
+export default function StorageTank({ colors, days, turn = 0 }) {
   const target = (HEIGHT - 0.06) * Math.min(Math.max(days / 365, 0.06), 1);
   const plate = useMemo(() => plateTexture("{ } JSON", { background: colors.white, color: colors.primaryDeep }), [colors]);
   const liquid = useRef();
@@ -32,7 +33,7 @@ export default function StorageTank({ colors, days }) {
 
   return (
     <group>
-      <Pad color={colors.white} />
+      <Pad color={colors.pad} />
       <Cylinder at={[0, BOTTOM - 0.04, 0]} radius={RADIUS + 0.06} height={0.08} color={colors.mint200} />
 
       {/* in from the filter (+z, enters the glass), out to the petrol station (+x) */}
@@ -62,8 +63,11 @@ export default function StorageTank({ colors, days }) {
       ))}
       <Cylinder at={[0, BOTTOM + HEIGHT + 0.14, 0]} radius={RADIUS + 0.02} radiusTop={0.12} height={0.28} segments={14} color={colors.white} />
 
-      {/* the plate, turned towards the camera */}
-      <mesh position={[0.53, BOTTOM + HEIGHT * 0.78, 0.53]} rotation={[0, Math.PI / 4, 0]}>
+      {/* the plate, on the side of the tank that faces the camera */}
+      <mesh
+        position={[0.75 * Math.sin(Math.PI / 4 - turn), BOTTOM + HEIGHT * 0.78, 0.75 * Math.cos(Math.PI / 4 - turn)]}
+        rotation={[0, Math.PI / 4 - turn, 0]}
+      >
         <planeGeometry args={[0.84, 0.21]} />
         <meshBasicMaterial map={plate} toneMapped={false} />
       </mesh>

@@ -1,16 +1,16 @@
 // The whole scene: an isometric camera, soft light and shadows, the five steps and the pipes.
-// Step 3 of v2: the interaction. Hover (or keyboard focus) lights an object up; a click
-// moves the camera close and opens the panel of that step, with the real numbers.
-// The panels are normal page HTML made by Python (the same as version 1): this file
-// only shows the chosen one.
+// Hover (or keyboard focus) lights an object up; a click moves the camera close and opens
+// the panel of that step, with the real numbers. The panels are normal page HTML made by
+// Python (sito/templates/_path_panels.html): this file only shows the chosen one.
+// Steps in a row from 768px, in a column on phones; light objects in both themes.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Vector3 } from "three";
 import CameraRig from "./CameraRig.jsx";
 import Selectable from "./Selectable.jsx";
-import { POSITIONS } from "./layout.js";
+import { LAYOUTS } from "./layout.js";
 import { MotionContext } from "./motion.js";
-import { readPalette } from "./palette.js";
+import { scenePalette } from "./palette.js";
 import Ministry from "./objects/Ministry.jsx";
 import Pump from "./objects/Pump.jsx";
 import Filter from "./objects/Filter.jsx";
@@ -19,18 +19,15 @@ import PetrolStation from "./objects/PetrolStation.jsx";
 import Pipeline from "./objects/Pipeline.jsx";
 import Flow from "./objects/Flow.jsx";
 
-// Where each name goes: in front of the step, on the ground.
-const LABEL_POINTS = POSITIONS.map(([x, , z]) => new Vector3(x + 1.4, 0, z + 1.4));
-
 // On wide screens the panel covers the right part of the scene: 20rem + margins (style.css).
 const PANEL_SIDE = 344;
 
 /** The ground only shows the shadows: the page's mint panel stays visible behind. */
-function Ground() {
+function Ground({ opacity }) {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
       <planeGeometry args={[60, 60]} />
-      <shadowMaterial opacity={0.13} />
+      <shadowMaterial opacity={opacity} />
     </mesh>
   );
 }
@@ -104,7 +101,14 @@ function usePanels(box, selected, choose) {
 }
 
 export default function App({ numbers, panelBox }) {
-  const colors = useMemo(() => readPalette(), []);
+  const dark = useMedia("(prefers-color-scheme: dark)");
+  const colors = useMemo(() => scenePalette(dark), [dark]);
+  // From 768px the steps stand in a row, on phones in a column (the same breakpoint as style.css).
+  const layout = useMedia("(min-width: 48rem)") ? LAYOUTS.row : LAYOUTS.column;
+  const labelPoints = useMemo(
+    () => layout.positions.map(([x, , z]) => new Vector3(x + layout.labelOffset[0], 0, z + layout.labelOffset[2])),
+    [layout]
+  );
   const names = useMemo(() => Array.from(panelBox.querySelectorAll(".passo-dettagli"), (p) => p.dataset.nome), [panelBox]);
   const [selected, setSelected] = useState(() => stepFromAddress(names.length));
   const [hovered, setHovered] = useState(null);
@@ -165,8 +169,8 @@ export default function App({ numbers, panelBox }) {
     <Ministry colors={colors} />,
     <Pump colors={colors} />,
     <Filter colors={colors} />,
-    <StorageTank colors={colors} days={numbers.days} />,
-    <PetrolStation colors={colors} prices={numbers.cheapest} date={numbers.generated_text.split(",")[0]} />,
+    <StorageTank colors={colors} days={numbers.days} turn={layout.turn} />,
+    <PetrolStation colors={colors} prices={numbers.cheapest} date={numbers.generated_text.split(",")[0]} turn={layout.turn} />,
   ];
 
   const onNameKey = (event, i) => {
@@ -191,11 +195,11 @@ export default function App({ numbers, panelBox }) {
         onPointerMissed={(event) => event.button === 0 && choose(null)}
       >
         <MotionContext.Provider value={motion}>
-          <CameraRig selected={selected} side={side} positions={POSITIONS} labelPoints={LABEL_POINTS} labels={labels} />
-          <hemisphereLight args={["#ffffff", colors.mint200, 1.5]} />
+          <CameraRig selected={selected} side={side} layout={layout} labelPoints={labelPoints} labels={labels} />
+          <hemisphereLight args={[colors.sky, colors.groundLight, 1.5]} />
           <directionalLight
             position={[-6, 14, 9]}
-            intensity={2.4}
+            intensity={colors.sun}
             castShadow
             shadow-mapSize={[2048, 2048]}
             shadow-radius={5}
@@ -208,11 +212,11 @@ export default function App({ numbers, panelBox }) {
             shadow-camera-near={1}
             shadow-camera-far={45}
           />
-          <Ground />
-          <Pipeline colors={colors} />
-          <Flow colors={colors} />
+          <Ground opacity={colors.shadow} />
+          <Pipeline colors={colors} layout={layout} />
+          <Flow colors={colors} layout={layout} />
           {objects.map((object, i) => (
-            <group key={names[i]} position={POSITIONS[i]}>
+            <group key={names[i]} position={layout.positions[i]} rotation={[0, layout.turn, 0]}>
               <Selectable index={i} glow={hovered === i ? 0.55 : selected === i ? 0.3 : 0} onHover={setHovered} onChoose={choose}>
                 {object}
               </Selectable>

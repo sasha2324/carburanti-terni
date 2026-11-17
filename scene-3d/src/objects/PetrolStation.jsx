@@ -1,6 +1,6 @@
 // Step 5, the website: a petrol station. Its sign shows the real cheapest prices.
 // When the scene starts, the prices count up to the real ones, like an odometer.
-import { useMemo, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 import { BASE, CONNECT, PIPE_Y } from "../layout.js";
 import { easeOutCubic, useTicker } from "../motion.js";
 import { Box, Cylinder, Pad, Rod } from "../parts.jsx";
@@ -9,9 +9,19 @@ import { createPriceSign } from "../signs.js";
 const COUNT_SECONDS = 1.4; // kinetics.colorion.co, "Odometer Count-up"
 const COUNT_FROM = 0.4; // the numbers start 0,400 € lower
 
-export default function PetrolStation({ colors, prices, date }) {
-  const sign = useMemo(() => createPriceSign({ date, colors }), [date, colors]);
+// `turn`: how much the layout turned this object; the sign turns back, so it always faces the camera.
+export default function PetrolStation({ colors, prices, date, turn = 0 }) {
+  // A new sign (for example after the theme changes) starts with the real prices painted:
+  // the count-up, if it is still running, paints it again on the next frame.
+  const sign = useMemo(() => {
+    const created = createPriceSign({ date, colors });
+    created.draw(prices);
+    return created;
+  }, [date, colors, prices]);
   const lastStep = useRef(-1);
+  useLayoutEffect(() => {
+    lastStep.current = -1;
+  }, [sign]);
 
   useTicker((time) => {
     const k = easeOutCubic(time / COUNT_SECONDS);
@@ -24,7 +34,7 @@ export default function PetrolStation({ colors, prices, date }) {
 
   return (
     <group>
-      <Pad color={colors.white} />
+      <Pad color={colors.pad} />
 
       {/* the canopy on two columns */}
       {[-0.62, 0.62].map((x) => (
@@ -49,7 +59,7 @@ export default function PetrolStation({ colors, prices, date }) {
       <Cylinder at={[0, BASE + 0.02, 0.82]} radius={0.22} height={0.04} color={colors.mint200} />
 
       {/* the price sign, turned towards the camera */}
-      <group position={[0.95, BASE, 0.62]} rotation={[0, Math.PI / 4, 0]}>
+      <group position={[0.95, BASE, 0.62]} rotation={[0, Math.PI / 4 - turn, 0]}>
         <Box at={[0, 0.06, 0]} size={[0.44, 0.12, 0.2]} color={colors.mint200} />
         <Box at={[0, 0.82, 0]} size={[0.6, 1.4, 0.1]} color={colors.white} />
         <mesh position={[0, 0.84, 0.051]}>
